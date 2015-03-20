@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class FruitWarsMain extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
-	
+	//Comment
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
