@@ -1,8 +1,21 @@
 package com.mygdx.fruitwars.screens;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.mygdx.fruitwars.FruitWarsMain;
 
 public class GameScreen implements Screen{
+	
+	final FruitWarsMain game;
+	OrthographicCamera camera;
+
+	public GameScreen(final FruitWarsMain game) {
+		this.game = game;
+
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, 800, 480);
+
+	}
 
 	@Override
 	public void show() {
