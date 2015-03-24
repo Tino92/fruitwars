@@ -8,6 +8,7 @@ public class GameScreen implements Screen{
 	
 	final FruitWarsMain game;
 	OrthographicCamera camera;
+	
 
 	public GameScreen(final FruitWarsMain game) {
 		this.game = game;
