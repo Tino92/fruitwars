@@ -45,9 +45,6 @@ public class IntroScreen implements Screen{
 		buttonPlay.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //Same way we moved here from the Splash Screen
-                //We set it to new Splash because we got no other screens
-                //otherwise you put the screen there where you want to go
                 game.setScreen(new GameScreen(game));
             }
         });
@@ -55,12 +52,11 @@ public class IntroScreen implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
-                // or System.exit(0);
             }
         });
 
         
-		 //The elements are displayed in the order you add them.
+		//The elements are displayed in the order you add them.
 	    //The first appear on top, the last at the bottom.
 	    table.add(title).padBottom(40).row();
 	    table.add(buttonPlay).size(150,60).padBottom(20).row();

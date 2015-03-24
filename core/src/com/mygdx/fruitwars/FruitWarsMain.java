@@ -8,15 +8,11 @@ import com.mygdx.fruitwars.screens.IntroScreen;
 
 public class FruitWarsMain extends Game{
 	public SpriteBatch batch;
-	public BitmapFont font;
-	Texture img;
 	
 	//Comment
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
-		font = new BitmapFont();
 		this.setScreen(new IntroScreen(this));
 	}
 
@@ -27,6 +23,5 @@ public class FruitWarsMain extends Game{
 	
 	public void dispose() {
 		batch.dispose();
-		font.dispose();
 	}
 }
