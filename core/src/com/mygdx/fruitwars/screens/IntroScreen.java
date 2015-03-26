@@ -62,7 +62,7 @@ public class IntroScreen implements Screen{
 		//The elements are displayed in the order you add them.
 	    //The first appear on top, the last at the bottom.
         table.setBackground(new NinePatchDrawable(bg));
-	    table.add(title).padBottom(40).row();
+	    table.add(title).padBottom(80).row();
 	    table.add(buttonPlay).size(150,60).padBottom(20).row();
 	    table.add(buttonExit).size(150,60).padBottom(20).row();
 
