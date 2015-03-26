@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -12,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.mygdx.fruitwars.FruitWarsMain;
 
 public class IntroScreen implements Screen{
@@ -55,9 +58,10 @@ public class IntroScreen implements Screen{
             }
         });
 
-        
+        NinePatch bg = new NinePatch(new Texture(Gdx.files.internal("backgrounds/background-main.png")), 1, 1, 1, 12);
 		//The elements are displayed in the order you add them.
 	    //The first appear on top, the last at the bottom.
+        table.setBackground(new NinePatchDrawable(bg));
 	    table.add(title).padBottom(40).row();
 	    table.add(buttonPlay).size(150,60).padBottom(20).row();
 	    table.add(buttonExit).size(150,60).padBottom(20).row();
@@ -73,7 +77,7 @@ public class IntroScreen implements Screen{
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(1.0f, 0.9f, 0.7f, 1);
+		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		stage.act();
