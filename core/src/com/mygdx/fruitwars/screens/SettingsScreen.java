@@ -10,8 +10,6 @@ public class SettingsScreen implements Screen{
 	public SettingsScreen(final FruitWarsMain game) {
 		this.game = game;
 
-		//camera = new OrthographicCamera();
-		//camera.setToOrtho(false, 800, 480);
 
 	}
 

@@ -41,9 +41,6 @@ public class IntroScreen implements Screen{
 	public IntroScreen(final FruitWarsMain game) {
 		this.game = game;
 
-		//camera = new OrthographicCamera();
-		//camera.setToOrtho(false, 800, 480);
-
 	}
 
 	@Override
