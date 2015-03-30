@@ -10,7 +10,6 @@ public class SettingsScreen implements Screen{
 	public SettingsScreen(final FruitWarsMain game) {
 		this.game = game;
 
-
 	}
 
 	@Override
