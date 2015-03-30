@@ -2,8 +2,8 @@ package com.mygdx.fruitwars.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -20,8 +20,10 @@ import com.mygdx.fruitwars.FruitWarsMain;
 public class IntroScreen implements Screen{
 
 	final FruitWarsMain game;
-	OrthographicCamera camera;
+	//OrthographicCamera camera;
 
+	private Music music;
+	
 	private Stage stage = new Stage();
 	private Table table = new Table();
 
@@ -30,6 +32,7 @@ public class IntroScreen implements Screen{
 			new TextureAtlas(Gdx.files.internal("skins/menuButtons.pack")));
 
 	private TextButton buttonPlay = new TextButton("Play", skin),
+			buttonSettings = new TextButton("Settings", skin),
 			buttonExit = new TextButton("Exit", skin);
 
 	private Label title = new Label("Fruit Wars",skin);
@@ -38,25 +41,35 @@ public class IntroScreen implements Screen{
 	public IntroScreen(final FruitWarsMain game) {
 		this.game = game;
 
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 800, 480);
+		//camera = new OrthographicCamera();
+		//camera.setToOrtho(false, 800, 480);
 
 	}
 
 	@Override
 	public void show() {
+		
 		buttonPlay.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new GameScreen(game));
             }
         });
+		
         buttonExit.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
             }
         });
+        
+        buttonSettings.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            	game.setScreen(new SettingsScreen(game));
+            }
+        });
+
 
         NinePatch bg = new NinePatch(new Texture(Gdx.files.internal("backgrounds/background-main.png")), 1, 1, 1, 12);
 		//The elements are displayed in the order you add them.
@@ -64,12 +77,19 @@ public class IntroScreen implements Screen{
         table.setBackground(new NinePatchDrawable(bg));
 	    table.add(title).padBottom(80).row();
 	    table.add(buttonPlay).size(150,60).padBottom(20).row();
+	    table.add(buttonSettings).size(150,60).padBottom(20).row();
 	    table.add(buttonExit).size(150,60).padBottom(20).row();
 
 	    table.setFillParent(true);
 	    stage.addActor(table);
 
 	    Gdx.input.setInputProcessor(stage);
+	    
+	    
+	    //Setting up music of the main menu
+	    music = Gdx.audio.newMusic(Gdx.files.internal("music/main-menu.mp3"));
+	    music.setLooping(true);
+	    music.play();
 
 
 
@@ -113,6 +133,7 @@ public class IntroScreen implements Screen{
 	public void dispose() {
 		stage.dispose();
 		skin.dispose();
+		music.dispose();
 
 	}
 
