@@ -1,8 +1,42 @@
 package com.mygdx.fruitwars.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
+import com.mygdx.fruitwars.FruitWarsMain;
 
 public class GameScreen implements Screen{
+
+	final FruitWarsMain game;
+	
+	OrthographicCamera camera;
+	
+	Texture bananaImage;
+	
+	Rectangle banana;
+	
+	public GameScreen(final FruitWarsMain fruitWars) {
+		this.game = fruitWars;
+		
+		// Load images
+		bananaImage = new Texture(Gdx.files.internal("banana.gif"));
+		
+		// Create camera
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, 800, 480);
+		
+		// Create rectangle to logically represent the banana
+		banana = new Rectangle();
+		banana.x = 800 / 2 - 64 / 2; // Center horizontally
+		banana.y = 20;
+		
+		banana.width = 32;
+		banana.height = 32;
+	
+	}
 
 	@Override
 	public void show() {
@@ -12,7 +46,17 @@ public class GameScreen implements Screen{
 
 	@Override
 	public void render(float delta) {
-		// TODO Auto-generated method stub
+		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        
+        camera.update();
+        
+        game.batch.setProjectionMatrix(camera.combined);
+        
+        game.batch.begin();
+        game.batch.draw(bananaImage, banana.x, banana.y);
+        game.batch.end();
+        
 		
 	}
 
