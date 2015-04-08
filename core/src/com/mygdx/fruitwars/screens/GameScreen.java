@@ -1,6 +1,7 @@
 package com.mygdx.fruitwars.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -57,6 +58,18 @@ public class GameScreen implements Screen{
         game.batch.draw(bananaImage, banana.x, banana.y);
         game.batch.end();
         
+        
+        // Handle user input
+        
+        if (Gdx.input.isKeyPressed(Keys.LEFT))
+        	banana.x -= 200 * Gdx.graphics.getDeltaTime();
+        if (Gdx.input.isKeyPressed(Keys.RIGHT))
+        	banana.x += 200 * Gdx.graphics.getDeltaTime();
+        
+        if (Gdx.input.isKeyPressed(Keys.UP))
+        	banana.y += 200 * Gdx.graphics.getDeltaTime();
+        if (Gdx.input.isKeyPressed(Keys.DOWN))
+        	banana.y -= 200 * Gdx.graphics.getDeltaTime();
 		
 	}
 
