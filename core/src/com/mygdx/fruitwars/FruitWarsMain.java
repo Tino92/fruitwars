@@ -1,27 +1,37 @@
 package com.mygdx.fruitwars;
 
+import static com.mygdx.fruitwars.utils.Constants.NORMAL;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.fruitwars.screens.IntroScreen;
 
 public class FruitWarsMain extends Game{
-	SpriteBatch batch;
-	Texture img;
+	
+	
+	public SpriteBatch batch;
+	
+	public int difficultyConfig = 0;
+	
 	//Comment
 	@Override
 	public void create () {
+		
+		Preferences prefs = Gdx.app.getPreferences("fruitwars");
+		prefs.putInteger("difficulty",NORMAL);
+		
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		this.setScreen(new IntroScreen(this));
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+		super.render();
+	}
+	
+	public void dispose() {
+		batch.dispose();
 	}
 }
