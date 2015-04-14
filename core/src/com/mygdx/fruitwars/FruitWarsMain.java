@@ -31,18 +31,12 @@ public class FruitWarsMain extends Game implements InputProcessor {
 	private Texture img;
 	private TiledMap map;
 	private OrthographicCamera camera;
-	private TiledMapRenderer renderer;
 	private World world;
 	private Box2DDebugRenderer debugRenderer;
-	private Vector2 touchDown;
-	private Array<Body> bodies;
-	private Array<SpriteFixture> spriteFixtures;
 	private SpriteBatch sb;
 	
 	@Override
 	public void create () {
-		bodies = new Array<Body>();
-		spriteFixtures = new Array<SpriteFixture>();
 		sb = new SpriteBatch();
 		float w, h;
 		w = Gdx.graphics.getWidth();
@@ -53,58 +47,12 @@ public class FruitWarsMain extends Game implements InputProcessor {
 		camera.update();
 		
 		map = new TmxMapLoader().load("test.tmx");
-		renderer = new OrthogonalTiledMapRenderer(map);
 		Gdx.input.setInputProcessor(this);
 		
 		world = new World(new Vector2(0.0f, -0.5f), true);
 		debugRenderer = new Box2DDebugRenderer();
-		int blockWidth = (int)camera.viewportWidth/10;
-		for(int i = 0; i < 10; i++) {
-			spriteFixtures.add(new Block(
-					world,
-					new Vector2(i*blockWidth, 10),
-					new Vector2(blockWidth, 10)
-					));
-		}
 	}
 	
-	
-	public Fixture createBall(Vector2 pos) {
-		BodyDef bodyDef = new BodyDef();
-		bodyDef.type = BodyType.DynamicBody;
-		bodyDef.position.set(pos);
-		Body body = world.createBody(bodyDef);
-		CircleShape circle = new CircleShape();
-		circle.setRadius(6f);
-		FixtureDef fixtureDef = new FixtureDef();
-		fixtureDef.shape = circle;
-		fixtureDef.density = 10f;
-		fixtureDef.friction = 0.1f;
-		fixtureDef.restitution = 0.1f;
-		Ball ball = new Ball();
-		ball.setSize(circle.getRadius()*2, circle.getRadius()*2);
-		body.setUserData(ball);
-		return body.createFixture(fixtureDef);
-	}
-	
-	public Fixture createGround() {
-		BodyDef groundBodyDef = new BodyDef();
-		groundBodyDef.position.set(new Vector2(0, 10));
-		Body groundBody = world.createBody(groundBodyDef);
-		PolygonShape groundBox = new PolygonShape();
-		groundBox.setAsBox(camera.viewportWidth, 10.0f);
-		return groundBody.createFixture(groundBox, 0.0f);
-	}
-	
-	public Fixture createBlock(Vector2 pos, Vector2 dim) {
-		BodyDef blockBodyDef = new BodyDef();
-		blockBodyDef.position.set(pos);
-		Body blockBody = world.createBody(blockBodyDef);
-		PolygonShape block = new PolygonShape();
-		block.setAsBox(dim.x, dim.y);
-		return blockBody.createFixture(block, 0.0f);
-	}
-
 
 	@Override
 	public void render () {
@@ -113,25 +61,7 @@ public class FruitWarsMain extends Game implements InputProcessor {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        camera.update();
-        renderer.setView(camera);
-        renderer.render();
-        /*for(Body b : bodies) {
-        	if(b.getUserData()!=null) {
-        		Ball ball = (Ball)b.getUserData();
-        		ball.setPosition(b.getPosition().x-ball.getWidth()/2, b.getPosition().y-ball.getHeight()/2);
-        		ball.draw(sb);
-        	}
-        }
-        
-        for(SpriteFixture sf : spriteFixtures) {
-        		//sf.draw(sb);
-        }
-        sb.end();
-		debugRenderer.render(world, camera.combined);
-		world.step(dt, 6, 2);
-		*/
-	}
+    }
 	
 
 	@Override
@@ -165,13 +95,13 @@ public class FruitWarsMain extends Game implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		this.touchDown = new Vector2(screenX, camera.viewportHeight-screenY);
+		//this.touchDown = new Vector2(screenX, camera.viewportHeight-screenY);
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		if(touchDown == null) {
+		/*if(touchDown == null) {
 			return false;
 		}
 		Vector2 velocity = new Vector2(screenX, camera.viewportHeight-screenY).sub(touchDown).rotate(180).scl(100);
@@ -179,6 +109,7 @@ public class FruitWarsMain extends Game implements InputProcessor {
 		ball.getBody().applyForce(velocity, ball.getBody().getPosition(), true);
 		touchDown = null;
 		bodies.add(ball.getBody());
+		*/
 		return false;
 	}
 
