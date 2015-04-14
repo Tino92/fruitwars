@@ -6,8 +6,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
@@ -18,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -25,13 +24,12 @@ import com.badlogic.gdx.utils.Array;
 
 public class FruitWarsMain extends Game implements InputProcessor {
 	private static float ppt = 0;
-	private Texture img;
+	private Vector2 touchDown;
 	private TiledMap map;
 	private OrthographicCamera camera;
 	private OrthogonalTiledMapRenderer renderer;
 	private World world;
 	private Box2DDebugRenderer debugRenderer;
-	private SpriteBatch sb;
 
 	@Override
 	public void create() {
@@ -60,6 +58,7 @@ public class FruitWarsMain extends Game implements InputProcessor {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		camera.update();
 		renderer.setView(camera);
 		renderer.render();
 		debugRenderer.render(world, camera.combined);
@@ -106,7 +105,6 @@ public class FruitWarsMain extends Game implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -131,35 +129,23 @@ public class FruitWarsMain extends Game implements InputProcessor {
 
 	@Override
 	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// this.touchDown = new Vector2(screenX, camera.viewportHeight-screenY);
+		this.touchDown = new Vector2(screenX, camera.viewportHeight-screenY);
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		/*
-		 * if(touchDown == null) { return false; } Vector2 velocity = new
-		 * Vector2(screenX,
-		 * camera.viewportHeight-screenY).sub(touchDown).rotate(180).scl(100);
-		 * Fixture ball = createBall(touchDown);
-		 * ball.getBody().applyForce(velocity, ball.getBody().getPosition(),
-		 * true); touchDown = null; bodies.add(ball.getBody());
-		 */
+		touchDown = null; 
 		return false;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		/*
-		 * Fixture ball = createBall(new Vector2(screenX,
-		 * camera.viewportHeight-screenY)); bodies.add(ball.getBody());
-		 */
 		return false;
 	}
 
