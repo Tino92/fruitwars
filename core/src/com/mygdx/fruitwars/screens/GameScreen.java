@@ -3,6 +3,7 @@ package com.mygdx.fruitwars.screens;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -31,6 +32,7 @@ public class GameScreen implements Screen{
 	final FruitWarsMain game;
 	public OrthographicCamera camera;
 	public TiledMap map;
+	public InputMultiplexer inputMultiplexer;
 	
 	private static float ppt = 0;
 	private ArrayList<Minion> minions;
@@ -57,6 +59,7 @@ public class GameScreen implements Screen{
 
 		map = new TmxMapLoader().load("maps/map.tmx");
 		controller = new Controller(this);
+		inputMultiplexer = new InputMultiplexer(controller);
 		Gdx.input.setInputProcessor(controller);
 
 		world = new World(new Vector2(0.0f, -0.5f), true);

@@ -16,6 +16,10 @@ public class Minion extends Sprite {
 	private Body body;
 	private Vector2 position;
 	
+	private int health ;
+	private boolean alive;
+	
+	
 	public Minion(World world, Vector2 position, Vector2 dimension) {
 		super(new Texture("sprites/worm.png"));
 		
