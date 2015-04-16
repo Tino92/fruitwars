@@ -24,6 +24,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.fruitwars.Controller;
 import com.mygdx.fruitwars.FruitWarsMain;
+import com.mygdx.fruitwars.Player;
+import com.mygdx.fruitwars.tokens.Bullet;
 import com.mygdx.fruitwars.tokens.Minion;
 import com.mygdx.fruitwars.tokens.Weapon;
 
@@ -35,14 +37,17 @@ public class GameScreen implements Screen{
 	public InputMultiplexer inputMultiplexer;
 	
 	private static float ppt = 0;
-	private ArrayList<Minion> minions;
+	private Array<Player> players;
+	private Player currentPlayer;
+	private Array<Bullet> bullets;
 
-	private SpriteBatch sb;
+	private SpriteBatch spriteBatch;
 	private OrthogonalTiledMapRenderer renderer;
 	private World world;
 	private Box2DDebugRenderer debugRenderer;
 	private Weapon weapon;
 	private Controller controller;
+	private int turnTimeleft;
 	
 
 	public GameScreen(final FruitWarsMain game) {
@@ -68,8 +73,10 @@ public class GameScreen implements Screen{
 		renderer = new OrthogonalTiledMapRenderer(map);
 		
 		Array<Body> bodies = buildShapes(map, 1, world);
-		sb = new SpriteBatch();
-		minions = new ArrayList<Minion>();
+		
+		spriteBatch = new SpriteBatch();
+		
+		
 
 	}
 
@@ -89,15 +96,15 @@ public class GameScreen implements Screen{
 		renderer.setView(camera);
 		renderer.render();
 		debugRenderer.render(world, camera.combined);
-		sb.begin();
-		for(Minion m : minions) {
-			m.draw(sb);
+		spriteBatch.begin();
+		for(Minion m : currentPlayer.getMinions()) {
+			m.draw(spriteBatch);
 		}
 		if (weapon != null) {
-			weapon.draw(sb);
+			weapon.draw(spriteBatch);
 		}
 		
-		sb.end();
+		spriteBatch.end();
 		world.step(dt, 6,  6);
 		
 	}
