@@ -13,16 +13,17 @@ public class Default implements GameMode{
 
 	@Override
 	public boolean gameFinished() {
-		// If all the minions are killed from any of the players finish the game.
-		if (gameScreen.getPlayers().get(Constants.PLAYER1).getMinions().size == 0 
-				|| gameScreen.getPlayers().get(Constants.PLAYER2).getMinions().size == 0)
-			return true;
+		// (If all the minions are killed from any of the players finish the game.
+		for(int i=0; i< Constants.NUM_PLAYERS ; i++){
+			if (gameScreen.getPlayers().get(i).getMinions().size == 0)
+				return true;
+		}
 		return false;
 	}
 
 	@Override
-	public int getTimeLimit() {
-		return Constants.DEFAULT_TIMELIMIT;
+	public int getTurnTime() {
+		return 60*Constants.DEFAULT_TURNTIME;
 	}
 
 	@Override

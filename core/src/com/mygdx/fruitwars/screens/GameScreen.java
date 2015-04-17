@@ -41,11 +41,11 @@ public class GameScreen implements Screen{
 	
 	
 	private Array<Player> players;
-	private Player currentPlayer;
+	private int currentPlayer = Constants.PLAYER1-1;
 	private Array<Bullet> bullets;
 	private Collision collision;
 	private Controller controller;
-	private int turnTime;
+	private int turnTimeLeft;
 	private UserInterface userInterface;
 	private GameMode gameMode;
 	
@@ -71,11 +71,11 @@ public class GameScreen implements Screen{
 			
 		}
 		
-		currentPlayer = new Player(Constants.PLAYER1,minions_p1);
-		players.add(currentPlayer);
+		players.add(new Player(Constants.PLAYER1,minions_p1));
 		players.add(new Player(Constants.PLAYER2,minions_p2));
 		
 		gameMode = new Default(this);
+		turnTimeLeft = gameMode.getTurnTime();
 		
 	}
 	
@@ -153,8 +153,20 @@ public class GameScreen implements Screen{
 		
 		userInterface.draw(spriteBatch);
 		
+		//Check if game is finished
 		if (gameMode.gameFinished())
 			game.setScreen(new GameOverScreen(game,players.get(Constants.PLAYER1).getScore(),players.get(Constants.PLAYER2).getScore()));
+		
+		//Decrease turn time
+		turnTimeLeft-=1;
+		if (turnTimeLeft==0){
+			turnTimeLeft = gameMode.getTurnTime();
+			//Next player
+			currentPlayer+=1;
+			//Reset weapon
+			players.get((currentPlayer) % Constants.NUM_PLAYERS).weaponFired=false;
+		}
+			
 	}
 
 	public void buildShapes(TiledMap map, float pixels,

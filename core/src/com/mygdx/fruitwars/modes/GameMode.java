@@ -2,7 +2,7 @@ package com.mygdx.fruitwars.modes;
 
 public interface GameMode {
 	
-	public int getTimeLimit();
+	public int getTurnTime();
 	
 	public int getMinionsHealth();
 

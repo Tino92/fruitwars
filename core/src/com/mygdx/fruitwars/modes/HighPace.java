@@ -9,7 +9,7 @@ public class HighPace implements GameMode{
 	}
 
 	@Override
-	public int getTimeLimit() {
+	public int getTurnTime() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

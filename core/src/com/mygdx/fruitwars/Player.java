@@ -14,7 +14,7 @@ public class Player {
 	private int score = 0;
 	private int playerNumber;
 	private int activeMinion = 0;
-	private boolean weaponFired = false;
+	public boolean weaponFired = false;
 	
 	
 	public Player(int playerNumber, Array<Minion> minions){
