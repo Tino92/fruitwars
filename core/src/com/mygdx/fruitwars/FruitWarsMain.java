@@ -6,7 +6,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.fruitwars.modes.GameMode;
 import com.mygdx.fruitwars.screens.IntroScreen;
 
 public class FruitWarsMain extends Game{
@@ -15,9 +14,6 @@ public class FruitWarsMain extends Game{
 	public SpriteBatch batch;
 	
 	public int difficultyConfig = 0;
-	
-	//State pattern
-	public GameMode gameMode;
 	
 	//Comment
 	@Override
@@ -37,13 +33,5 @@ public class FruitWarsMain extends Game{
 	
 	public void dispose() {
 		batch.dispose();
-	}
-	
-	public void setGameMode(GameMode gameMode){
-		this.gameMode = gameMode;
-	}
-	
-	public GameMode getGameMode(){
-		return gameMode;
 	}
 }
