@@ -2,6 +2,7 @@ package com.mygdx.fruitwars.screens;
 
 import net.dermetfan.gdx.graphics.g2d.Box2DSprite;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
@@ -34,6 +35,11 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 	private OrthogonalTiledMapRenderer mapRenderer;
 	private Box2DDebugRenderer box2DRenderer;
 	private World world;
+	private Game game;
+	
+	public GameScreen(Game game) {
+		this.game = game;
+	}
 	
 	@Override
 	public void show() {
@@ -91,6 +97,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
 	@Override
 	public void render(float dt) {
+		dt = Math.max(dt, 0.25f);
 		clearScreen();
 		mapRender(dt);
 		spriteRender(dt);
