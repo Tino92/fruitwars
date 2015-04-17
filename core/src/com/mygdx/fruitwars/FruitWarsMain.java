@@ -2,6 +2,8 @@ package com.mygdx.fruitwars;
 
 import java.util.ArrayList;
 
+import net.dermetfan.gdx.graphics.g2d.Box2DSprite;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -26,8 +28,9 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.fruitwars.tokens.Minion;
 
 public class FruitWarsMain extends Game implements InputProcessor {
+	//private Array<Body> bodies;
+	private Array<Body> bodies;
 	private static float ppt = 0;
-	private ArrayList<Minion> minions;
 	private Vector2 touchDown;
 	private TiledMap map;
 	private SpriteBatch sb;
@@ -38,6 +41,7 @@ public class FruitWarsMain extends Game implements InputProcessor {
 
 	@Override
 	public void create() {
+		world = new World(new Vector2(0.0f, -0.5f), true);
 		float w, h;
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
@@ -49,14 +53,13 @@ public class FruitWarsMain extends Game implements InputProcessor {
 		map = new TmxMapLoader().load("maps/map.tmx");
 		Gdx.input.setInputProcessor(this);
 
-		world = new World(new Vector2(0.0f, -0.5f), true);
 		debugRenderer = new Box2DDebugRenderer();
 		
 		renderer = new OrthogonalTiledMapRenderer(map);
 		
-		Array<Body> bodies = buildShapes(map, 1, world);
+		buildShapes(map, 1, world);
 		sb = new SpriteBatch();
-		minions = new ArrayList<Minion>();
+		bodies = new Array<Body>();
 	}
 
 	@Override
@@ -69,15 +72,23 @@ public class FruitWarsMain extends Game implements InputProcessor {
 		renderer.setView(camera);
 		renderer.render();
 		debugRenderer.render(world, camera.combined);
+		sb.setProjectionMatrix(camera.combined);
 		sb.begin();
-		for(Minion m : minions) {
-			m.draw(sb);
+		world.getBodies(bodies);
+		Box2DSprite sprite;
+		for(Body b : bodies) {
+			if(b.getUserData()==null) {
+				continue;
+			}
+			
+			sprite = (Box2DSprite)b.getUserData();
+			sprite.draw(sb, b);
 		}
 		sb.end();
 		world.step(dt, 6,  6);
 	}
 
-	public Array<Body> buildShapes(TiledMap map, float pixels,
+	public void buildShapes(TiledMap map, float pixels,
 			World world) {
 		ppt = pixels;
 		TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(0);
@@ -113,7 +124,6 @@ public class FruitWarsMain extends Game implements InputProcessor {
 				shape.dispose();
 			}
 		}
-		return bodies;
 	}
 
 	@Override
@@ -148,7 +158,7 @@ public class FruitWarsMain extends Game implements InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		this.touchDown = new Vector2(screenX, camera.viewportHeight-screenY);
-		this.minions.add(new Minion(world, touchDown, new Vector2(32, 32)));
+		Minion.createMinion(world, touchDown, new Vector2(32, 32));
 		return false;
 	}
 
