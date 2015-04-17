@@ -13,7 +13,7 @@ public class Constants {
 	public static final int PLAYER1 = 0;
 	public static final int PLAYER2 = 1;
 	
-	public static final int DEFAULT_TURNTIME = 10;
+	public static final int DEFAULT_TURNTIME = 15;
 	public static final int DEFAULT_MINION_HEALTH = 100;
 
 }
