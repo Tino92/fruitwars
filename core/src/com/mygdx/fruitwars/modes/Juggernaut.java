@@ -8,4 +8,16 @@ public class Juggernaut implements GameMode {
 		return false;
 	}
 
+	@Override
+	public int getTimeLimit() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getMinionsHealth() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

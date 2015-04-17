@@ -7,6 +7,18 @@ public class HighPace implements GameMode{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public int getTimeLimit() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getMinionsHealth() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 
 }

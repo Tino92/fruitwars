@@ -4,9 +4,7 @@ import net.dermetfan.gdx.graphics.g2d.Box2DSprite;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -24,11 +22,16 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.fruitwars.Collision;
 import com.mygdx.fruitwars.Controller;
 import com.mygdx.fruitwars.FruitWarsMain;
 import com.mygdx.fruitwars.Player;
+import com.mygdx.fruitwars.UserInterface;
+import com.mygdx.fruitwars.modes.Default;
+import com.mygdx.fruitwars.modes.GameMode;
 import com.mygdx.fruitwars.tokens.Bullet;
 import com.mygdx.fruitwars.tokens.Minion;
+import com.mygdx.fruitwars.utils.Constants;
 
 public class GameScreen implements Screen{
 	
@@ -40,21 +43,40 @@ public class GameScreen implements Screen{
 	private Array<Player> players;
 	private Player currentPlayer;
 	private Array<Bullet> bullets;
-	
+	private Collision collision;
+	private Controller controller;
+	private int turnTime;
+	private UserInterface userInterface;
+	private GameMode gameMode;
 	
 	private Array<Body> bodies;
 	private static float ppt = 0;
-	private Vector2 touchDown;
 	private TiledMap map;
-	private SpriteBatch sb;
+	private SpriteBatch spriteBatch;
 	private OrthogonalTiledMapRenderer mapRenderer;
 	private Box2DDebugRenderer box2DRenderer;
 	private World world;
 	
-	private Controller controller;
+	
 	
 	public GameScreen(final FruitWarsMain game) {
 		this.game = game;
+		
+		players = new Array<Player>();
+		Array<Minion> minions_p1 = new Array<Minion>();
+		Array<Minion> minions_p2 = new Array<Minion>();
+		for (int i=0; i< Constants.NUM_MINIONS; i++){
+			//minions_p1.add(new AppleMinion());
+			//minions_p2.add(new BananaMinion());
+			
+		}
+		
+		currentPlayer = new Player(Constants.PLAYER1,minions_p1);
+		players.add(currentPlayer);
+		players.add(new Player(Constants.PLAYER2,minions_p2));
+		
+		gameMode = new Default();
+		
 	}
 	
 	@Override
@@ -69,16 +91,19 @@ public class GameScreen implements Screen{
 		camera.update();
 
 		map = new TmxMapLoader().load("maps/map.tmx");
+		
+		// References to the controller
+		userInterface = new UserInterface(this);
 		controller = new Controller(this);
 		inputMultiplexer = new InputMultiplexer(controller);
-		Gdx.input.setInputProcessor(controller);
+		Gdx.input.setInputProcessor(inputMultiplexer);
 
 		box2DRenderer = new Box2DDebugRenderer();
 		
 		mapRenderer = new OrthogonalTiledMapRenderer(map);
 		
 		buildShapes(map, 1, world);
-		sb = new SpriteBatch();
+		spriteBatch = new SpriteBatch();
 		bodies = new Array<Body>();
 	}
 	
@@ -93,8 +118,8 @@ public class GameScreen implements Screen{
 	}
 	
 	private void spriteRender(float dt) {
-		sb.setProjectionMatrix(camera.combined);
-		sb.begin();
+		spriteBatch.setProjectionMatrix(camera.combined);
+		spriteBatch.begin();
 		world.getBodies(bodies);
 		Box2DSprite sprite;
 		for(Body b : bodies) {
@@ -103,9 +128,9 @@ public class GameScreen implements Screen{
 			}
 			
 			sprite = (Box2DSprite)b.getUserData();
-			sprite.draw(sb, b);
+			sprite.draw(spriteBatch, b);
 		}
-		sb.end();
+		spriteBatch.end();
 	}
 	
 	private void mapRender(float dt) {
@@ -115,12 +140,21 @@ public class GameScreen implements Screen{
 
 	@Override
 	public void render(float dt) {
+		
+		
+		collision.collisionCheck();
+		
 		clearScreen();
 		mapRender(dt);
 		spriteRender(dt);
 		box2DRender(dt);
 		camera.update();
 		world.step(dt, 6,  6);
+		
+		userInterface.draw(spriteBatch);
+		
+		if (gameMode.gameFinished())
+			game.setScreen(new GameOverScreen(game,players.get(Constants.PLAYER1).getScore(),players.get(Constants.PLAYER2).getScore()));
 	}
 
 	public void buildShapes(TiledMap map, float pixels,
