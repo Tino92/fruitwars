@@ -97,7 +97,9 @@ public class GameScreen implements Screen{
 		// References to the controller
 		userInterface = new UserInterface(this);
 		controller = new Controller(this);
-		inputMultiplexer = new InputMultiplexer(controller);
+		inputMultiplexer = new InputMultiplexer();
+		inputMultiplexer.addProcessor(0, userInterface.getStage());
+		inputMultiplexer.addProcessor(1, controller);
 		Gdx.input.setInputProcessor(inputMultiplexer);
 
 		box2DRenderer = new Box2DDebugRenderer();
