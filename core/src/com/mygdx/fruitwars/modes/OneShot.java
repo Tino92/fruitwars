@@ -1,23 +1,22 @@
 package com.mygdx.fruitwars.modes;
 
-public class OneShot implements GameMode {
+import com.mygdx.fruitwars.screens.GameScreen;
+import com.mygdx.fruitwars.utils.Constants;
 
-	@Override
-	public boolean gameFinished() {
-		// TODO Auto-generated method stub
-		return false;
+public class OneShot extends Default implements GameMode {
+
+	public OneShot(GameScreen gameScreen) {
+		super(gameScreen);
 	}
 
 	@Override
 	public int getTurnTime() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Constants.DEFAULT_TURNTIME;
 	}
 
 	@Override
 	public int getMinionsHealth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Constants.ONE_SHOT_MINION_HEALTH;
 	}
 
 }

@@ -1,23 +1,24 @@
 package com.mygdx.fruitwars.modes;
 
-public class Juggernaut implements GameMode {
+import com.mygdx.fruitwars.screens.GameScreen;
+import com.mygdx.fruitwars.utils.Constants;
 
-	@Override
-	public boolean gameFinished() {
-		// TODO Auto-generated method stub
-		return false;
+public class Juggernaut extends Default implements GameMode {
+
+	public Juggernaut(GameScreen gameScreen) {
+		super(gameScreen);
 	}
+
 
 	@Override
 	public int getTurnTime() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Constants.DEFAULT_TURNTIME;
 	}
 
 	@Override
 	public int getMinionsHealth() {
 		// TODO Auto-generated method stub
-		return 0;
+		return Constants.JUGGERNAUT_HEALTH;
 	}
 
 }

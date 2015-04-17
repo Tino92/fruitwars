@@ -1,23 +1,22 @@
 package com.mygdx.fruitwars.modes;
 
-public class HighPace implements GameMode{
+import com.mygdx.fruitwars.screens.GameScreen;
+import com.mygdx.fruitwars.utils.Constants;
 
-	@Override
-	public boolean gameFinished() {
-		// TODO Auto-generated method stub
-		return false;
+public class HighPace extends Default implements GameMode{
+
+	public HighPace(GameScreen gameScreen) {
+		super(gameScreen);
 	}
-
+	
 	@Override
 	public int getTurnTime() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Constants.FAST_TURNTIME;
 	}
 
 	@Override
 	public int getMinionsHealth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Constants.DEFAULT_MINION_HEALTH;
 	}
 	
 
