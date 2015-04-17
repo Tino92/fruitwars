@@ -11,7 +11,7 @@
         "olive": { "r": 0.5, "g": 0.5, "b": 0, "a": 1 },
     },
     "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": { 
-        "default": { "up": "wood_button" , "down": "marble_button", "font": adventure, "pressedOffsetY": 4, "checkedFontColor": red, "fontColor": white }
+        "default": { "up": "wood_button" , "down": "marble_button", "font": adventure, "pressedOffsetY": 4, "fontColor": white }
     },
     "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
         "default": { "font": adventure , "fontColor" : olive},
