@@ -2,19 +2,19 @@ package com.mygdx.fruitwars;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.fruitwars.screens.GameScreen;
 
 public class UserInterface{
 	
-	private GameScreen gameScreen;
+	private final GameScreen gameScreen;
 	private Stage stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
 	private Table table = new Table(),
 			buttonTable = new Table();
@@ -30,7 +30,7 @@ public class UserInterface{
 	private Label player = new Label("Player",skin);
 	private Label score = new Label("Score",skin);
 	
-	public UserInterface(GameScreen gameScreen){
+	public UserInterface(final GameScreen gameScreen){
 		this.gameScreen = gameScreen;
 		
 		
@@ -45,6 +45,38 @@ public class UserInterface{
 		
 		table.setFillParent(true);
 		stage.addActor(table);
+		
+		buttonJump.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            	System.out.println("Jump pressed!");
+                //gameScreen.getCurrentPlayer().getActiveMinion().jump();
+            }
+        });
+		
+		buttonLeft.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            	System.out.println("Left pressed!");
+                //gameScreen.getCurrentPlayer().getActiveMinion().left();
+            }
+        });
+		
+		buttonRight.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            	System.out.println("Right pressed!");
+                //gameScreen.getCurrentPlayer().getActiveMinion().right();
+            }
+        });
+		
+		buttonAim.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            	System.out.println("Aim pressed!");
+                //gameScreen.getCurrentPlayer().getActiveMinion().aiming = true;
+            }
+        });
 		
 	}
 	
