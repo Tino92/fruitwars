@@ -12,8 +12,16 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class Minion extends Token {
-	public Minion() {
-		super(new Texture("worm.png"));
+	public Minion(Body body) {
+		super(new Texture("worm.png"), body);
+	}
+	
+	public void move_left() {
+		this.body.applyForceToCenter(new Vector2(-20f, 20f), true);
+	}
+	
+	public void move_right() {
+		this.body.applyForceToCenter(new Vector2(20f, 20f), true);
 	}
 	
 	public static Body createMinion(World world, Vector2 position,
@@ -33,7 +41,7 @@ public class Minion extends Token {
 		bd.position.set(position);
 		body = world.createBody(bd);
 		body.createFixture(fd);
-		body.setUserData(new Minion());
+		body.setUserData(new Minion(body));
 		fd.shape.dispose();
 		return body;
 	}

@@ -36,6 +36,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 	private Box2DDebugRenderer box2DRenderer;
 	private World world;
 	private Game game;
+	private Minion activeMinion;
 	
 	public GameScreen(Game game) {
 		this.game = game;
@@ -162,7 +163,6 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		this.touchDown = new Vector2(screenX, camera.viewportHeight-screenY);
-		Minion.createMinion(world, touchDown, new Vector2(32, 32));
 		return false;
 	}
 
@@ -189,32 +189,22 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
