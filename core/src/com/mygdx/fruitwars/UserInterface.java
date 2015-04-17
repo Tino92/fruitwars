@@ -34,7 +34,7 @@ public class UserInterface{
 		this.gameScreen = gameScreen;
 		
 		
-		table.setDebug(true);
+		//table.setDebug(true);
 		table.add(score).expand().left().top().padLeft(20);
 		table.add(player).expand().right().top().padRight(20).row();
 		buttonTable.add(buttonLeft).size(100, 50).left().expand().pad(10);
