@@ -34,7 +34,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 	private OrthogonalTiledMapRenderer mapRenderer;
 	private Box2DDebugRenderer box2DRenderer;
 	private World world;
-
+	
 	@Override
 	public void show() {
 		world = new World(new Vector2(0.0f, -0.5f), true);
