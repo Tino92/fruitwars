@@ -157,7 +157,7 @@ public class GameScreen implements Screen{
 		camera.update();
 		world.step(dt, 6,  6);
 		
-		userInterface.draw(spriteBatch);
+		userInterface.draw();
 		
 		//Check if game is finished
 		if (gameMode.gameFinished())
