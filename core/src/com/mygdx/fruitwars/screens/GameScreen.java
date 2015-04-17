@@ -78,6 +78,8 @@ public class GameScreen implements Screen{
 		
 		gameMode = new Default(this);
 		turnTimeLeft = gameMode.getTurnTime();
+		collision = new Collision(this);
+		bullets = new Array<Bullet>();
 		
 	}
 	
