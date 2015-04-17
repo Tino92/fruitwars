@@ -11,7 +11,11 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class Minion {
+public class Minion extends Token {
+	public Minion() {
+		super(new Texture("worm.png"));
+	}
+	
 	public static Body createMinion(World world, Vector2 position,
 			Vector2 dimension) {
 		Body body;
@@ -29,7 +33,7 @@ public class Minion {
 		bd.position.set(position);
 		body = world.createBody(bd);
 		body.createFixture(fd);
-		body.setUserData(new Box2DSprite(new Texture("worm.png")));
+		body.setUserData(new Minion());
 		fd.shape.dispose();
 		return body;
 	}
