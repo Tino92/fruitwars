@@ -22,6 +22,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.fruitwars.collision.Collision;
 import com.mygdx.fruitwars.tokens.Minion;
 
 public class GameScreen extends ScreenAdapter implements InputProcessor {
@@ -38,6 +39,8 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 	@Override
 	public void show() {
 		world = new World(new Vector2(0.0f, -0.5f), true);
+		world.setContactListener(new Collision());
+		
 		float w, h;
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
