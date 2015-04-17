@@ -75,7 +75,7 @@ public class GameScreen implements Screen{
 		players.add(currentPlayer);
 		players.add(new Player(Constants.PLAYER2,minions_p2));
 		
-		gameMode = new Default();
+		gameMode = new Default(this);
 		
 	}
 	
@@ -142,7 +142,7 @@ public class GameScreen implements Screen{
 	public void render(float dt) {
 		
 		
-		collision.collisionCheck();
+		//collision.collisionCheck();
 		
 		clearScreen();
 		mapRender(dt);
@@ -223,6 +223,10 @@ public class GameScreen implements Screen{
 	public void dispose() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public Array<Player> getPlayers(){
+		return players;
 	}
 
 
