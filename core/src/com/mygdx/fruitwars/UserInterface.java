@@ -18,8 +18,6 @@ public class UserInterface{
 	private Stage stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
 	private Table table = new Table(),
 			buttonTable = new Table();
-	private Container<Label> scoreContainer,playerContainer;
-	private HorizontalGroup buttonsGroup = new HorizontalGroup();
 	
 	private Skin skin = new Skin(Gdx.files.internal("skins/uiSkin.json"),
 			new TextureAtlas(Gdx.files.internal("skins/menuButtons.pack")));
@@ -35,29 +33,6 @@ public class UserInterface{
 	public UserInterface(GameScreen gameScreen){
 		this.gameScreen = gameScreen;
 		
-//		//Score and player number labels
-//		scoreContainer = new Container<Label>(score);
-//		scoreContainer.setFillParent(true);
-//		scoreContainer.left().top().padLeft(20).padTop(20);
-//		
-//		playerContainer = new Container<Label>(player);
-//		playerContainer.setFillParent(true);
-//		playerContainer.right().top().padRight(20).padTop(20);
-//		
-//		stage.addActor(scoreContainer);
-//		stage.addActor(playerContainer);
-//		
-//		//Buttons container
-//		
-//		buttonsGroup.bottom();
-//		buttonsGroup.setDebug(true);
-//		buttonLeft.setSize(50, 50);
-//		buttonsGroup.addActor(buttonLeft);
-//		buttonsGroup.addActor(buttonRight);
-//		buttonsGroup.addActor(buttonJump);
-//		buttonsGroup.addActor(buttonAim);
-//		
-//		stage.addActor(buttonsGroup);
 		
 		table.setDebug(true);
 		table.add(score).expand().left().top().padLeft(20);
@@ -65,8 +40,8 @@ public class UserInterface{
 		buttonTable.add(buttonLeft).size(100, 50).left().expand().pad(10);
 		buttonTable.add(buttonRight).size(100, 50).left().pad(10);
 		buttonTable.add(buttonJump).size(100, 50).center().pad(10);
-		buttonTable.add(buttonAim).size(100, 50).right().pad(10);
-		table.add(buttonTable).colspan(2).height(50);
+		table.add(buttonTable).height(50);
+		table.add(buttonAim).size(100, 50);
 		
 		table.setFillParent(true);
 		stage.addActor(table);
