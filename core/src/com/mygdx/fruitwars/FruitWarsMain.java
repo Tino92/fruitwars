@@ -1,12 +1,9 @@
 package com.mygdx.fruitwars;
 
-import java.util.ArrayList;
-
 import net.dermetfan.gdx.graphics.g2d.Box2DSprite;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -28,16 +25,15 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.fruitwars.tokens.Minion;
 
 public class FruitWarsMain extends Game implements InputProcessor {
-	//private Array<Body> bodies;
 	private Array<Body> bodies;
 	private static float ppt = 0;
 	private Vector2 touchDown;
 	private TiledMap map;
 	private SpriteBatch sb;
 	private OrthographicCamera camera;
-	private OrthogonalTiledMapRenderer renderer;
+	private OrthogonalTiledMapRenderer mapRenderer;
+	private Box2DDebugRenderer box2DRenderer;
 	private World world;
-	private Box2DDebugRenderer debugRenderer;
 
 	@Override
 	public void create() {
@@ -53,25 +49,26 @@ public class FruitWarsMain extends Game implements InputProcessor {
 		map = new TmxMapLoader().load("maps/map.tmx");
 		Gdx.input.setInputProcessor(this);
 
-		debugRenderer = new Box2DDebugRenderer();
+		box2DRenderer = new Box2DDebugRenderer();
 		
-		renderer = new OrthogonalTiledMapRenderer(map);
+		mapRenderer = new OrthogonalTiledMapRenderer(map);
 		
 		buildShapes(map, 1, world);
 		sb = new SpriteBatch();
 		bodies = new Array<Body>();
 	}
-
-	@Override
-	public void render() {
-		float dt = Math.max(Gdx.graphics.getDeltaTime(), 0.25f);
+	
+	private void clearScreen() {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		camera.update();
-		renderer.setView(camera);
-		renderer.render();
-		debugRenderer.render(world, camera.combined);
+	}
+	
+	private void box2DRender(float dt) {
+		box2DRenderer.render(world, camera.combined);
+	}
+	
+	private void spriteRender(float dt) {
 		sb.setProjectionMatrix(camera.combined);
 		sb.begin();
 		world.getBodies(bodies);
@@ -85,6 +82,21 @@ public class FruitWarsMain extends Game implements InputProcessor {
 			sprite.draw(sb, b);
 		}
 		sb.end();
+	}
+	
+	private void mapRender(float dt) {
+		mapRenderer.setView(camera);
+		mapRenderer.render();
+	}
+
+	@Override
+	public void render() {
+		float dt = Math.max(Gdx.graphics.getDeltaTime(), 0.25f);
+		clearScreen();
+		mapRender(dt);
+		spriteRender(dt);
+		box2DRender(dt);
+		camera.update();
 		world.step(dt, 6,  6);
 	}
 
@@ -133,20 +145,6 @@ public class FruitWarsMain extends Game implements InputProcessor {
 
 	@Override
 	public boolean keyUp(int keycode) {
-		if (keycode == Input.Keys.LEFT)
-			camera.translate(-32, 0);
-		if (keycode == Input.Keys.RIGHT)
-			camera.translate(32, 0);
-		if (keycode == Input.Keys.UP)
-			camera.translate(0, -32);
-		if (keycode == Input.Keys.DOWN)
-			camera.translate(0, 32);
-		if (keycode == Input.Keys.NUM_1)
-			map.getLayers().get(0)
-					.setVisible(!map.getLayers().get(0).isVisible());
-		if (keycode == Input.Keys.NUM_2)
-			map.getLayers().get(1)
-					.setVisible(!map.getLayers().get(1).isVisible());
 		return false;
 	}
 
@@ -175,13 +173,11 @@ public class FruitWarsMain extends Game implements InputProcessor {
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }
