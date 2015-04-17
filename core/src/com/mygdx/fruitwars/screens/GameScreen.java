@@ -3,7 +3,9 @@ package com.mygdx.fruitwars.screens;
 import net.dermetfan.gdx.graphics.g2d.Box2DSprite;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -22,18 +24,38 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.fruitwars.Controller;
+import com.mygdx.fruitwars.FruitWarsMain;
+import com.mygdx.fruitwars.Player;
+import com.mygdx.fruitwars.tokens.Bullet;
 import com.mygdx.fruitwars.tokens.Minion;
 
-public class GameScreen extends ScreenAdapter implements InputProcessor {
+public class GameScreen implements Screen{
+	
+	final FruitWarsMain game;
+	public OrthographicCamera camera;
+	public InputMultiplexer inputMultiplexer;
+	
+	
+	private Array<Player> players;
+	private Player currentPlayer;
+	private Array<Bullet> bullets;
+	
+	
 	private Array<Body> bodies;
 	private static float ppt = 0;
 	private Vector2 touchDown;
 	private TiledMap map;
 	private SpriteBatch sb;
-	private OrthographicCamera camera;
 	private OrthogonalTiledMapRenderer mapRenderer;
 	private Box2DDebugRenderer box2DRenderer;
 	private World world;
+	
+	private Controller controller;
+	
+	public GameScreen(final FruitWarsMain game) {
+		this.game = game;
+	}
 	
 	@Override
 	public void show() {
@@ -47,7 +69,9 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 		camera.update();
 
 		map = new TmxMapLoader().load("maps/map.tmx");
-		Gdx.input.setInputProcessor(this);
+		controller = new Controller(this);
+		inputMultiplexer = new InputMultiplexer(controller);
+		Gdx.input.setInputProcessor(controller);
 
 		box2DRenderer = new Box2DDebugRenderer();
 		
@@ -138,49 +162,6 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 	}
 
 	@Override
-	public boolean keyDown(int keycode) {
-		return false;
-	}
-
-	@Override
-	public boolean keyUp(int keycode) {
-		return false;
-	}
-
-	@Override
-	public boolean keyTyped(char character) {
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		this.touchDown = new Vector2(screenX, camera.viewportHeight-screenY);
-		Minion.createMinion(world, touchDown, new Vector2(32, 32));
-		return false;
-	}
-
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		touchDown = null; 
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(int amount) {
-		return false;
-	}
-
-	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
 		
@@ -209,5 +190,6 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }
