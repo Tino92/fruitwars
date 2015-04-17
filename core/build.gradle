@@ -9,3 +9,12 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 eclipse.project {
     name = appName + "-core"
 }
+
+repositories {
+    mavenCentral() // releases
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' } // snapshots
+}
+
+dependencies {
+    compile 'net.dermetfan.libgdx-utils:libgdx-utils-box2d:0.9.1' // Box2D module
+}
