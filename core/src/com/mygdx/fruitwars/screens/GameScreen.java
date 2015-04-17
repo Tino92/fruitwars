@@ -1,5 +1,7 @@
 package com.mygdx.fruitwars.screens;
 
+import java.util.Iterator;
+
 import net.dermetfan.gdx.graphics.g2d.Box2DSprite;
 
 import com.badlogic.gdx.Game;
@@ -106,9 +108,24 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 		spriteRender(dt);
 		box2DRender(dt);
 		camera.update();
-		world.step(dt, 6,  6);
+		removeDeadBodies();
+		world.step(dt, 6,  6);	
 	}
-
+	
+	public void removeDeadBodies() {		
+		world.getBodies(bodies);	
+		for (Body b : bodies) {
+			if(b.getUserData()==null) {
+				continue;
+			}		
+			Minion data = (Minion) b.getUserData();
+			
+			if (data.getHealth() == 0) {
+				world.destroyBody(b);
+			}
+		}
+	}
+		   
 	public void buildShapes(TiledMap map, float pixels,
 			World world) {
 		ppt = pixels;

@@ -37,4 +37,5 @@ public class Minion extends Token {
 		fd.shape.dispose();
 		return body;
 	}
+	
 }

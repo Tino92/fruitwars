@@ -5,7 +5,7 @@ import net.dermetfan.gdx.graphics.g2d.Box2DSprite;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Token extends Box2DSprite {
-	protected int health;
+	protected int health = 100; // Hard-coded for testing purposes
 	
 	public Token(Texture tex) {
 		super(tex);
