@@ -52,6 +52,9 @@ public class Player {
 	
 	
 	public void dispose() {
+		for (Minion minion: minions){
+			//minion.dispose();
+		}
 	}
 	
 	

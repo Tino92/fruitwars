@@ -35,13 +35,15 @@ import com.mygdx.fruitwars.utils.Constants;
 
 public class GameScreen implements Screen{
 	
+	public static final String TAG = "GameScreen";
+	
 	final FruitWarsMain game;
 	public OrthographicCamera camera;
 	public InputMultiplexer inputMultiplexer;
 	
 	
 	private Array<Player> players;
-	private int currentPlayer = Constants.PLAYER1-1;
+	private int currentPlayer = Constants.PLAYER1;
 	private Array<Bullet> bullets;
 	private Collision collision;
 	private Controller controller;
@@ -66,8 +68,8 @@ public class GameScreen implements Screen{
 		Array<Minion> minions_p1 = new Array<Minion>();
 		Array<Minion> minions_p2 = new Array<Minion>();
 		for (int i=0; i< Constants.NUM_MINIONS; i++){
-			//minions_p1.add(new AppleMinion());
-			//minions_p2.add(new BananaMinion());
+			minions_p1.add(new Minion());
+			minions_p2.add(new Minion());
 			
 		}
 		
@@ -159,12 +161,14 @@ public class GameScreen implements Screen{
 		
 		//Decrease turn time
 		turnTimeLeft-=1;
-		if (turnTimeLeft==0){
+		if (turnTimeLeft==0 || players.get(currentPlayer).weaponFired){
 			turnTimeLeft = gameMode.getTurnTime();
 			//Next player
-			currentPlayer+=1;
-			//Reset weapon
-			players.get((currentPlayer) % Constants.NUM_PLAYERS).weaponFired=false;
+			currentPlayer=(currentPlayer+1) % (Constants.NUM_PLAYERS);
+			//Gdx.app.debug(TAG, "Turn is over currentPlayer is: " + currentPlayer);
+			System.out.println("Turn is over currentPlayer is: " + currentPlayer);
+			//Reset player weapon
+			players.get(currentPlayer).weaponFired=false;
 		}
 			
 	}
@@ -239,6 +243,10 @@ public class GameScreen implements Screen{
 	
 	public Array<Player> getPlayers(){
 		return players;
+	}
+	
+	public Player getCurrentPlayer(){
+		return players.get(currentPlayer);
 	}
 
 
