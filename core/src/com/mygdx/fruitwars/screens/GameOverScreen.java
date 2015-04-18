@@ -36,6 +36,10 @@ public class GameOverScreen implements Screen{
 
 	public GameOverScreen(final FruitWarsMain game, int score1,int score2) {
 		this.game = game;
+		if (score1 > score2)
+			title.setText("Player 1 Wins!");
+		else
+			title.setText("Player 2 Wins!");
 
 	}
 

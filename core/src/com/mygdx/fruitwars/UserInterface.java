@@ -81,7 +81,8 @@ public class UserInterface{
 	}
 	
 	public void draw() {
-		player.setText("Player " + gameScreen.getCurrentPlayer().getPlayerNumber());
+		player.setText("Player " + gameScreen.getCurrentPlayer().getPlayerNumber() + "\n" 
+	+ String.format("%02d", gameScreen.getTimeLeft()/60) + " sec");
 		score.setText("Score " + gameScreen.getCurrentPlayer().getScore());
 		stage.draw();
 	}

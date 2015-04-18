@@ -13,7 +13,7 @@ public class Player {
 	private Weapon weapon;
 	private int score = 0;
 	private int playerNumber;
-	private int activeMinion = 0;
+	public int activeMinion = 0;
 	public boolean weaponFired = false;
 	
 	
@@ -34,12 +34,16 @@ public class Player {
 	
 
 	public int getPlayerNumber() {
-		return playerNumber;
+		return playerNumber+1;
 	}
 	
 	public Minion getActiveMinion() {
 		Gdx.app.debug(TAG, "getActiveMinion: " + activeMinion + " from Player: " + playerNumber);
-		return minions.get(activeMinion++);
+		return minions.get(activeMinion);
+	}
+	
+	public void nextMinion(){
+		activeMinion = (activeMinion+1) % minions.size; 
 	}
 	
 	public Array<Minion> getMinions() {
@@ -48,13 +52,6 @@ public class Player {
 	
 	public void removeMinion(Minion minion) {
 		minions.removeValue(minion, true);
-	}
-	
-	
-	public void dispose() {
-		for (Minion minion: minions){
-			//minion.dispose();
-		}
 	}
 	
 	

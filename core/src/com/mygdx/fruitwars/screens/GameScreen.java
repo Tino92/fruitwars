@@ -96,7 +96,7 @@ public class GameScreen implements Screen{
 
 		map = new TmxMapLoader().load("maps/map.tmx");
 		
-		// References to the controller
+		// References to the controllers
 		userInterface = new UserInterface(this);
 		controller = new Controller(this);
 		inputMultiplexer = new InputMultiplexer();
@@ -166,11 +166,15 @@ public class GameScreen implements Screen{
 		//Decrease turn time
 		turnTimeLeft-=1;
 		if (turnTimeLeft==0 || players.get(currentPlayer).weaponFired){
+			players.get(currentPlayer).getMinions().pop();
 			turnTimeLeft = gameMode.getTurnTime();
 			//Next player
 			currentPlayer=(currentPlayer+1) % (Constants.NUM_PLAYERS);
+			//Select next minion
+			players.get(currentPlayer).nextMinion();
 			//Gdx.app.debug(TAG, "Turn is over currentPlayer is: " + currentPlayer);
-			System.out.println("Turn is over currentPlayer is: " + currentPlayer);
+			System.out.println("Turn is over currentPlayer is: " + currentPlayer + 
+					" current minion is: " + players.get(currentPlayer).activeMinion);
 			//Reset player weapon
 			players.get(currentPlayer).weaponFired=false;
 		}
@@ -253,5 +257,8 @@ public class GameScreen implements Screen{
 		return players.get(currentPlayer);
 	}
 
+	public int getTimeLeft(){
+		return turnTimeLeft;
+	}
 
 }
