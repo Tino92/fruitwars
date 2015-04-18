@@ -1,9 +1,12 @@
 package com.mygdx.fruitwars;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -18,6 +21,7 @@ public class UserInterface{
 	private Stage stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
 	private Table table = new Table(),
 			buttonTable = new Table();
+	private Container pauseContainer;
 	
 	private Skin skin = new Skin(Gdx.files.internal("skins/uiSkin.json"),
 			new TextureAtlas(Gdx.files.internal("skins/menuButtons.pack")));
@@ -29,6 +33,7 @@ public class UserInterface{
 
 	private Label player = new Label("Player",skin);
 	private Label score = new Label("Score",skin);
+	private Label pause = new Label("Paused! Touch the screen to continue",skin);
 	
 	public UserInterface(final GameScreen gameScreen){
 		this.gameScreen = gameScreen;
@@ -37,14 +42,25 @@ public class UserInterface{
 		//table.setDebug(true);
 		table.add(score).expand().left().top().padLeft(20);
 		table.add(player).expand().right().top().padRight(20).row();
-		buttonTable.add(buttonLeft).size(100, 50).left().expand().pad(10);
-		buttonTable.add(buttonRight).size(100, 50).left().pad(10);
-		buttonTable.add(buttonJump).size(100, 50).center().pad(10);
-		table.add(buttonTable).height(50);
-		table.add(buttonAim).size(100, 50);
+		
+		pauseContainer = new Container(pause);
+		pauseContainer.setFillParent(true);
+		pauseContainer.top().center();
+		pause.setColor(Color.RED);
+		
+		//buttonTable.setDebug(true);
+		buttonTable.bottom().left();
+		buttonTable.add(buttonLeft).size(100, 50).pad(10).uniform();
+		buttonTable.add(buttonRight).size(100, 50).pad(10).uniform();
+		buttonTable.add(buttonJump).size(100, 50).pad(10).uniform();
+		buttonTable.add(buttonAim).size(100, 50).pad(10).uniform();
+		//table.add(buttonTable).height(50);
+		
 		
 		table.setFillParent(true);
+		buttonTable.setFillParent(true);
 		stage.addActor(table);
+		stage.addActor(buttonTable);
 		
 		buttonJump.addListener(new ClickListener(){
             @Override
@@ -90,6 +106,16 @@ public class UserInterface{
 	public Stage getStage(){
 		return stage;
 	}
+	
+	public void showPauseTitle(){
+		stage.addActor(pauseContainer);
+	}
+	
+	public void hidePauseTitle(){
+		pauseContainer.remove();
+	}
+
+	
 
 }
 

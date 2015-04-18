@@ -40,7 +40,7 @@ public class GameScreen implements Screen{
 	final FruitWarsMain game;
 	public OrthographicCamera camera;
 	public InputMultiplexer inputMultiplexer;
-	
+	public boolean paused = false;
 	
 	private Array<Player> players;
 	private int currentPlayer = Constants.PLAYER1;
@@ -58,6 +58,7 @@ public class GameScreen implements Screen{
 	private OrthogonalTiledMapRenderer mapRenderer;
 	private Box2DDebugRenderer box2DRenderer;
 	private World world;
+	
 	
 	
 	
@@ -147,37 +148,37 @@ public class GameScreen implements Screen{
 	@Override
 	public void render(float dt) {
 		
+		if (!paused){
+			//collision.collisionCheck();
 		
-		//collision.collisionCheck();
-		
-		clearScreen();
-		mapRender(dt);
-		spriteRender(dt);
-		box2DRender(dt);
-		camera.update();
-		world.step(dt, 6,  6);
-		
-		userInterface.draw();
-		
-		//Check if game is finished
-		if (gameMode.gameFinished())
-			game.setScreen(new GameOverScreen(game,players.get(Constants.PLAYER1).getScore(),players.get(Constants.PLAYER2).getScore()));
-		
-		//Decrease turn time
-		turnTimeLeft-=1;
-		if (turnTimeLeft==0 || players.get(currentPlayer).weaponFired){
-			players.get(currentPlayer).getMinions().pop();
-			turnTimeLeft = gameMode.getTurnTime();
-			//Next player
-			currentPlayer=(currentPlayer+1) % (Constants.NUM_PLAYERS);
-			//Select next minion
-			players.get(currentPlayer).nextMinion();
-			//Gdx.app.debug(TAG, "Turn is over currentPlayer is: " + currentPlayer);
-			System.out.println("Turn is over currentPlayer is: " + currentPlayer + 
-					" current minion is: " + players.get(currentPlayer).activeMinion);
-			//Reset player weapon
-			players.get(currentPlayer).weaponFired=false;
+			clearScreen();
+			mapRender(dt);
+			spriteRender(dt);
+			box2DRender(dt);
+			camera.update();
+			world.step(dt, 6,  6);
+			
+			//Check if game is finished
+			if (gameMode.gameFinished())
+				game.setScreen(new GameOverScreen(game,players.get(Constants.PLAYER1).getScore(),players.get(Constants.PLAYER2).getScore()));
+			
+			//Decrease turn time
+			turnTimeLeft-=1;
+			if (turnTimeLeft==0 || players.get(currentPlayer).weaponFired){
+				turnTimeLeft = gameMode.getTurnTime();
+				//Next player
+				currentPlayer=(currentPlayer+1) % (Constants.NUM_PLAYERS);
+				//Select next minion
+				players.get(currentPlayer).nextMinion();
+				//Gdx.app.debug(TAG, "Turn is over currentPlayer is: " + currentPlayer);
+				System.out.println("Turn is over currentPlayer is: " + currentPlayer + 
+						" current minion is: " + players.get(currentPlayer).activeMinion);
+				//Reset player weapon
+				players.get(currentPlayer).weaponFired=false;
+				pause();
+			}
 		}
+		userInterface.draw();
 			
 	}
 
@@ -227,13 +228,15 @@ public class GameScreen implements Screen{
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
+		userInterface.showPauseTitle();
+		paused = true;
 		
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
+		userInterface.hidePauseTitle();
+		paused = false;
 		
 	}
 
@@ -259,6 +262,10 @@ public class GameScreen implements Screen{
 
 	public int getTimeLeft(){
 		return turnTimeLeft;
+	}
+	
+	public boolean isPaused(){
+		return paused;
 	}
 
 }
