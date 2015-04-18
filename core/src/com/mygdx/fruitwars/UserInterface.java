@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -50,10 +49,10 @@ public class UserInterface{
 		
 		//buttonTable.setDebug(true);
 		buttonTable.bottom().left();
-		buttonTable.add(buttonLeft).size(100, 50).pad(10).uniform();
-		buttonTable.add(buttonRight).size(100, 50).pad(10).uniform();
-		buttonTable.add(buttonJump).size(100, 50).pad(10).uniform();
-		buttonTable.add(buttonAim).size(100, 50).pad(10).uniform();
+		buttonTable.add(buttonLeft).size(100, 50).pad(10);
+		buttonTable.add(buttonRight).size(100, 50).pad(10);
+		buttonTable.add(buttonJump).size(100, 50).pad(10);
+		buttonTable.add(buttonAim).size(100, 50).pad(10);
 		//table.add(buttonTable).height(50);
 		
 		
@@ -65,32 +64,40 @@ public class UserInterface{
 		buttonJump.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	System.out.println("Jump pressed!");
-                //gameScreen.getCurrentPlayer().getActiveMinion().jump();
+            	if (!gameScreen.isPaused()){
+            		System.out.println("Jump pressed!");
+            		//gameScreen.getCurrentPlayer().getActiveMinion().jump();
+            	}
             }
         });
 		
 		buttonLeft.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	System.out.println("Left pressed!");
-                //gameScreen.getCurrentPlayer().getActiveMinion().left();
+            	if (!gameScreen.isPaused()){
+            		System.out.println("Left pressed!");
+            		//gameScreen.getCurrentPlayer().getActiveMinion().left();
+            	}
             }
         });
 		
 		buttonRight.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	System.out.println("Right pressed!");
-                //gameScreen.getCurrentPlayer().getActiveMinion().right();
+            	if (!gameScreen.isPaused()){
+            		System.out.println("Right pressed!");
+            		//gameScreen.getCurrentPlayer().getActiveMinion().right();
+            	}
             }
         });
 		
 		buttonAim.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	System.out.println("Aim pressed!");
-                //gameScreen.getCurrentPlayer().getActiveMinion().aiming = true;
+            	if (!gameScreen.isPaused()){
+            		System.out.println("Aim pressed!");
+            		//gameScreen.getCurrentPlayer().getActiveMinion().aiming = true;
+            	}
             }
         });
 		
@@ -107,7 +114,8 @@ public class UserInterface{
 		return stage;
 	}
 	
-	public void showPauseTitle(){
+	public void showPauseTitle(String title){
+		pause.setText(title);
 		stage.addActor(pauseContainer);
 	}
 	

@@ -171,11 +171,14 @@ public class GameScreen implements Screen{
 				//Select next minion
 				players.get(currentPlayer).nextMinion();
 				//Gdx.app.debug(TAG, "Turn is over currentPlayer is: " + currentPlayer);
-				System.out.println("Turn is over currentPlayer is: " + currentPlayer + 
+				System.out.println("Turn is over nextPlayer is: " + players.get(currentPlayer).getPlayerNumber() + 
 						" current minion is: " + players.get(currentPlayer).activeMinion);
 				//Reset player weapon
 				players.get(currentPlayer).weaponFired=false;
-				pause();
+				
+				// Pause the game to give the other player time
+				userInterface.showPauseTitle("Player " + players.get(currentPlayer).getPlayerNumber() + " is next!");
+				paused = true;
 			}
 		}
 		userInterface.draw();
@@ -228,7 +231,7 @@ public class GameScreen implements Screen{
 
 	@Override
 	public void pause() {
-		userInterface.showPauseTitle();
+		userInterface.showPauseTitle("Game paused!");
 		paused = true;
 		
 	}
