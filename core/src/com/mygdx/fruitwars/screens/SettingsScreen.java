@@ -118,7 +118,7 @@ public class SettingsScreen implements Screen{
         });
         
         //table.setDebug(true);
-        table.add(title).padBottom(80).colspan(4).row();
+        table.add(title).padBottom(80).top().colspan(4).row();
 	    table.add(buttonDefault).size(150,60).padBottom(20).padRight(20);
 	    table.add(buttonHighPace).size(150,60).padBottom(20).padRight(20);
 	    table.add(buttonJuggernaut).size(150,60).padBottom(20).padRight(20);

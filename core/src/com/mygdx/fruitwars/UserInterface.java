@@ -28,7 +28,8 @@ public class UserInterface{
 	private TextButton buttonJump = new TextButton("Jump", skin),
 			buttonLeft = new TextButton("<", skin),
 			buttonRight = new TextButton(">", skin),
-			buttonAim = new TextButton("Aim!",skin);
+			buttonAim = new TextButton("Aim!",skin),
+			buttonPause = new TextButton("||",skin);
 
 	private Label player = new Label("Player",skin);
 	private Label score = new Label("Score",skin);
@@ -52,8 +53,10 @@ public class UserInterface{
 		buttonTable.add(buttonLeft).size(100, 50).pad(10);
 		buttonTable.add(buttonRight).size(100, 50).pad(10);
 		buttonTable.add(buttonJump).size(100, 50).pad(10);
+		buttonTable.add().size(100, 50);
 		buttonTable.add(buttonAim).size(100, 50).pad(10);
-		//table.add(buttonTable).height(50);
+		buttonTable.add().size(100, 50);
+		buttonTable.add(buttonPause).size(100,50).pad(10);
 		
 		
 		table.setFillParent(true);
@@ -99,6 +102,17 @@ public class UserInterface{
             		//gameScreen.getCurrentPlayer().getActiveMinion().aiming = true;
             	}
             }
+        });
+		
+		buttonPause.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            	if (gameScreen.isPaused())
+            		gameScreen.resume();
+            	else 
+            		gameScreen.pause();
+            	}
+            
         });
 		
 	}
