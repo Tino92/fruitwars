@@ -49,13 +49,11 @@ public class UserInterface{
 		pause.setColor(Color.RED);
 		
 		//buttonTable.setDebug(true);
-		buttonTable.bottom().left();
+		buttonTable.bottom();
 		buttonTable.add(buttonLeft).size(100, 50).pad(10);
 		buttonTable.add(buttonRight).size(100, 50).pad(10);
 		buttonTable.add(buttonJump).size(100, 50).pad(10);
-		buttonTable.add().size(100, 50);
 		buttonTable.add(buttonAim).size(100, 50).pad(10);
-		buttonTable.add().size(100, 50);
 		buttonTable.add(buttonPause).size(100,50).pad(10);
 		
 		
