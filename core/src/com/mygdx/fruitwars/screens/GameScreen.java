@@ -29,6 +29,9 @@ import com.mygdx.fruitwars.Player;
 import com.mygdx.fruitwars.UserInterface;
 import com.mygdx.fruitwars.modes.Default;
 import com.mygdx.fruitwars.modes.GameMode;
+import com.mygdx.fruitwars.modes.HighPace;
+import com.mygdx.fruitwars.modes.Juggernaut;
+import com.mygdx.fruitwars.modes.OneShot;
 import com.mygdx.fruitwars.tokens.Bullet;
 import com.mygdx.fruitwars.tokens.Minion;
 import com.mygdx.fruitwars.utils.Constants;
@@ -77,7 +80,20 @@ public class GameScreen implements Screen{
 		players.add(new Player(Constants.PLAYER1,minions_p1));
 		players.add(new Player(Constants.PLAYER2,minions_p2));
 		
-		gameMode = new Default(this);
+		switch(game.gameMode){
+			case Constants.HIGH_PACE:
+				gameMode = new HighPace(this);
+				break;
+			case Constants.JUGGERNAUT:
+				gameMode = new Juggernaut(this);
+				break;
+			case Constants.ONESHOT:
+				gameMode = new OneShot(this);
+				break;
+			default:
+				gameMode = new Default(this);
+		}
+		
 		turnTimeLeft = gameMode.getTurnTime();
 		collision = new Collision(this);
 		bullets = new Array<Bullet>();

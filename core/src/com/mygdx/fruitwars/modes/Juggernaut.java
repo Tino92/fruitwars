@@ -9,10 +9,9 @@ public class Juggernaut extends Default implements GameMode {
 		super(gameScreen);
 	}
 
-
 	@Override
 	public int getTurnTime() {
-		return Constants.DEFAULT_TURNTIME;
+		return 60*Constants.DEFAULT_TURNTIME;
 	}
 
 	@Override

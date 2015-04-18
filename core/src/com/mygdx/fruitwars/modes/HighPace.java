@@ -11,7 +11,7 @@ public class HighPace extends Default implements GameMode{
 	
 	@Override
 	public int getTurnTime() {
-		return Constants.FAST_TURNTIME;
+		return 60*Constants.FAST_TURNTIME;
 	}
 
 	@Override

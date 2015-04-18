@@ -11,7 +11,7 @@ public class OneShot extends Default implements GameMode {
 
 	@Override
 	public int getTurnTime() {
-		return Constants.DEFAULT_TURNTIME;
+		return 60*Constants.DEFAULT_TURNTIME;
 	}
 
 	@Override
