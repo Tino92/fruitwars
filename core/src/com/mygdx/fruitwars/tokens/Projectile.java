@@ -29,7 +29,7 @@ public class Projectile extends Weapon {
 		fd.shape = polygon;
 		
 		BodyDef bd = new BodyDef();
-	//	bd.bullet = true; // so CCD is performed between dynamic bodies
+		bd.bullet = true; // so CCD is performed between dynamic bodies
 		bd.type = BodyType.DynamicBody;
 		bd.position.set(position);
 		body = world.createBody(bd);
