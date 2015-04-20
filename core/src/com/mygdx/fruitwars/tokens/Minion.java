@@ -1,7 +1,5 @@
 package com.mygdx.fruitwars.tokens;
 
-import net.dermetfan.gdx.graphics.g2d.Box2DSprite;
-
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -17,11 +15,19 @@ public class Minion extends Token {
 	}
 	
 	public void move_left() {
-		this.body.applyForceToCenter(new Vector2(-20f, 20f), true);
+		System.out.println("Moving left");
+//		this.flip(true, false);
+		if (!this.body.isAwake()) {
+			this.body.setLinearVelocity(new Vector2(-100f, 50f));
+		}
+		
 	}
 	
 	public void move_right() {
-		this.body.applyForceToCenter(new Vector2(20f, 20f), true);
+		System.out.println("Moving right");
+		if (!this.body.isAwake()) {
+			this.body.setLinearVelocity(new Vector2(100f, 50f));
+		}
 	}
 	
 	public static Body createMinion(World world, Vector2 position,
