@@ -5,6 +5,7 @@ import net.dermetfan.gdx.graphics.g2d.Box2DSprite;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -23,8 +24,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.fruitwars.Controller;
 import com.mygdx.fruitwars.FruitWarsMain;
@@ -50,6 +49,8 @@ public class GameScreen implements Screen{
 	public InputMultiplexer inputMultiplexer;
 	public boolean paused = false;
 	
+	private Music music;
+	
 	private Array<Player> players;
 	private int currentPlayer = Constants.PLAYER1;
 	private Collision collision;
@@ -72,7 +73,7 @@ public class GameScreen implements Screen{
 		this.game = game;
 		
 		world = new World(new Vector2(0.0f, -0.5f), true);
-		world.setContactListener(new Collision());
+		world.setContactListener(collision = new Collision());
 		
 		players = new Array<Player>();
 		Array<Minion> minions_p1 = new Array<Minion>();
@@ -101,6 +102,11 @@ public class GameScreen implements Screen{
 			
 		}
 		turnTimeLeft = gameMode.getTurnTime();
+		
+	    //Setting up music of the main menu
+	    music = Gdx.audio.newMusic(Gdx.files.internal("music/game-music.wav"));
+	    music.setLooping(true);
+	    music.play();
 		
 	}
 	
@@ -138,11 +144,6 @@ public class GameScreen implements Screen{
 		buildShapes(map, 1, world);
 		spriteBatch = new SpriteBatch();
 		bodies = new Array<Body>();
-		
-		//activeMinion = new Minion(world, new Vector2(400, 200), SpriteCostume.APPLE, gameMode.getMinionsHealth());
-		//activeBody = activeMinion.getBody();
-		
-//		Body bulletBody = Bullet.createBullet(world, new Vector2(600,200), new Vector2(22,12));
 		
 	}
 	
@@ -310,13 +311,13 @@ public class GameScreen implements Screen{
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
+		dispose();
 		
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		music.dispose();
 		
 	}
 	
