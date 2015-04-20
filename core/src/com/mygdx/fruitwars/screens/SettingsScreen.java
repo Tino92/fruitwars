@@ -117,13 +117,15 @@ public class SettingsScreen implements Screen{
             }
         });
         
+		int buttonWidth = Gdx.graphics.getWidth()/7;
+		int buttonHeight = Gdx.graphics.getHeight()/7;
         //table.setDebug(true);
         table.add(title).padBottom(80).top().colspan(4).row();
-	    table.add(buttonDefault).size(150,60).padBottom(20).padRight(20);
-	    table.add(buttonHighPace).size(150,60).padBottom(20).padRight(20);
-	    table.add(buttonJuggernaut).size(150,60).padBottom(20).padRight(20);
-	    table.add(buttonOneShot).size(150,60).padBottom(20).padRight(20).row();
-	    table.add(buttonExit).colspan(4).size(150,60);
+	    table.add(buttonDefault).size(buttonWidth,buttonHeight).padBottom(20).padRight(20);
+	    table.add(buttonHighPace).size(buttonWidth,buttonHeight).padBottom(20).padRight(20);
+	    table.add(buttonJuggernaut).size(buttonWidth,buttonHeight).padBottom(20).padRight(20);
+	    table.add(buttonOneShot).size(buttonWidth,buttonHeight).padBottom(20).padRight(20).row();
+	    table.add(buttonExit).colspan(4).size(buttonWidth,buttonHeight);
 
 	    table.setFillParent(true);
 	    stage.addActor(table);

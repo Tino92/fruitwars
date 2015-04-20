@@ -61,9 +61,13 @@ public class GameOverScreen implements Screen{
         });
         
 
+        
+		int buttonWidth = Gdx.graphics.getWidth()/7;
+		int buttonHeight = Gdx.graphics.getHeight()/7;
+		
 	    table.add(title).padBottom(80).row();
-	    table.add(buttonRestart).size(150,60).padBottom(20).row();
-	    table.add(buttonExit).size(150,60).padBottom(20).row();
+	    table.add(buttonRestart).size(buttonWidth,buttonHeight).padBottom(20).row();
+	    table.add(buttonExit).size(buttonWidth,buttonHeight).padBottom(20).row();
 
 	    table.setFillParent(true);
 	    stage.addActor(table);
