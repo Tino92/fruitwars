@@ -27,6 +27,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.fruitwars.collision.Collision;
 import com.mygdx.fruitwars.tokens.Minion;
+import com.mygdx.fruitwars.tokens.Projectile;
 
 public class GameScreen extends ScreenAdapter implements InputProcessor {
 	private Array<Body> bodies;
@@ -118,10 +119,12 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 			if(b.getUserData()==null) {
 				continue;
 			}		
-			Minion data = (Minion) b.getUserData();
 			
-			if (data.getHealth() == 0) {
-				world.destroyBody(b);
+			if (b.getUserData() instanceof Minion) {
+				Minion data = (Minion) b.getUserData();
+				if (data.getHealth() == 0) {
+					world.destroyBody(b);
+				}
 			}
 		}
 	}
@@ -182,10 +185,13 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		this.touchDown = new Vector2(screenX, camera.viewportHeight-screenY);
-		Minion.createMinion(world, touchDown, new Vector2(32, 32));
+		//Minion.createMinion(world, touchDown, new Vector2(32, 32));
 		
 		Vector2 bulletVelocity = new Vector2(500, 100);
 		
+		Body bodyProjectile = Projectile.createProjectile(world, touchDown, new Vector2(22, 12), bulletVelocity);
+		
+		bodyProjectile.applyForceToCenter(bulletVelocity.x, bulletVelocity.y, true);
 		
 		return false;
 	}
