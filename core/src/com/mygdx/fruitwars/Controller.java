@@ -74,6 +74,7 @@ public class Controller {
 				int x = Gdx.input.getX();
 				int y = Gdx.input.getY();
 				attack(x, y);
+				aiming = false;
 	//			bulletFired = gameScreen.fireBullet(x, y);
 				toggleFireMode(false);
 				activeMinion.getBody().setAwake(false);

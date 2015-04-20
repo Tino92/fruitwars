@@ -1,5 +1,7 @@
 package com.mygdx.fruitwars.screens;
 
+import java.awt.event.MouseEvent;
+
 import net.dermetfan.gdx.graphics.g2d.Box2DSprite;
 
 import com.badlogic.gdx.Game;
@@ -14,6 +16,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -25,8 +28,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.fruitwars.collision.Collision;
 import com.mygdx.fruitwars.Controller;
+import com.mygdx.fruitwars.collision.Collision;
+import com.mygdx.fruitwars.tokens.Costume;
 import com.mygdx.fruitwars.tokens.Minion;
 import com.mygdx.fruitwars.tokens.Projectile;
 
@@ -69,6 +73,7 @@ public class GameScreen extends ScreenAdapter {
 		
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
+		
 		
 		Skin skin = new Skin(Gdx.files.internal("skins/uiskin.json"));
 		
@@ -113,8 +118,8 @@ public class GameScreen extends ScreenAdapter {
 		sb = new SpriteBatch();
 		bodies = new Array<Body>();
 		
-		activeBody = Minion.createMinion(world, new Vector2(400, 200), new Vector2(32, 32));
-		activeMinion = (Minion) activeBody.getUserData();
+		activeMinion = new Minion(world, new Vector2(400, 200), Costume.APPLE);
+		activeBody = activeMinion.getBody();
 		
 //		Body bulletBody = Bullet.createBullet(world, new Vector2(600,200), new Vector2(22,12));
 		
@@ -159,6 +164,7 @@ public class GameScreen extends ScreenAdapter {
 		controller.render(dt);
 		spriteRender(dt);
 		box2DRender(dt);
+		camera.position.set(activeMinion.getBody().getPosition(), 0f);
 		camera.update();
 		removeDeadBodies();
 		world.step(dt, 6,  6);	
@@ -236,7 +242,7 @@ public class GameScreen extends ScreenAdapter {
 	public TextButton getJumpBtn() {
 		return jumpBtn;
 	}
-
+	
 	public boolean fireBullet(int screenX, int screenY) {
 		
 		if (System.currentTimeMillis() - lastFire >= 350) {
@@ -245,8 +251,10 @@ public class GameScreen extends ScreenAdapter {
 		
 			Vector2 bulletVelocity = new Vector2(500, 100);
 		
-			Body bodyProjectile = Projectile.createProjectile(world, new Vector2(screenX, camera.viewportHeight-screenY), new Vector2(22, 12), bulletVelocity);
+			Projectile current_projectile = new Projectile(world, new Vector2(screenX, camera.viewportHeight-screenY), new Vector2(22, 12), bulletVelocity);
 		
+			Body bodyProjectile = current_projectile.getBody();
+				
 			bodyProjectile.applyLinearImpulse(bulletVelocity.x, bulletVelocity.y, screenX, camera.viewportHeight-screenY, true);
 			
 		//	bodyProjectile.applyForceToCenter(bulletVelocity.x, bulletVelocity.y, true);
@@ -274,6 +282,13 @@ public class GameScreen extends ScreenAdapter {
 	
 	public OrthographicCamera getCamera() {
 		return camera;
+	}
+
+	//Not tested but should convert screen coordinates to world coordinates
+	public Vector2 getWorldCoordinates(float screenX, float screenY) {
+		Vector3 vec = new Vector3(screenX, camera.viewportHeight-screenY, 0.f);
+		vec = camera.unproject(vec);
+		return new Vector2(vec.x, vec.y);
 	}
 
 }

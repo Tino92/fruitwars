@@ -1,11 +1,9 @@
 package com.mygdx.fruitwars.tokens;
 
-import net.dermetfan.gdx.graphics.g2d.Box2DSprite;
-
 import com.badlogic.gdx.graphics.Texture;
 
-public class Weapon extends Box2DSprite {
-	protected int damage = 50;  // Hard-coded for testing purposes
+public class Weapon extends Token {
+	protected int damage = 50; // Hard-coded for testing purposes
 	protected boolean destroy = false;
 	
 	public Weapon(Texture tex) {
