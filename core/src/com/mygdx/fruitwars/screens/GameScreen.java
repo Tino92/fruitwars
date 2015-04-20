@@ -82,11 +82,7 @@ public class GameScreen implements Screen{
 		players = new Array<Player>();
 		Array<Minion> minions_p1 = new Array<Minion>();
 		Array<Minion> minions_p2 = new Array<Minion>();
-		for (int i=0; i< Constants.NUM_MINIONS; i++){
-			minions_p1.add(new Minion(world,new Vector2(400+i*10,400),SpriteCostume.APPLE));
-			minions_p2.add(new Minion(world,new Vector2(400+i*10,400),SpriteCostume.BANANA));
-			
-		}
+		
 		
 		players.add(new Player(Constants.PLAYER1,minions_p1));
 		players.add(new Player(Constants.PLAYER2,minions_p2));
@@ -105,6 +101,11 @@ public class GameScreen implements Screen{
 				gameMode = new Default(this);
 		}
 		
+		for (int i=0; i< Constants.NUM_MINIONS; i++){
+			minions_p1.add(new Minion(world,new Vector2(400+i*10,400),SpriteCostume.APPLE, gameMode.getMinionsHealth()));
+			minions_p2.add(new Minion(world,new Vector2(400+i*10,400),SpriteCostume.BANANA, gameMode.getMinionsHealth()));
+			
+		}
 		turnTimeLeft = gameMode.getTurnTime();
 		bullets = new Array<Bullet>();
 		
@@ -146,8 +147,8 @@ public class GameScreen implements Screen{
 		spriteBatch = new SpriteBatch();
 		bodies = new Array<Body>();
 		
-		activeMinion = new Minion(world, new Vector2(400, 200), SpriteCostume.APPLE);
-		activeBody = activeMinion.getBody();
+		//activeMinion = new Minion(world, new Vector2(400, 200), SpriteCostume.APPLE, gameMode.getMinionsHealth());
+		//activeBody = activeMinion.getBody();
 		
 //		Body bulletBody = Bullet.createBullet(world, new Vector2(600,200), new Vector2(22,12));
 		

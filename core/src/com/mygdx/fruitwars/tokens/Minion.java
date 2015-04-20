@@ -13,9 +13,9 @@ public class Minion extends Token {
 	public static final Vector2 dimension = new Vector2(32, 32);
 	public static final float density = 10f;
 	public static final float restitution = 0.1f;
-	public static final float friction = 0.9f;
+	public static final float friction = 10f;
 
-	public Minion(World world, Vector2 position, SpriteCostume costume) {
+	public Minion(World world, Vector2 position, SpriteCostume costume, int health) {
 		super(new Texture(costume.toString()));
 		Body body;
 		PolygonShape polygon = new PolygonShape();
@@ -37,6 +37,7 @@ public class Minion extends Token {
 		body.setUserData(this);
 		fd.shape.dispose();
 		this.setBody(body);
+		this.health = health;
 	}
 
 	public void move_left() {

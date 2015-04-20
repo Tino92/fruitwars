@@ -77,7 +77,7 @@ public class UserInterface{
             public void clicked(InputEvent event, float x, float y) {
             	if (!gameScreen.isPaused()){
             		System.out.println("Left pressed!");
-            		//gameScreen.getCurrentPlayer().getActiveMinion().left();
+            		gameScreen.getCurrentPlayer().getActiveMinion().move_left();
             	}
             }
         });
@@ -87,7 +87,7 @@ public class UserInterface{
             public void clicked(InputEvent event, float x, float y) {
             	if (!gameScreen.isPaused()){
             		System.out.println("Right pressed!");
-            		//gameScreen.getCurrentPlayer().getActiveMinion().right();
+            		gameScreen.getCurrentPlayer().getActiveMinion().move_right();
             	}
             }
         });
