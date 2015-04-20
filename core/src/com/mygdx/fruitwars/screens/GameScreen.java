@@ -122,9 +122,6 @@ public class GameScreen implements Screen{
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
 		
-		
-		Skin skin = new Skin(Gdx.files.internal("skins/uiskin.json"));
-		
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, w, h);
