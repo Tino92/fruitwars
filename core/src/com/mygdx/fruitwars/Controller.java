@@ -91,7 +91,7 @@ public class Controller {
 	
 	private void attack(int x, int y) {
 		System.out.println("firebullet fired");
-		bulletFired = gameScreen.fireBullet(x, y);
+//		bulletFired = gameScreen.fireBullet(x, y);
 	}
 	
 	
