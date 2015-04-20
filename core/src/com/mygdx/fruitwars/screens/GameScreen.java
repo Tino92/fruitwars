@@ -134,11 +134,6 @@ public class GameScreen implements Screen{
 		spriteBatch = new SpriteBatch();
 		bodies = new Array<Body>();
 		
-		//activeMinion = new Minion(world, new Vector2(400, 200), SpriteCostume.APPLE, gameMode.getMinionsHealth());
-		//activeBody = activeMinion.getBody();
-		
-//		Body bulletBody = Bullet.createBullet(world, new Vector2(600,200), new Vector2(22,12));
-		
 	}
 	
 	private void clearScreen() {
