@@ -41,12 +41,10 @@ import com.mygdx.fruitwars.utils.Constants;
 public class GameScreen implements Screen{
 	
 	public static final String TAG = "GameScreen";
-	
 	final FruitWarsMain game;
 	public OrthographicCamera camera;
 	public InputMultiplexer inputMultiplexer;
 	public boolean paused = false;
-	
 	private Array<Player> players;
 	private int currentPlayer = Constants.PLAYER1;
 	private Collision collision;
@@ -54,7 +52,6 @@ public class GameScreen implements Screen{
 	private int turnTimeLeft;
 	private UserInterface userInterface;
 	private GameMode gameMode;
-	
 	private Array<Body> bodies;
 	private static float ppt = 0;
 	private TiledMap map;
@@ -62,6 +59,7 @@ public class GameScreen implements Screen{
 	private OrthogonalTiledMapRenderer mapRenderer;
 	private Box2DDebugRenderer box2DRenderer;
 	private World world;
+	private Minion activeMinion;
 	
 
 	
@@ -69,7 +67,8 @@ public class GameScreen implements Screen{
 		this.game = game;
 		
 		world = new World(new Vector2(0.0f, -0.5f), true);
-		world.setContactListener(new Collision());
+		collision = new Collision();
+		world.setContactListener(collision);
 		
 		players = new Array<Player>();
 		Array<Minion> minions_p1 = new Array<Minion>();
@@ -94,8 +93,8 @@ public class GameScreen implements Screen{
 		}
 		
 		for (int i=0; i< Constants.NUM_MINIONS; i++){
-			minions_p1.add(new Minion(world,new Vector2(400+i*10,400),SpriteCostume.APPLE, gameMode.getMinionsHealth()));
-			minions_p2.add(new Minion(world,new Vector2(400+i*10,400),SpriteCostume.BANANA, gameMode.getMinionsHealth()));
+			minions_p1.add(new Minion(world,new Vector2(400+i*10,200),SpriteCostume.APPLE, gameMode.getMinionsHealth()));
+			minions_p2.add(new Minion(world,new Vector2(500+i*10,200),SpriteCostume.BANANA, gameMode.getMinionsHealth()));
 			
 		}
 		turnTimeLeft = gameMode.getTurnTime();
@@ -119,7 +118,7 @@ public class GameScreen implements Screen{
 
 		
 		// References to the controllers
-		userInterface = new UserInterface(this);
+		userInterface = new UserInterface(this, collision);
 		controller = new Controller(this);
 		inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(0, userInterface.getStage());
@@ -134,6 +133,8 @@ public class GameScreen implements Screen{
 		spriteBatch = new SpriteBatch();
 		bodies = new Array<Body>();
 		
+		activeMinion = players.get(currentPlayer).getActiveMinion();
+		activeMinion.getSensorBody().getFixtureList().get(0).setUserData("activeFoot");
 	}
 	
 	private void clearScreen() {
@@ -147,6 +148,13 @@ public class GameScreen implements Screen{
 	}
 	
 	private void spriteRender(float dt) {
+		Minion currentlyActiveMinion = players.get(currentPlayer).getActiveMinion();
+		if (activeMinion == null || activeMinion != currentlyActiveMinion) {
+			activeMinion.getSensorBody().getFixtureList().get(0).setUserData("foot");
+			activeMinion = currentlyActiveMinion;
+			activeMinion.getSensorBody().getFixtureList().get(0).setUserData("activeFoot");
+		}
+		
 		spriteBatch.setProjectionMatrix(camera.combined);
 		spriteBatch.begin();
 		world.getBodies(bodies);

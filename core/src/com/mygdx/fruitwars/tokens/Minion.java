@@ -1,6 +1,7 @@
 package com.mygdx.fruitwars.tokens;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -14,6 +15,7 @@ public class Minion extends Token {
 	public static final float density = 10f;
 	public static final float restitution = 0.1f;
 	public static final float friction = 10f;
+	private Body sensorBody;
 
 	public Minion(World world, Vector2 position, SpriteCostume costume, int health) {
 		super(new Texture(costume.toString()));
@@ -38,21 +40,65 @@ public class Minion extends Token {
 		fd.shape.dispose();
 		this.setBody(body);
 		this.health = health;
+		
+		createSensorBody(world);
 	}
 
-	public void move_left() {
-		System.out.println("Moving left");
-		if (!this.body.isAwake()) {
-			this.body.setLinearVelocity(new Vector2(-100f, 50f));
-		}
-
+	public void moveLeft() {
+		this.body.applyForceToCenter(new Vector2(-100000f, 100000f), true);
 	}
 
-	public void move_right() {
-		System.out.println("Moving right");
-		if (!this.body.isAwake()) {
-			this.body.setLinearVelocity(new Vector2(100f, 50f));
-		}
+	public void moveRight() {
+		this.body.applyForceToCenter(new Vector2(100000f, 100000f), true);
+	}
+	
+	public void moveLeftInAir() {
+		this.body.applyForceToCenter(new Vector2(-100000f, 0), true);
+	}
+	
+	public void moveRightInAir() {
+		this.body.applyForceToCenter(new Vector2(100000f, 0), true);
+	}
+
+	public void jump() {
+		this.body.setLinearVelocity(new Vector2(0f, 5f));
+	}
+	
+	public void stopHorizontalMovement() {
+		body.setLinearVelocity(0, body.getLinearVelocity().y);
+	}
+	
+	private void createSensorBody(World world) {
+		BodyDef bd = new BodyDef();
+		bd.type = BodyType.DynamicBody;
+		bd.position.set(body.getPosition());
+		sensorBody = world.createBody(bd);
+		
+		
+		// create box shape for player foot
+		PolygonShape polygon = new PolygonShape();
+		polygon.setAsBox(5, 3);
+		
+		// create fixturedef for player foot
+		FixtureDef fd = new FixtureDef();
+		fd.shape = polygon;
+		fd.isSensor = true;
+		
+		// create player foot fixture
+		sensorBody.createFixture(fd).setUserData("foot");
+		polygon.dispose();
+	}
+	
+	@Override
+	public void draw(Batch batch, Body b) {
+		Vector2 bodyPos = body.getPosition();
+		bodyPos.x += (dimension.x / 2);
+		sensorBody.setTransform(bodyPos, 0);
+		super.draw(batch, b);
+	}
+
+	public Body getSensorBody() {
+		return sensorBody;
 	}
 
 }

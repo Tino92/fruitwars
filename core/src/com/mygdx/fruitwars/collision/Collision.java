@@ -1,9 +1,9 @@
 package com.mygdx.fruitwars.collision;
 
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.mygdx.fruitwars.tokens.Minion;
 import com.mygdx.fruitwars.tokens.Projectile;
@@ -12,12 +12,15 @@ public class Collision implements ContactListener {
 	
 	private int damage;
 	private int health;
+	private boolean playerOnGround = false;
 
 
 	@Override
 	public void beginContact(Contact contact) {
-		Object collisionObjectA = contact.getFixtureA().getBody().getUserData();
-		Object collisionObjectB = contact.getFixtureB().getBody().getUserData();
+		Fixture fixtureA = contact.getFixtureA();
+		Fixture fixtureB = contact.getFixtureB();
+		Object collisionObjectA = fixtureA.getBody().getUserData();
+		Object collisionObjectB = fixtureB.getBody().getUserData();
 		
 		/*
 		 * Collision between minion and projectile: Update health
@@ -45,6 +48,12 @@ public class Collision implements ContactListener {
 			Projectile current_projectile = (Projectile) collisionObjectB;
 			current_projectile.setDestroy(true);
 		}
+		
+		if ((fixtureA.getUserData() != null && fixtureA.getUserData().equals("activeFoot")) 
+				|| (fixtureB.getUserData() != null && fixtureB.getUserData().equals("activeFoot"))) {
+			playerOnGround = true;
+			System.out.println("Player on ground");
+		}
 	}
 	
 	private void updateHealth(Object minion, Object projectile) {
@@ -61,8 +70,14 @@ public class Collision implements ContactListener {
 
 	@Override
 	public void endContact(Contact contact) {
-		// TODO Auto-generated method stub
+		Fixture fixtureA = contact.getFixtureA();
+		Fixture fixtureB = contact.getFixtureB();
 		
+		if ((fixtureA.getUserData() != null && fixtureA.getUserData().equals("activeFoot"))
+				|| (fixtureB.getUserData() != null && fixtureB.getUserData().equals("activeFoot"))) {
+			playerOnGround = false;
+			System.out.println("Player no longer on ground");
+		}
 	}
 
 	@Override
@@ -75,6 +90,10 @@ public class Collision implements ContactListener {
 	public void postSolve(Contact contact, ContactImpulse impulse) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public boolean isPlayerOnGround() {
+		return playerOnGround;
 	}
 
 	
