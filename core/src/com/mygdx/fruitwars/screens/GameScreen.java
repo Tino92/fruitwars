@@ -117,13 +117,6 @@ public class GameScreen implements Screen{
 		float w, h;
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
-		
-		controller = new Controller(this);
-		
-		stage = new Stage();
-		Gdx.input.setInputProcessor(stage);
-		
-		
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, w, h);
@@ -189,11 +182,12 @@ public class GameScreen implements Screen{
 	@Override
 	public void render(float dt) {
 		dt = Math.max(dt, 0.25f);
+		clearScreen();
 		
 		if (!paused){
 			//collision.collisionCheck();
 		
-			clearScreen();
+			
 			mapRender(dt);
 			spriteRender(dt);
 			//box2DRender(dt);
@@ -287,27 +281,6 @@ public class GameScreen implements Screen{
 		}
 	}
 	
-/*	public boolean fireBullet(int screenX, int screenY) {
-		
-		if (System.currentTimeMillis() - lastFire >= 350) {
-					
-			lastFire = System.currentTimeMillis();
-		
-			Vector2 bulletVelocity = new Vector2(500, 100);
-		
-			Projectile current_projectile = new Projectile(world, new Vector2(screenX, camera.viewportHeight-screenY), new Vector2(22, 12), bulletVelocity);
-		
-			Body bodyProjectile = current_projectile.getBody();
-				
-			bodyProjectile.applyLinearImpulse(bulletVelocity.x, bulletVelocity.y, screenX, camera.viewportHeight-screenY, true);
-			
-		//	bodyProjectile.applyForceToCenter(bulletVelocity.x, bulletVelocity.y, true);
-			
-			return true;
-		}
-		return false;
-	}
-	*/
 
 
 	//Not tested but should convert screen coordinates to world coordinates
@@ -367,8 +340,17 @@ public class GameScreen implements Screen{
 	
 	public void moveCamera(int x){
 		MapProperties prop = map.getProperties();
+		int mapWidth = prop.get("width", Integer.class);
+		int tilePixelWidth = prop.get("tilewidth", Integer.class);
+
+		int mapPixelWidth = mapWidth * tilePixelWidth;
 		
-		camera.translate(x,0);
+		if(camera.position.x+camera.viewportWidth/2 >mapPixelWidth){
+			camera.position.x = mapPixelWidth - camera.viewportWidth/2;
+		}else if (camera.position.x<camera.viewportWidth/2){
+			camera.position.x = camera.viewportWidth/2;
+		}else
+			camera.translate(x, 0);
 	}
 
 }

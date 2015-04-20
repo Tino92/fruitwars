@@ -53,14 +53,12 @@ public class Controller implements InputProcessor{
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
 		Vector2 newTouch = new Vector2(screenX, screenY);
-	    // delta will now hold the difference between the last and the current touch positions
-	    // delta.x > 0 means the touch moved to the right, delta.x < 0 means a move to the left
 	    Vector2 delta = newTouch.cpy().sub(lastTouch);
 	    
 	    if (delta.x>0)
-	    	gameScreen.camera.translate(10, 0);
+	    	gameScreen.moveCamera(-5);
 	    else
-	    	gameScreen.camera.translate(-10,0);
+	    	gameScreen.moveCamera(5);
 	    
 	    lastTouch = newTouch;
 		return false;
