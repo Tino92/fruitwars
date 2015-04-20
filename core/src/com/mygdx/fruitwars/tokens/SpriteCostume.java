@@ -3,7 +3,7 @@ package com.mygdx.fruitwars.tokens;
 public enum SpriteCostume {
 	APPLE("sprites/Apple.png"), BANANA("sprites/Banana.png"), PEAR(
 			"sprites/Pear.png"), PINEAPPLE("sprites/Pinepple.png"), ORANGE(
-			"sprites/Orange.png");
+			"sprites/Orange.png"), CROSSHAIR("crosshairs.png");
 
 	private final String url;
 

@@ -10,12 +10,13 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class Projectile extends Weapon {
-	public static final float density = 10f;
+	public static final float density = 1;
 	public static final float restitution = 1.0f;
-	public static final float friction = 0.0f;
+	public static final float friction = 0.3f;
+	public static final Vector2 dimension = new Vector2(16, 8);
 
-	public Projectile(World world, Vector2 position,
-			Vector2 dimension, Vector2 velocity, ProjectileCostume costume) {
+	public Projectile(World world,
+			Vector2 position, Vector2 bulletVelocity, ProjectileCostume costume) {
 		super(new Texture(costume.toString()));
 		Body body;
 		PolygonShape polygon = new PolygonShape();
@@ -23,7 +24,7 @@ public class Projectile extends Weapon {
 		polygon.setAsBox(dimension.x * 0.5f, dimension.y * 0.5f, size, 0.0f);
 		FixtureDef fd = new FixtureDef();
 		fd.density = density; 
-		fd.restitution = restitution; 
+//		fd.restitution = restitution; 
 		fd.friction = friction; 
 		fd.shape = polygon;
 		
@@ -34,8 +35,10 @@ public class Projectile extends Weapon {
 		body = world.createBody(bd);
 		body.createFixture(fd);
 		body.setUserData(this);
+		body.setLinearVelocity(bulletVelocity);
 		this.setBody(body);
 		fd.shape.dispose();
 	}
+	
 	
 }

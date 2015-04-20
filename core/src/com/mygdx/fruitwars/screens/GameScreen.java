@@ -30,9 +30,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.fruitwars.Controller;
 import com.mygdx.fruitwars.collision.Collision;
+import com.mygdx.fruitwars.tokens.Crosshairs;
+import com.mygdx.fruitwars.tokens.ProjectileCostume;
 import com.mygdx.fruitwars.tokens.SpriteCostume;
 import com.mygdx.fruitwars.tokens.Minion;
 import com.mygdx.fruitwars.tokens.Projectile;
+import com.mygdx.fruitwars.tokens.WeaponCostume;
+import com.mygdx.fruitwars.tokens.WeaponSprite;
 
 public class GameScreen extends ScreenAdapter {
 	private Array<Body> bodies;
@@ -190,6 +194,12 @@ public class GameScreen extends ScreenAdapter {
 					world.destroyBody(b);
 				}
 			}
+			if (b.getUserData() instanceof Crosshairs) {
+				Crosshairs data = (Crosshairs) b.getUserData();
+				if (data.isSetToRemove()) {
+					world.destroyBody(b);
+				}
+			}
 		}
 	}
 		   
@@ -243,27 +253,6 @@ public class GameScreen extends ScreenAdapter {
 		return jumpBtn;
 	}
 	
-/*	public boolean fireBullet(int screenX, int screenY) {
-		
-		if (System.currentTimeMillis() - lastFire >= 350) {
-					
-			lastFire = System.currentTimeMillis();
-		
-			Vector2 bulletVelocity = new Vector2(500, 100);
-		
-			Projectile current_projectile = new Projectile(world, new Vector2(screenX, camera.viewportHeight-screenY), new Vector2(22, 12), bulletVelocity);
-		
-			Body bodyProjectile = current_projectile.getBody();
-				
-			bodyProjectile.applyLinearImpulse(bulletVelocity.x, bulletVelocity.y, screenX, camera.viewportHeight-screenY, true);
-			
-		//	bodyProjectile.applyForceToCenter(bulletVelocity.x, bulletVelocity.y, true);
-			
-			return true;
-		}
-		return false;
-	}
-	*/
 	
 	public TextButton getFireBtn() {
 		return fireBtn;
@@ -290,6 +279,10 @@ public class GameScreen extends ScreenAdapter {
 		Vector3 vec = new Vector3(screenX, camera.viewportHeight-screenY, 0.f);
 		vec = camera.unproject(vec);
 		return new Vector2(vec.x, vec.y);
+	}
+	
+	public World getWorld() {
+		return world;
 	}
 
 }

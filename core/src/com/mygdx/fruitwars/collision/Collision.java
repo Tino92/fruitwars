@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.mygdx.fruitwars.tokens.Crosshairs;
 import com.mygdx.fruitwars.tokens.Minion;
 import com.mygdx.fruitwars.tokens.Projectile;
 
@@ -20,17 +21,33 @@ public class Collision implements ContactListener {
 		
 		/*
 		 * Collision between minion and projectile: Update health
-		 */
+		*/
+		
+		//testing
+		
+		if (collisionObjectA instanceof Projectile || collisionObjectB instanceof Projectile) {
+			return;
+		}	
+		
+		//testing
+		if (collisionObjectA instanceof Crosshairs || collisionObjectB instanceof Crosshairs) {
+			return;
+		}	
+		
+		
+		
 		if (collisionObjectA instanceof Minion  && collisionObjectB instanceof Projectile) {
 			updateHealth(collisionObjectA, collisionObjectB);
 		}
+		
 		else if (collisionObjectB instanceof Minion && collisionObjectA instanceof Projectile) {
 			updateHealth(collisionObjectB, collisionObjectA);
 		}
+
 		/*
 		 * Collision between two projectiles: Ignore
 		 */
-		else if (collisionObjectA instanceof Projectile && collisionObjectB instanceof Projectile) {
+		if (collisionObjectA instanceof Projectile && collisionObjectB instanceof Projectile) {
 			return;
 		}		
 		/*
@@ -44,6 +61,7 @@ public class Collision implements ContactListener {
 			Projectile current_projectile = (Projectile) collisionObjectB;
 			current_projectile.setDestroy(true);
 		}
+		
 	}
 	
 	private void updateHealth(Object minion, Object projectile) {
