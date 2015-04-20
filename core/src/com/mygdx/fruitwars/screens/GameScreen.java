@@ -207,7 +207,7 @@ public class GameScreen implements Screen{
 			//box2DRender(dt);
 			camera.update();
 			world.step(dt, 6,  6);
-			
+			removeDeadBodies();
 			//Check if game is finished
 			if (gameMode.gameFinished())
 				game.setScreen(new GameOverScreen(game,players.get(Constants.PLAYER1).getScore(),players.get(Constants.PLAYER2).getScore()));
@@ -244,10 +244,10 @@ public class GameScreen implements Screen{
 			
 			if (b.getUserData() instanceof Minion) {
 				Minion data = (Minion) b.getUserData();
-				for(Player player: players)
-					player.removeMinion(data);
 				if (data.getHealth() <= 0) {
 					world.destroyBody(b);
+					for(Player player: players)
+						player.removeMinion(data);
 				}
 			}
 			if (b.getUserData() instanceof Projectile) {
@@ -367,6 +367,10 @@ public class GameScreen implements Screen{
 			camera.position.x = camera.viewportWidth/2;
 		}else
 			camera.translate(x, 0);
+	}
+	
+	public GameMode getGameMode(){
+		return gameMode;
 	}
 
 }

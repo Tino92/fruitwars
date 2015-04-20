@@ -11,7 +11,6 @@ public class Player {
 	
 	private Array<Minion> minions = new Array<Minion>();
 	private Weapon weapon;
-	private int score = 0;
 	private int playerNumber;
 	public int activeMinion = 0;
 	public boolean weaponFired = false;
@@ -25,11 +24,10 @@ public class Player {
 	}
 	
 	public int getScore() {
+		int score=0;
+		for(Minion minion: minions)
+			score += minion.getHealth();
 		return score;
-	}
-
-	public void setScore(int score) {
-		this.score = score;
 	}
 	
 

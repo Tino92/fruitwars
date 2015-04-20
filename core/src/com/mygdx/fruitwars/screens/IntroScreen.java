@@ -50,7 +50,7 @@ public class IntroScreen implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //game.setScreen(new GameOverScreen(game));
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new GameOverScreen(game,10,10));
             }
         });
 		

@@ -121,10 +121,10 @@ public class SettingsScreen implements Screen{
 		int buttonHeight = Gdx.graphics.getHeight()/7;
         //table.setDebug(true);
         table.add(title).padBottom(80).top().colspan(4).row();
-	    table.add(buttonDefault).size(buttonWidth,buttonHeight).padBottom(20).padRight(20);
-	    table.add(buttonHighPace).size(buttonWidth,buttonHeight).padBottom(20).padRight(20);
-	    table.add(buttonJuggernaut).size(buttonWidth,buttonHeight).padBottom(20).padRight(20);
-	    table.add(buttonOneShot).size(buttonWidth,buttonHeight).padBottom(20).padRight(20).row();
+	    table.add(buttonDefault).size(buttonWidth,buttonHeight).padBottom(20).padRight(30);
+	    table.add(buttonHighPace).size(buttonWidth,buttonHeight).padBottom(20).padRight(30);
+	    table.add(buttonJuggernaut).size(buttonWidth,buttonHeight).padBottom(20).padRight(30);
+	    table.add(buttonOneShot).size(buttonWidth,buttonHeight).padBottom(20).padRight(30).row();
 	    table.add(buttonExit).colspan(4).size(buttonWidth,buttonHeight);
 
 	    table.setFillParent(true);

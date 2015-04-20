@@ -3,7 +3,11 @@ package com.mygdx.fruitwars.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -12,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.fruitwars.FruitWarsMain;
 
@@ -65,13 +70,16 @@ public class GameOverScreen implements Screen{
 		int buttonWidth = Gdx.graphics.getWidth()/7;
 		int buttonHeight = Gdx.graphics.getHeight()/7;
 		
+		
+		//NinePatch bg = new NinePatch(new Texture(Gdx.files.internal("backgrounds/gameover.png")), 1, 1, 1, 12);
+		//table.setBackground(new NinePatchDrawable(bg));
 	    table.add(title).padBottom(80).row();
 	    table.add(buttonRestart).size(buttonWidth,buttonHeight).padBottom(20).row();
 	    table.add(buttonExit).size(buttonWidth,buttonHeight).padBottom(20).row();
 
 	    table.setFillParent(true);
 	    stage.addActor(table);
-
+	    
 	    Gdx.input.setInputProcessor(stage);
 	    
 	    
