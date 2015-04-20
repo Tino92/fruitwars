@@ -36,7 +36,7 @@ public class Player {
 	}
 	
 	public Minion getActiveMinion() {
-		Gdx.app.debug(TAG, "getActiveMinion: " + activeMinion + " from Player: " + playerNumber);
+		//Gdx.app.debug(TAG, "getActiveMinion: " + activeMinion + " from Player: " + playerNumber);
 		return minions.get(activeMinion);
 	}
 	
@@ -49,6 +49,7 @@ public class Player {
 	}
 	
 	public void removeMinion(Minion minion) {
+		System.out.println("Removed minion from player: " + getPlayerNumber());
 		minions.removeValue(minion, true);
 	}
 	
