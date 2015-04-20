@@ -50,6 +50,8 @@ public class GameScreen extends ScreenAdapter {
 	private TextButton fireBtn;
 	private TextButton abortFireBtn;
 	
+	long lastFire = 0;
+	
 	public GameScreen(Game game) {
 		this.game = game;
 	}
@@ -176,6 +178,12 @@ public class GameScreen extends ScreenAdapter {
 					world.destroyBody(b);
 				}
 			}
+			if (b.getUserData() instanceof Projectile) {
+				Projectile data = (Projectile) b.getUserData();
+				if (data.getDestroy()) {
+					world.destroyBody(b);
+				}
+			}
 		}
 	}
 		   
@@ -228,20 +236,26 @@ public class GameScreen extends ScreenAdapter {
 	public TextButton getJumpBtn() {
 		return jumpBtn;
 	}
-/*
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		this.touchDown = new Vector2(screenX, camera.viewportHeight-screenY);
-		//Minion.createMinion(world, touchDown, new Vector2(32, 32));
+
+	public boolean fireBullet(int screenX, int screenY) {
 		
-		Vector2 bulletVelocity = new Vector2(500, 100);
+		if (System.currentTimeMillis() - lastFire >= 350) {
+					
+			lastFire = System.currentTimeMillis();
 		
-		Body bodyProjectile = Projectile.createProjectile(world, touchDown, new Vector2(22, 12), bulletVelocity);
+			Vector2 bulletVelocity = new Vector2(500, 100);
 		
-		bodyProjectile.applyForceToCenter(bulletVelocity.x, bulletVelocity.y, true);
+			Body bodyProjectile = Projectile.createProjectile(world, new Vector2(screenX, camera.viewportHeight-screenY), new Vector2(22, 12), bulletVelocity);
 		
+			bodyProjectile.applyLinearImpulse(bulletVelocity.x, bulletVelocity.y, screenX, camera.viewportHeight-screenY, true);
+			
+		//	bodyProjectile.applyForceToCenter(bulletVelocity.x, bulletVelocity.y, true);
+			
+			return true;
+		}
 		return false;
 	}
-*/
+	
 	public TextButton getFireBtn() {
 		return fireBtn;
 	}
