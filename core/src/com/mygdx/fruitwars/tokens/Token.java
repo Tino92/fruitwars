@@ -14,6 +14,10 @@ public class Token extends Box2DSprite {
 		this.body = body;
 	}
 	
+	public Token(Texture tex) {
+		super(tex);
+	}
+	
 	public int getHealth() {
 		return this.health;
 	}
@@ -24,5 +28,9 @@ public class Token extends Box2DSprite {
 	
 	public Body getBody() {
 		return this.body;
+	}
+	
+	public void setBody(Body body) {
+		this.body = body;
 	}
 }
