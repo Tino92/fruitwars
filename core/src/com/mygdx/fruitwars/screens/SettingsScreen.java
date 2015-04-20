@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.fruitwars.FruitWarsMain;
-import com.mygdx.fruitwars.utils.Constants;
 
 import static com.mygdx.fruitwars.utils.Constants.*;
 

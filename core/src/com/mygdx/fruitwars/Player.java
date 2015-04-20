@@ -1,13 +1,10 @@
 package com.mygdx.fruitwars;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.fruitwars.tokens.Minion;
 import com.mygdx.fruitwars.tokens.Weapon;
 
 public class Player {
-	
-	private static String TAG = "Player";
 	
 	private Array<Minion> minions = new Array<Minion>();
 	private Weapon weapon;
