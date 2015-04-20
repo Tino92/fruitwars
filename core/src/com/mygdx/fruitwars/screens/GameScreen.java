@@ -76,6 +76,9 @@ public class GameScreen implements Screen{
 	public GameScreen(FruitWarsMain game) {
 		this.game = game;
 		
+		world = new World(new Vector2(0.0f, -0.5f), true);
+		world.setContactListener(new Collision());
+		
 		players = new Array<Player>();
 		Array<Minion> minions_p1 = new Array<Minion>();
 		Array<Minion> minions_p2 = new Array<Minion>();
@@ -109,8 +112,6 @@ public class GameScreen implements Screen{
 	
 	@Override
 	public void show() {
-		world = new World(new Vector2(0.0f, -0.5f), true);
-		world.setContactListener(new Collision());
 		
 		float w, h;
 		w = Gdx.graphics.getWidth();
@@ -196,7 +197,7 @@ public class GameScreen implements Screen{
 			clearScreen();
 			mapRender(dt);
 			spriteRender(dt);
-			box2DRender(dt);
+			//box2DRender(dt);
 			camera.update();
 			world.step(dt, 6,  6);
 			
