@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -38,6 +39,7 @@ import com.mygdx.fruitwars.modes.OneShot;
 import com.mygdx.fruitwars.tokens.Bullet;
 import com.mygdx.fruitwars.tokens.Minion;
 import com.mygdx.fruitwars.tokens.Projectile;
+import com.mygdx.fruitwars.tokens.SpriteCostume;
 import com.mygdx.fruitwars.utils.Constants;
 
 public class GameScreen implements Screen{
@@ -78,8 +80,8 @@ public class GameScreen implements Screen{
 		Array<Minion> minions_p1 = new Array<Minion>();
 		Array<Minion> minions_p2 = new Array<Minion>();
 		for (int i=0; i< Constants.NUM_MINIONS; i++){
-			minions_p1.add(new Minion(world,new Vector2(0,0),Costume.APPLE));
-			minions_p2.add(new Minion(world,new Vector2(0,0),Costume.BANANA));
+			minions_p1.add(new Minion(world,new Vector2(0,0),SpriteCostume.APPLE));
+			minions_p2.add(new Minion(world,new Vector2(0,0),SpriteCostume.BANANA));
 			
 		}
 		
