@@ -166,23 +166,24 @@ public class Controller {
 	
 	private void fireBullet() {
 		System.out.println("last fire" + lastFire + "----current_time" + System.currentTimeMillis());
+		Body activeMinion = gameScreen.getActiveBody();
 		if (System.currentTimeMillis() - lastFire >= 350) {
 			System.out.println("Fire bullet");
-			float velocityX = 200;
-			Body activeMinion = gameScreen.getActiveBody();
+			float velocityX = 200;	
 			Vector2 bulletPosition = new Vector2(0, 0);
-			bulletPosition.x = activeMinion.getPosition().x + (bulletVelocity.x / crosshairs.getBody().getPosition().x);
-			bulletPosition.y = activeMinion.getPosition().y + (bulletVelocity.y / crosshairs.getBody().getPosition().y) ;
+			bulletPosition.x = activeMinion.getPosition().x;
+			bulletPosition.y = activeMinion.getPosition().y;
 			/*	if (!activeMinion.isFacingRight()) {
 				velocityX = -velocityX; 
 			}*/
 			//Bullet bullet = new Bullet(new Sprite(new Texture("bullet.png")), collisionLayer, new Vector2(activeMinion.getX(), activeMinion.getY()), bulletVelocity, true);
+			activeMinion.setActive(false);
 			Projectile projectile = new Projectile(world, bulletPosition, bulletVelocity, ProjectileCostume.UZI);
 			System.out.println("new projectile created");
 			//addEntity(bullet);
-			
 			lastFire = System.currentTimeMillis();
 		}
+		activeMinion.setActive(true);
 		nextPlayer();
 	}
 	
