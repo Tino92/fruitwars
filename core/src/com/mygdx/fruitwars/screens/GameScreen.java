@@ -2,7 +2,6 @@ package com.mygdx.fruitwars.screens;
 
 import net.dermetfan.gdx.graphics.g2d.Box2DSprite;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
@@ -23,8 +22,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.fruitwars.Controller;
 import com.mygdx.fruitwars.FruitWarsMain;
@@ -36,7 +33,6 @@ import com.mygdx.fruitwars.modes.GameMode;
 import com.mygdx.fruitwars.modes.HighPace;
 import com.mygdx.fruitwars.modes.Juggernaut;
 import com.mygdx.fruitwars.modes.OneShot;
-import com.mygdx.fruitwars.tokens.Bullet;
 import com.mygdx.fruitwars.tokens.Minion;
 import com.mygdx.fruitwars.tokens.Projectile;
 import com.mygdx.fruitwars.tokens.SpriteCostume;
@@ -53,7 +49,6 @@ public class GameScreen implements Screen{
 	
 	private Array<Player> players;
 	private int currentPlayer = Constants.PLAYER1;
-	private Array<Bullet> bullets;
 	private Collision collision;
 	private Controller controller;
 	private int turnTimeLeft;
@@ -67,9 +62,6 @@ public class GameScreen implements Screen{
 	private OrthogonalTiledMapRenderer mapRenderer;
 	private Box2DDebugRenderer box2DRenderer;
 	private World world;
-	private Minion activeMinion;
-	private Body activeBody;
-	private Stage stage;
 	
 
 	
@@ -107,7 +99,6 @@ public class GameScreen implements Screen{
 			
 		}
 		turnTimeLeft = gameMode.getTurnTime();
-		bullets = new Array<Bullet>();
 		
 	}
 	
@@ -117,12 +108,6 @@ public class GameScreen implements Screen{
 		float w, h;
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
-		
-		controller = new Controller(this);
-		
-		stage = new Stage();
-		Gdx.input.setInputProcessor(stage);
-		
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 
