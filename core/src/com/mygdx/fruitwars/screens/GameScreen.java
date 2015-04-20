@@ -5,6 +5,8 @@ import net.dermetfan.gdx.graphics.g2d.Box2DSprite;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -27,32 +29,84 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.fruitwars.Controller;
+import com.mygdx.fruitwars.FruitWarsMain;
+import com.mygdx.fruitwars.Player;
+import com.mygdx.fruitwars.UserInterface;
 import com.mygdx.fruitwars.collision.Collision;
+import com.mygdx.fruitwars.modes.Default;
+import com.mygdx.fruitwars.modes.GameMode;
+import com.mygdx.fruitwars.modes.HighPace;
+import com.mygdx.fruitwars.modes.Juggernaut;
+import com.mygdx.fruitwars.modes.OneShot;
+import com.mygdx.fruitwars.tokens.Bullet;
 import com.mygdx.fruitwars.tokens.Costume;
 import com.mygdx.fruitwars.tokens.Minion;
+import com.mygdx.fruitwars.utils.Constants;
 
-public class GameScreen extends ScreenAdapter {
+public class GameScreen implements Screen{
+	
+	public static final String TAG = "GameScreen";
+	
+	final FruitWarsMain game;
+	public OrthographicCamera camera;
+	public InputMultiplexer inputMultiplexer;
+	public boolean paused = false;
+	
+	private Array<Player> players;
+	private int currentPlayer = Constants.PLAYER1;
+	private Array<Bullet> bullets;
+	private Collision collision;
+	private Controller controller;
+	private int turnTimeLeft;
+	private UserInterface userInterface;
+	private GameMode gameMode;
+	
 	private Array<Body> bodies;
 	private static float ppt = 0;
 	private TiledMap map;
-	private SpriteBatch sb;
-	private OrthographicCamera camera;
+	private SpriteBatch spriteBatch;
 	private OrthogonalTiledMapRenderer mapRenderer;
 	private Box2DDebugRenderer box2DRenderer;
 	private World world;
-	private Game game;
 	private Minion activeMinion;
 	private Body activeBody;
-	private Controller controller;
 	private Stage stage;
-	private TextButton moveLeftBtn;
-	private TextButton moveRightBtn;
-	private TextButton jumpBtn;
-	private TextButton fireBtn;
-	private TextButton abortFireBtn;
 	
-	public GameScreen(Game game) {
+	
+	
+	
+	public GameScreen(final FruitWarsMain game) {
 		this.game = game;
+		
+		players = new Array<Player>();
+		Array<Minion> minions_p1 = new Array<Minion>();
+		Array<Minion> minions_p2 = new Array<Minion>();
+		for (int i=0; i< Constants.NUM_MINIONS; i++){
+			minions_p1.add(new Minion(world,new Vector2(0,0),Costume.APPLE));
+			minions_p2.add(new Minion(world,new Vector2(0,0),Costume.BANANA));
+			
+		}
+		
+		players.add(new Player(Constants.PLAYER1,minions_p1));
+		players.add(new Player(Constants.PLAYER2,minions_p2));
+		
+		switch(game.gameMode){
+			case Constants.HIGH_PACE:
+				gameMode = new HighPace(this);
+				break;
+			case Constants.JUGGERNAUT:
+				gameMode = new Juggernaut(this);
+				break;
+			case Constants.ONESHOT:
+				gameMode = new OneShot(this);
+				break;
+			default:
+				gameMode = new Default(this);
+		}
+		
+		turnTimeLeft = gameMode.getTurnTime();
+		bullets = new Array<Bullet>();
+		
 	}
 	
 	@Override
@@ -71,32 +125,6 @@ public class GameScreen extends ScreenAdapter {
 		
 		Skin skin = new Skin(Gdx.files.internal("skins/uiskin.json"));
 		
-		moveLeftBtn = new TextButton("<", skin);
-		moveLeftBtn.setPosition(60, 30);
-		moveLeftBtn.setSize(60, 60);
-		
-		moveRightBtn = new TextButton(">", skin);
-		moveRightBtn.setPosition(130, 30);
-		moveRightBtn.setSize(60, 60);
-
-		jumpBtn = new TextButton("^", skin);
-		jumpBtn.setPosition(Gdx.graphics.getWidth() - 150, 30);
-		jumpBtn.setSize(60, 60);
-		
-		fireBtn = new TextButton("x", skin);
-		fireBtn.setPosition(Gdx.graphics.getWidth() - 220, 30);
-		fireBtn.setSize(60, 60);
-		
-		abortFireBtn = new TextButton("Abort attack", skin);
-		abortFireBtn.setPosition(Gdx.graphics.getWidth() - 170, Gdx.graphics.getHeight() - 80);
-		abortFireBtn.setSize(150, 60);
-		abortFireBtn.setVisible(false);
-		
-		stage.addActor(moveRightBtn);
-		stage.addActor(moveLeftBtn);
-		stage.addActor(jumpBtn);
-		stage.addActor(fireBtn);
-		stage.addActor(abortFireBtn);
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, w, h);
@@ -104,12 +132,21 @@ public class GameScreen extends ScreenAdapter {
 
 		map = new TmxMapLoader().load("maps/map.tmx");
 
+		
+		// References to the controllers
+		userInterface = new UserInterface(this);
+		controller = new Controller(this);
+		inputMultiplexer = new InputMultiplexer();
+		inputMultiplexer.addProcessor(0, userInterface.getStage());
+		inputMultiplexer.addProcessor(1, controller);
+		Gdx.input.setInputProcessor(inputMultiplexer);
+
 		box2DRenderer = new Box2DDebugRenderer();
 		
 		mapRenderer = new OrthogonalTiledMapRenderer(map);
 		
 		buildShapes(map, 1, world);
-		sb = new SpriteBatch();
+		spriteBatch = new SpriteBatch();
 		bodies = new Array<Body>();
 		
 		activeMinion = new Minion(world, new Vector2(400, 200), Costume.APPLE);
@@ -130,8 +167,8 @@ public class GameScreen extends ScreenAdapter {
 	}
 	
 	private void spriteRender(float dt) {
-		sb.setProjectionMatrix(camera.combined);
-		sb.begin();
+		spriteBatch.setProjectionMatrix(camera.combined);
+		spriteBatch.begin();
 		world.getBodies(bodies);
 		Box2DSprite sprite;
 		for(Body b : bodies) {
@@ -140,9 +177,9 @@ public class GameScreen extends ScreenAdapter {
 			}
 			
 			sprite = (Box2DSprite)b.getUserData();
-			sprite.draw(sb, b);
+			sprite.draw(spriteBatch, b);
 		}
-		sb.end();
+		spriteBatch.end();
 	}
 	
 	private void mapRender(float dt) {
@@ -153,16 +190,42 @@ public class GameScreen extends ScreenAdapter {
 	@Override
 	public void render(float dt) {
 		dt = Math.max(dt, 0.25f);
-		clearScreen();
-		mapRender(dt);
-		controller.render(dt);
-		spriteRender(dt);
-		box2DRender(dt);
-		camera.position.set(activeMinion.getBody().getPosition(), 0f);
-		camera.update();
-		removeDeadBodies();
-		world.step(dt, 6,  6);	
-		stage.draw();
+		
+		if (!paused){
+			//collision.collisionCheck();
+		
+			clearScreen();
+			mapRender(dt);
+			spriteRender(dt);
+			box2DRender(dt);
+			camera.update();
+			world.step(dt, 6,  6);
+			
+			//Check if game is finished
+			if (gameMode.gameFinished())
+				game.setScreen(new GameOverScreen(game,players.get(Constants.PLAYER1).getScore(),players.get(Constants.PLAYER2).getScore()));
+			
+			//Decrease turn time
+			turnTimeLeft-=1;
+			if (turnTimeLeft==0 || players.get(currentPlayer).weaponFired){
+				turnTimeLeft = gameMode.getTurnTime();
+				//Next player
+				currentPlayer=(currentPlayer+1) % (Constants.NUM_PLAYERS);
+				//Select next minion
+				players.get(currentPlayer).nextMinion();
+				//Gdx.app.debug(TAG, "Turn is over currentPlayer is: " + currentPlayer);
+				System.out.println("Turn is over nextPlayer is: " + players.get(currentPlayer).getPlayerNumber() + 
+						" current minion is: " + players.get(currentPlayer).activeMinion);
+				//Reset player weapon
+				players.get(currentPlayer).weaponFired=false;
+				
+				// Pause the game to give the other player time
+				userInterface.showPauseTitle("Player " + players.get(currentPlayer).getPlayerNumber() + " is next!");
+				paused = true;
+			}
+		}
+		userInterface.draw();
+			
 	}
 	
 	public void removeDeadBodies() {		
@@ -219,43 +282,61 @@ public class GameScreen extends ScreenAdapter {
 		}
 	}
 	
-	public TextButton getMoveLeftBtn() {
-		return moveLeftBtn;
-	}
 
-	public TextButton getMoveRightBtn() {
-		return moveRightBtn;
-	}
-
-	public TextButton getJumpBtn() {
-		return jumpBtn;
-	}
-	
-	public TextButton getFireBtn() {
-		return fireBtn;
-	}
-
-	public TextButton getAbortFireBtn() {
-		return abortFireBtn;
-	}
-
-	public Body getActiveBody() {
-		return activeBody;
-	}
-
-	public Minion getActiveMinion() {
-		return activeMinion;
-	}
-	
-	public OrthographicCamera getCamera() {
-		return camera;
-	}
 
 	//Not tested but should convert screen coordinates to world coordinates
 	public Vector2 getWorldCoordinates(float screenX, float screenY) {
 		Vector3 vec = new Vector3(screenX, camera.viewportHeight-screenY, 0.f);
 		vec = camera.unproject(vec);
 		return new Vector2(vec.x, vec.y);
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pause() {
+		userInterface.showPauseTitle("Game paused!");
+		paused = true;
+		
+	}
+
+	@Override
+	public void resume() {
+		userInterface.hidePauseTitle();
+		paused = false;
+		
+	}
+
+	@Override
+	public void hide() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public Array<Player> getPlayers(){
+		return players;
+	}
+	
+	public Player getCurrentPlayer(){
+		return players.get(currentPlayer);
+	}
+
+	public int getTimeLeft(){
+		return turnTimeLeft;
+	}
+	
+	public boolean isPaused(){
+		return paused;
 	}
 
 }

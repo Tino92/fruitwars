@@ -1,0 +1,22 @@
+{
+    "com.badlogic.gdx.graphics.g2d.BitmapFont": {
+        "adventure"  : { "file": "fonts/adventure.fnt" },
+        "adventure64": { "file": "fonts/adventure64.fnt" },
+        "adventure128": { "file": "fonts/adventure128.fnt" },
+    },
+    "com.badlogic.gdx.graphics.Color": {
+        "white": { "r": 1, "g": 1, "b": 1, "a": 1 },
+        "black": { "r": 0, "g": 0, "b": 0, "a": 1 },
+        "red"  : { "r": 1, "g": 0, "b": 0, "a": 1 },
+        "olive": { "r": 0.5, "g": 0.5, "b": 0, "a": 1 },
+    },
+    "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": { 
+        "default": { "up": "wood_button" , "down": "marble_button", "font": "adventure", "pressedOffsetY": 4, "fontColor": white }
+    },
+    "com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {  
+     "default": { "background": "wood_button", "titleFont": "adventure", "titleFontColor": "olive" }  
+    },
+    "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+        "default": { "font": adventure , "fontColor" : olive},
+    }
+}

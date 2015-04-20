@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.fruitwars.FruitWarsMain;
+import com.mygdx.fruitwars.utils.Constants;
 
 import static com.mygdx.fruitwars.utils.Constants.*;
 
@@ -28,10 +29,11 @@ public class SettingsScreen implements Screen{
 	private Skin skin = new Skin(Gdx.files.internal("skins/menuSkin.json"),
 			new TextureAtlas(Gdx.files.internal("skins/menuButtons.pack")));
 
-	private TextButton buttonEasy = new TextButton("Easy", skin),
-			buttonNormal = new TextButton("Normal", skin), 
-			buttonHard = new TextButton("Hard", skin),
-			buttonExit = new TextButton("Exit", skin) ;
+	private TextButton buttonDefault = new TextButton("Default", skin),
+			buttonHighPace = new TextButton("HighPace", skin), 
+			buttonJuggernaut = new TextButton("Juggernaut", skin),
+			buttonOneShot = new TextButton("OneShot", skin),
+			buttonExit = new TextButton("Ok", skin) ;
 
 	private Label title = new Label("Settings",skin);
 
@@ -45,48 +47,66 @@ public class SettingsScreen implements Screen{
 	public void show() {
 		
 		Preferences prefs = Gdx.app.getPreferences("fruitwars");
-		int difficulty = prefs.getInteger("difficulty",0);
+		int gameMode = prefs.getInteger("gameMode",DEFAULT_GAME_MODE);
 		
-		if (difficulty == EASY)
-			buttonEasy.setChecked(true);
-		else if (difficulty == NORMAL)
-			buttonNormal.setChecked(true);
-		else if (difficulty == HARD)
-			buttonHard.setChecked(true);
+		if (gameMode == DEFAULT_GAME_MODE)
+			buttonDefault.setChecked(true);
+		else if (gameMode == HIGH_PACE)
+			buttonHighPace.setChecked(true);
+		else if (gameMode == JUGGERNAUT)
+			buttonJuggernaut.setChecked(true);
+		else if (gameMode == ONESHOT)
+			buttonOneShot.setChecked(true);
 		
-		buttonEasy.addListener(new ClickListener(){
+		buttonDefault.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
             	Preferences prefs = Gdx.app.getPreferences("fruitwars");
-    			prefs.putInteger("difficulty",EASY);
-    			game.difficultyConfig  = prefs.getInteger("difficulty",0);
-    			buttonEasy.setChecked(true);
-    			buttonNormal.setChecked(false);
-    			buttonHard.setChecked(false);
+    			prefs.putInteger("gameMode",DEFAULT_GAME_MODE);
+    			game.gameMode  = prefs.getInteger("gameMode",DEFAULT_GAME_MODE);
+    			buttonDefault.setChecked(true);
+    			buttonHighPace.setChecked(false);
+    			buttonJuggernaut.setChecked(false);
+    			buttonOneShot.setChecked(false);
             }
         });
 		
-        buttonNormal.addListener(new ClickListener(){
+        buttonHighPace.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
             	Preferences prefs = Gdx.app.getPreferences("fruitwars");
-    			prefs.putInteger("difficulty",NORMAL);
-    			game.difficultyConfig  = prefs.getInteger("difficulty",0);
-    			buttonNormal.setChecked(true);
-    			buttonEasy.setChecked(false);
-    			buttonHard.setChecked(false);
+    			prefs.putInteger("gameMode",HIGH_PACE);
+    			game.gameMode  = prefs.getInteger("gameMode",DEFAULT_GAME_MODE);
+    			buttonDefault.setChecked(false);
+    			buttonHighPace.setChecked(true);
+    			buttonJuggernaut.setChecked(false);
+    			buttonOneShot.setChecked(false);
             }
         });
         
-        buttonHard.addListener(new ClickListener(){
+        buttonJuggernaut.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
             	Preferences prefs = Gdx.app.getPreferences("fruitwars");
-    			prefs.putInteger("difficulty",HARD);
-    			game.difficultyConfig  = prefs.getInteger("difficulty",0);
-    			buttonHard.setChecked(true);
-    			buttonNormal.setChecked(false);
-    			buttonEasy.setChecked(false);
+    			prefs.putInteger("gameMode",JUGGERNAUT);
+    			game.gameMode  = prefs.getInteger("gameMode",DEFAULT_GAME_MODE);
+    			buttonDefault.setChecked(false);
+    			buttonHighPace.setChecked(false);
+    			buttonJuggernaut.setChecked(true);
+    			buttonOneShot.setChecked(false);
+            }
+        });
+        
+        buttonOneShot.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            	Preferences prefs = Gdx.app.getPreferences("fruitwars");
+    			prefs.putInteger("gameMode",ONESHOT);
+    			game.gameMode  = prefs.getInteger("gameMode",DEFAULT_GAME_MODE);
+    			buttonDefault.setChecked(false);
+    			buttonHighPace.setChecked(false);
+    			buttonJuggernaut.setChecked(false);
+    			buttonOneShot.setChecked(true);
             }
         });
         
@@ -97,12 +117,13 @@ public class SettingsScreen implements Screen{
             }
         });
         
-        table.add(title).padBottom(80).colspan(3).row();
-	    table.add(buttonEasy).size(150,60).padBottom(20).padRight(20);
-	    table.add(buttonNormal).size(150,60).padBottom(20).padRight(20);
-	    table.add(buttonHard).size(150,60).padBottom(20).padRight(20).row();
-	    table.add();
-	    table.add(buttonExit).size(150,60);
+        //table.setDebug(true);
+        table.add(title).padBottom(80).top().colspan(4).row();
+	    table.add(buttonDefault).size(150,60).padBottom(20).padRight(20);
+	    table.add(buttonHighPace).size(150,60).padBottom(20).padRight(20);
+	    table.add(buttonJuggernaut).size(150,60).padBottom(20).padRight(20);
+	    table.add(buttonOneShot).size(150,60).padBottom(20).padRight(20).row();
+	    table.add(buttonExit).colspan(4).size(150,60);
 
 	    table.setFillParent(true);
 	    stage.addActor(table);

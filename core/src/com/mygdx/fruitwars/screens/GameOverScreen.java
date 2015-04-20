@@ -34,8 +34,12 @@ public class GameOverScreen implements Screen{
 	private Label title = new Label("Game Over",skin);
 
 
-	public GameOverScreen(final FruitWarsMain game) {
+	public GameOverScreen(final FruitWarsMain game, int score1,int score2) {
 		this.game = game;
+		if (score1 > score2)
+			title.setText("Player 1 Wins!");
+		else
+			title.setText("Player 2 Wins!");
 
 	}
 

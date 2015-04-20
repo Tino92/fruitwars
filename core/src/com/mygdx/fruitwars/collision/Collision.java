@@ -9,6 +9,7 @@ import com.mygdx.fruitwars.tokens.Minion;
 
 public class Collision implements ContactListener {
 
+
 	@Override
 	public void beginContact(Contact contact) {
 		Object a = contact.getFixtureA().getBody().getUserData();
