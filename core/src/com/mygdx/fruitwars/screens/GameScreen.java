@@ -28,7 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.fruitwars.Controller;
 import com.mygdx.fruitwars.collision.Collision;
-import com.mygdx.fruitwars.tokens.Costume;
+import com.mygdx.fruitwars.tokens.SpriteCostume;
 import com.mygdx.fruitwars.tokens.Minion;
 
 public class GameScreen extends ScreenAdapter {
@@ -112,7 +112,7 @@ public class GameScreen extends ScreenAdapter {
 		sb = new SpriteBatch();
 		bodies = new Array<Body>();
 		
-		activeMinion = new Minion(world, new Vector2(400, 200), Costume.APPLE);
+		activeMinion = new Minion(world, new Vector2(400, 200), SpriteCostume.APPLE);
 		activeBody = activeMinion.getBody();
 		
 //		Body bulletBody = Bullet.createBullet(world, new Vector2(600,200), new Vector2(22,12));

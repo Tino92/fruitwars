@@ -15,8 +15,8 @@ public class Projectile extends Weapon {
 	public static final float friction = 0.9f;
 
 	public Projectile(World world, Vector2 position,
-			Vector2 dimension, Vector2 velocity) {
-		super(new Texture("buttet.png"));
+			Vector2 dimension, Vector2 velocity, ProjectileCostume costume) {
+		super(new Texture(costume.toString()));
 		Body body;
 		PolygonShape polygon = new PolygonShape();
 		Vector2 size = new Vector2((dimension.x * 0.5f), (dimension.y * 0.5f));
