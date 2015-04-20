@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.fruitwars.screens.GameScreen;
 import com.mygdx.fruitwars.tokens.Minion;
+import com.mygdx.fruitwars.tokens.Projectile;
 
 public class Controller {
 	
@@ -18,6 +19,8 @@ public class Controller {
 	private boolean aiming;
 	private final float MAX_FIRE_VELOCITY = 100;
 	
+	boolean bulletFired = false;
+	
 	public Controller(GameScreen gameScreen) {
 		this.gameScreen = gameScreen;
 	}
@@ -26,6 +29,7 @@ public class Controller {
 		Minion activeMinion = gameScreen.getActiveMinion();
 		Body activeBody = gameScreen.getActiveBody();
 		// Check if movement buttons are pressed
+		
 		if (gameScreen.getMoveRightBtn().isPressed()) {
 //			System.out.println("Move right btn pressed");
 			activeMinion.move_right();
@@ -43,6 +47,11 @@ public class Controller {
 		// INSERT if (minion is on ground && gameScreen.getJumpBtn().isPressed())
 		//            INSERT set y velocity to jump speed 
 		
+		
+		if(activeBody.isAwake()) {
+			return;	
+		}
+		
 		if (gameScreen.getFireBtn().isPressed()) {
 			System.out.println("Fire btn pressed");
 			toggleFireMode(true);
@@ -57,13 +66,19 @@ public class Controller {
 			aiming = true;
 		}
 		
-		if (aiming) {
+		if (aiming && System.currentTimeMillis() - lastFire >= 50) {
+			lastFire = System.currentTimeMillis();
 			if (Gdx.input.isTouched()) { // Still aiming
 				aim();
 			} else { // Release bullet
-				fireBullet();
-				aiming = false;
+				int x = Gdx.input.getX();
+				int y = Gdx.input.getY();
+				attack(x, y);
+	//			bulletFired = gameScreen.fireBullet(x, y);
 				toggleFireMode(false);
+				activeMinion.getBody().setAwake(false);
+		//		nextPlayer();
+				
 			}
 		}
 		
@@ -73,8 +88,17 @@ public class Controller {
 //		}
 	}
 	
+	private void attack(int x, int y) {
+		System.out.println("firebullet fired");
+		bulletFired = gameScreen.fireBullet(x, y);
+	}
 	
 	
+	private void nextPlayer() {
+		gameScreen.getFireBtn().setVisible(false);
+		
+	}
+
 	private void aim() {
 		Body activeMinion = gameScreen.getActiveBody();
 		Vector3 touchPosYDown = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -116,11 +140,13 @@ public class Controller {
 	private void fireBullet() {
 		if (System.currentTimeMillis() - lastFire >= 350) {
 			float velocityX = 200;
+			
 //			if (!activeMinion.isFacingRight()) {
 //				velocityX = -velocityX; 
 //			}
 //			Bullet bullet = new Bullet(new Sprite(new Texture("bullet.png")), collisionLayer, new Vector2(activeMinion.getX(), activeMinion.getY()), bulletVelocity, true);
 //			addEntity(bullet);
+			
 			lastFire = System.currentTimeMillis();
 		}
 //		nextPlayer();

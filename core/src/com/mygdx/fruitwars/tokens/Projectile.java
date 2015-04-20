@@ -24,9 +24,9 @@ public class Projectile extends Weapon {
 		Vector2 size = new Vector2((dimension.x * 0.5f), (dimension.y * 0.5f));
 		polygon.setAsBox(dimension.x * 0.5f, dimension.y * 0.5f, size, 0.0f);
 		FixtureDef fd = new FixtureDef();
-		fd.density = 10f;
-		fd.restitution = 0.3f;
-		fd.friction = 0.9f;
+		fd.density = 80f;
+		fd.restitution = 1.0f;
+		fd.friction = 0.0f;
 		fd.shape = polygon;
 		
 		BodyDef bd = new BodyDef();
