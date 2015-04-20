@@ -9,6 +9,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
@@ -83,8 +84,8 @@ public class GameScreen implements Screen{
 		Array<Minion> minions_p1 = new Array<Minion>();
 		Array<Minion> minions_p2 = new Array<Minion>();
 		for (int i=0; i< Constants.NUM_MINIONS; i++){
-			minions_p1.add(new Minion(world,new Vector2(0,0),SpriteCostume.APPLE));
-			minions_p2.add(new Minion(world,new Vector2(0,0),SpriteCostume.BANANA));
+			minions_p1.add(new Minion(world,new Vector2(400+i*10,400),SpriteCostume.APPLE));
+			minions_p2.add(new Minion(world,new Vector2(400+i*10,400),SpriteCostume.BANANA));
 			
 		}
 		
@@ -364,6 +365,12 @@ public class GameScreen implements Screen{
 	
 	public boolean isPaused(){
 		return paused;
+	}
+	
+	public void moveCamera(int x){
+		MapProperties prop = map.getProperties();
+		
+		camera.translate(x,0);
 	}
 
 }

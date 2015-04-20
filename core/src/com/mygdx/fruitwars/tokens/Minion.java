@@ -13,7 +13,7 @@ public class Minion extends Token {
 	public static final Vector2 dimension = new Vector2(32, 32);
 	public static final float density = 10f;
 	public static final float restitution = 0.1f;
-	public static final float friction = 0.9f;
+	public static final float friction = 10.0f;
 
 	public Minion(World world, Vector2 position, SpriteCostume costume) {
 		super(new Texture(costume.toString()));
