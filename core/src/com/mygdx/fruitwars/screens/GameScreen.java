@@ -36,7 +36,6 @@ import com.mygdx.fruitwars.modes.GameMode;
 import com.mygdx.fruitwars.modes.HighPace;
 import com.mygdx.fruitwars.modes.Juggernaut;
 import com.mygdx.fruitwars.modes.OneShot;
-import com.mygdx.fruitwars.tokens.Bullet;
 import com.mygdx.fruitwars.tokens.Minion;
 import com.mygdx.fruitwars.tokens.Projectile;
 import com.mygdx.fruitwars.tokens.SpriteCostume;
@@ -53,7 +52,6 @@ public class GameScreen implements Screen{
 	
 	private Array<Player> players;
 	private int currentPlayer = Constants.PLAYER1;
-	private Array<Bullet> bullets;
 	private Collision collision;
 	private Controller controller;
 	private int turnTimeLeft;
@@ -103,7 +101,6 @@ public class GameScreen implements Screen{
 			
 		}
 		turnTimeLeft = gameMode.getTurnTime();
-		bullets = new Array<Bullet>();
 		
 	}
 	
