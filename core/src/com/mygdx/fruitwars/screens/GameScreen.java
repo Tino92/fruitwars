@@ -1,6 +1,7 @@
 package com.mygdx.fruitwars.screens;
 
 import net.dermetfan.gdx.graphics.g2d.Box2DSprite;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -25,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.fruitwars.Controller;
+import com.mygdx.fruitwars.tokens.Bullet;
 import com.mygdx.fruitwars.tokens.Minion;
 
 public class GameScreen extends ScreenAdapter {
@@ -106,12 +108,10 @@ public class GameScreen extends ScreenAdapter {
 		sb = new SpriteBatch();
 		bodies = new Array<Body>();
 		
-		Body body;
-		BodyDef bd = new BodyDef();
-		bd.type = BodyType.DynamicBody;
-		body = world.createBody(bd);
-		activeMinion = new Minion(body);
 		activeBody = Minion.createMinion(world, new Vector2(400, 200), new Vector2(32, 32));
+		activeMinion = (Minion) activeBody.getUserData();
+		
+//		Body bulletBody = Bullet.createBullet(world, new Vector2(600,200), new Vector2(22,12));
 		
 	}
 	

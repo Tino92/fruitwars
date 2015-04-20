@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.fruitwars.screens.GameScreen;
+import com.mygdx.fruitwars.tokens.Minion;
 
 public class Controller {
 	
@@ -22,14 +23,19 @@ public class Controller {
 	}
 	
 	public void render(float dt) {
-		
+		Minion activeMinion = gameScreen.getActiveMinion();
+		Body activeBody = gameScreen.getActiveBody();
 		// Check if movement buttons are pressed
 		if (gameScreen.getMoveRightBtn().isPressed()) {
-			System.out.println("Move right btn pressed");
+//			System.out.println("Move right btn pressed");
+			activeMinion.move_right();
+			
 			// INSERT: move active minion right
 			// INSERT: flip sprite if facing the other way
 		} else if (gameScreen.getMoveLeftBtn().isPressed()) {
-			System.out.println("Move left btn pressed");
+//			System.out.println("Move left btn pressed");
+			activeMinion.move_left();
+//			activeBody.applyForceToCenter(new Vector2(-20f, 20f), true);
 			// INSERT: move active minion left
 			// INSERT: flip sprite if facing the other way
 		}
