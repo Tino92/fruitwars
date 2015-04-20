@@ -20,7 +20,7 @@ public class UserInterface{
 	private Stage stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
 	private Table table = new Table(),
 			buttonTable = new Table();
-	private Container pauseContainer;
+	private Container<Label> pauseContainer;
 	
 	private Skin skin = new Skin(Gdx.files.internal("skins/uiSkin.json"),
 			new TextureAtlas(Gdx.files.internal("skins/menuButtons.pack")));
@@ -35,6 +35,7 @@ public class UserInterface{
 	private Label score = new Label("Score",skin);
 	private Label pause = new Label("Paused! Touch the screen to continue",skin);
 	
+	
 	public UserInterface(final GameScreen gameScreen){
 		this.gameScreen = gameScreen;
 		
@@ -42,7 +43,7 @@ public class UserInterface{
 		table.add(score).expand().left().top().padLeft(20);
 		table.add(player).expand().right().top().padRight(20).row();
 		
-		pauseContainer = new Container(pause);
+		pauseContainer = new Container<Label>(pause);
 		pauseContainer.setFillParent(true);
 		pauseContainer.top().center();
 		pause.setColor(Color.RED);

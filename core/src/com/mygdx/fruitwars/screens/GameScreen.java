@@ -8,6 +8,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -66,6 +68,8 @@ public class GameScreen implements Screen{
 	private OrthogonalTiledMapRenderer mapRenderer;
 	private Box2DDebugRenderer box2DRenderer;
 	private World world;
+	private Texture background;
+	private Sprite backgroundSprite;
 	
 
 	
@@ -107,6 +111,10 @@ public class GameScreen implements Screen{
 	    music = Gdx.audio.newMusic(Gdx.files.internal("music/game-music.wav"));
 	    music.setLooping(true);
 	    music.play();
+	    
+	    //Background
+	    background = new Texture(Gdx.files.internal("backgrounds/forest.jpg"));
+	    backgroundSprite = new Sprite(background);
 		
 	}
 	
@@ -145,6 +153,12 @@ public class GameScreen implements Screen{
 		spriteBatch = new SpriteBatch();
 		bodies = new Array<Body>();
 		
+	}
+	
+	private void drawBackground(){
+		spriteBatch.begin();
+		backgroundSprite.draw(spriteBatch);
+		spriteBatch.end();
 	}
 	
 	private void clearScreen() {
@@ -187,6 +201,7 @@ public class GameScreen implements Screen{
 		
 		if (!paused){
 			//collision.collisionCheck();
+			drawBackground();
 			mapRender(dt);
 			spriteRender(dt);
 			//box2DRender(dt);
@@ -229,7 +244,9 @@ public class GameScreen implements Screen{
 			
 			if (b.getUserData() instanceof Minion) {
 				Minion data = (Minion) b.getUserData();
-				if (data.getHealth() == 0) {
+				for(Player player: players)
+					player.removeMinion(data);
+				if (data.getHealth() <= 0) {
 					world.destroyBody(b);
 				}
 			}
