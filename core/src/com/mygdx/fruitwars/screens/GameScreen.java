@@ -125,7 +125,9 @@ public class GameScreen implements Screen{
 		
 
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, w, h);
+		camera.setToOrtho(false, 
+				Constants.TILE_SIZE*Constants.TILES_IN_ROW,
+				(h/w)*Constants.TILE_SIZE*Constants.TILES_IN_ROW);
 		camera.update();
 
 		map = new TmxMapLoader().load("maps/map.tmx");

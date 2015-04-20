@@ -2,6 +2,9 @@ package com.mygdx.fruitwars.utils;
 
 public class Constants {
 	
+	public static final int TILE_SIZE = 32;
+	public static final int TILES_IN_ROW = 30;
+	
 	public static final int DEFAULT_GAME_MODE = 0;
 	public static final int HIGH_PACE = 1;
 	public static final int JUGGERNAUT = 2;
