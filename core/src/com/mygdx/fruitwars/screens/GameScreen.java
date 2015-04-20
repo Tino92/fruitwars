@@ -4,7 +4,6 @@ import net.dermetfan.gdx.graphics.g2d.Box2DSprite;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -13,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -26,7 +24,6 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.fruitwars.Controller;
 import com.mygdx.fruitwars.FruitWarsMain;
@@ -39,8 +36,8 @@ import com.mygdx.fruitwars.modes.HighPace;
 import com.mygdx.fruitwars.modes.Juggernaut;
 import com.mygdx.fruitwars.modes.OneShot;
 import com.mygdx.fruitwars.tokens.Bullet;
-import com.mygdx.fruitwars.tokens.Costume;
 import com.mygdx.fruitwars.tokens.Minion;
+import com.mygdx.fruitwars.tokens.Projectile;
 import com.mygdx.fruitwars.utils.Constants;
 
 public class GameScreen implements Screen{
@@ -72,10 +69,9 @@ public class GameScreen implements Screen{
 	private Body activeBody;
 	private Stage stage;
 	
+
 	
-	
-	
-	public GameScreen(final FruitWarsMain game) {
+	public GameScreen(FruitWarsMain game) {
 		this.game = game;
 		
 		players = new Array<Player>();
@@ -123,6 +119,7 @@ public class GameScreen implements Screen{
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
 		
+		
 		Skin skin = new Skin(Gdx.files.internal("skins/uiskin.json"));
 		
 
@@ -149,7 +146,7 @@ public class GameScreen implements Screen{
 		spriteBatch = new SpriteBatch();
 		bodies = new Array<Body>();
 		
-		activeMinion = new Minion(world, new Vector2(400, 200), Costume.APPLE);
+		activeMinion = new Minion(world, new Vector2(400, 200), SpriteCostume.APPLE);
 		activeBody = activeMinion.getBody();
 		
 //		Body bulletBody = Bullet.createBullet(world, new Vector2(600,200), new Vector2(22,12));
@@ -241,6 +238,12 @@ public class GameScreen implements Screen{
 					world.destroyBody(b);
 				}
 			}
+			if (b.getUserData() instanceof Projectile) {
+				Projectile data = (Projectile) b.getUserData();
+				if (data.getDestroy()) {
+					world.destroyBody(b);
+				}
+			}
 		}
 	}
 		   
@@ -282,6 +285,27 @@ public class GameScreen implements Screen{
 		}
 	}
 	
+/*	public boolean fireBullet(int screenX, int screenY) {
+		
+		if (System.currentTimeMillis() - lastFire >= 350) {
+					
+			lastFire = System.currentTimeMillis();
+		
+			Vector2 bulletVelocity = new Vector2(500, 100);
+		
+			Projectile current_projectile = new Projectile(world, new Vector2(screenX, camera.viewportHeight-screenY), new Vector2(22, 12), bulletVelocity);
+		
+			Body bodyProjectile = current_projectile.getBody();
+				
+			bodyProjectile.applyLinearImpulse(bulletVelocity.x, bulletVelocity.y, screenX, camera.viewportHeight-screenY, true);
+			
+		//	bodyProjectile.applyForceToCenter(bulletVelocity.x, bulletVelocity.y, true);
+			
+			return true;
+		}
+		return false;
+	}
+	*/
 
 
 	//Not tested but should convert screen coordinates to world coordinates

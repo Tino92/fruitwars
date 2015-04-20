@@ -6,24 +6,57 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.mygdx.fruitwars.tokens.Minion;
+import com.mygdx.fruitwars.tokens.Projectile;
 
 public class Collision implements ContactListener {
+	
+	private int damage;
+	private int health;
 
 
 	@Override
 	public void beginContact(Contact contact) {
-		Object a = contact.getFixtureA().getBody().getUserData();
-		Object b = contact.getFixtureB().getBody().getUserData();
+		Object collisionObjectA = contact.getFixtureA().getBody().getUserData();
+		Object collisionObjectB = contact.getFixtureB().getBody().getUserData();
 		
-		if (a instanceof Minion && b instanceof Minion) {
-			System.out.println("two minions");
-			Minion minionA = (Minion) a;
-			Minion minionB = (Minion) b;
-			minionA.setHealth(0);
-			minionB.setHealth(0);
-			
+		/*
+		 * Collision between minion and projectile: Update health
+		 */
+		if (collisionObjectA instanceof Minion  && collisionObjectB instanceof Projectile) {
+			updateHealth(collisionObjectA, collisionObjectB);
 		}
+		else if (collisionObjectB instanceof Minion && collisionObjectA instanceof Projectile) {
+			updateHealth(collisionObjectB, collisionObjectA);
+		}
+		/*
+		 * Collision between two projectiles: Ignore
+		 */
+		else if (collisionObjectA instanceof Projectile && collisionObjectB instanceof Projectile) {
+			return;
+		}		
+		/*
+		 * Collision between map and projectiles: Remove projectiles 
+		 */
+		else if (collisionObjectA instanceof Projectile) {
+			Projectile current_projectile = (Projectile) collisionObjectA;
+			current_projectile.setDestroy(true);
+		}
+		else if (collisionObjectB instanceof Projectile) {
+			Projectile current_projectile = (Projectile) collisionObjectB;
+			current_projectile.setDestroy(true);
+		}
+	}
+	
+	private void updateHealth(Object minion, Object projectile) {
+		Minion current_minion = (Minion) minion;
+		Projectile current_projectile = (Projectile) projectile;	
+		damage = current_projectile.getDamage();
+		health = current_minion.getHealth();
+		int new_health = health - damage;
 		
+		current_minion.setHealth(new_health);	
+		current_projectile.setDestroy(true);
+
 	}
 
 	@Override
