@@ -38,7 +38,6 @@ public class UserInterface{
 	public UserInterface(final GameScreen gameScreen){
 		this.gameScreen = gameScreen;
 		
-		
 		//table.setDebug(true);
 		table.add(score).expand().left().top().padLeft(20);
 		table.add(player).expand().right().top().padRight(20).row();
@@ -48,13 +47,16 @@ public class UserInterface{
 		pauseContainer.top().center();
 		pause.setColor(Color.RED);
 		
+		int buttonWidth = Gdx.graphics.getWidth()/7;
+		int buttonHeight = Gdx.graphics.getHeight()/7;
+
 		//buttonTable.setDebug(true);
 		buttonTable.bottom();
-		buttonTable.add(buttonLeft).size(100, 50).pad(10);
-		buttonTable.add(buttonRight).size(100, 50).pad(10);
-		buttonTable.add(buttonJump).size(100, 50).pad(10);
-		buttonTable.add(buttonAim).size(100, 50).pad(10);
-		buttonTable.add(buttonPause).size(100,50).pad(10);
+		buttonTable.add(buttonLeft).size(buttonWidth, buttonHeight).pad(10);
+		buttonTable.add(buttonRight).size(buttonWidth, buttonHeight).pad(10);
+		buttonTable.add(buttonJump).size(buttonWidth, buttonHeight).pad(10);
+		buttonTable.add(buttonAim).size(buttonWidth, buttonHeight).pad(10);
+		buttonTable.add(buttonPause).size(buttonWidth, buttonHeight).pad(10);
 		
 		
 		table.setFillParent(true);

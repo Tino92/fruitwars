@@ -191,10 +191,12 @@ public class GameScreen implements Screen{
 	public void render(float dt) {
 		dt = Math.max(dt, 0.25f);
 		
+		clearScreen();
+		
 		if (!paused){
 			//collision.collisionCheck();
 		
-			clearScreen();
+
 			mapRender(dt);
 			spriteRender(dt);
 			//box2DRender(dt);
