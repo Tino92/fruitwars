@@ -14,6 +14,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -157,6 +158,7 @@ public class GameScreen extends ScreenAdapter {
 		controller.render(dt);
 		spriteRender(dt);
 		box2DRender(dt);
+		camera.position.set(activeMinion.getBody().getPosition(), 0f);
 		camera.update();
 		removeDeadBodies();
 		world.step(dt, 6,  6);	
@@ -228,20 +230,7 @@ public class GameScreen extends ScreenAdapter {
 	public TextButton getJumpBtn() {
 		return jumpBtn;
 	}
-/*
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		this.touchDown = new Vector2(screenX, camera.viewportHeight-screenY);
-		//Minion.createMinion(world, touchDown, new Vector2(32, 32));
-		
-		Vector2 bulletVelocity = new Vector2(500, 100);
-		
-		Body bodyProjectile = Projectile.createProjectile(world, touchDown, new Vector2(22, 12), bulletVelocity);
-		
-		bodyProjectile.applyForceToCenter(bulletVelocity.x, bulletVelocity.y, true);
-		
-		return false;
-	}
-*/
+	
 	public TextButton getFireBtn() {
 		return fireBtn;
 	}
@@ -260,6 +249,13 @@ public class GameScreen extends ScreenAdapter {
 	
 	public OrthographicCamera getCamera() {
 		return camera;
+	}
+
+	//Not tested but should convert screen coordinates to world coordinates
+	public Vector2 getWorldCoordinates(float screenX, float screenY) {
+		Vector3 vec = new Vector3(screenX, camera.viewportHeight-screenY, 0.f);
+		vec = camera.unproject(vec);
+		return new Vector2(vec.x, vec.y);
 	}
 
 }
