@@ -83,8 +83,8 @@ public class GameScreen implements Screen{
 		Array<Minion> minions_p1 = new Array<Minion>();
 		Array<Minion> minions_p2 = new Array<Minion>();
 		for (int i=0; i< Constants.NUM_MINIONS; i++){
-			minions_p1.add(new Minion(world,new Vector2(0,0),SpriteCostume.APPLE));
-			minions_p2.add(new Minion(world,new Vector2(0,0),SpriteCostume.BANANA));
+			minions_p1.add(new Minion(world,new Vector2(400+i*10,400),SpriteCostume.APPLE));
+			minions_p2.add(new Minion(world,new Vector2(400+i*10,400),SpriteCostume.BANANA));
 			
 		}
 		
