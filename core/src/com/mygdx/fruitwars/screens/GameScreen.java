@@ -71,10 +71,24 @@ public class GameScreen implements Screen{
 	private Texture background;
 	private Sprite backgroundSprite;
 	
+	//
+	MapProperties prop;
+	int mapWidth,tilePixelWidth,mapPixelWidth;
 
 	
 	public GameScreen(FruitWarsMain game) {
 		this.game = game;
+
+		float w, h;
+		w = Gdx.graphics.getWidth();
+		h = Gdx.graphics.getHeight();
+		
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, 
+				Constants.TILE_SIZE*Constants.TILES_IN_ROW,
+				(h/w)*Constants.TILE_SIZE*Constants.TILES_IN_ROW);
+		camera.update();
+
 		
 		world = new World(new Vector2(0.0f, -0.5f), true);
 		world.setContactListener(collision = new Collision());
@@ -100,9 +114,18 @@ public class GameScreen implements Screen{
 				gameMode = new Default(this);
 		}
 		
-		for (int i=0; i< Constants.NUM_MINIONS; i++){
-			minions_p1.add(new Minion(world,new Vector2(400+i*10,400),SpriteCostume.APPLE, gameMode.getMinionsHealth()));
-			minions_p2.add(new Minion(world,new Vector2(400+i*10,400),SpriteCostume.BANANA, gameMode.getMinionsHealth()));
+		map = new TmxMapLoader().load("maps/map.tmx");
+		prop = map.getProperties();
+		mapWidth = prop.get("width", Integer.class);
+		tilePixelWidth = prop.get("tilewidth", Integer.class);
+
+		mapPixelWidth = mapWidth * tilePixelWidth;
+		
+		for (int i=0; i< Constants.NUM_MINIONS*2; i+=2){
+			minions_p1.add(new Minion(world,new Vector2(w/2 + i*100,h*3/4),SpriteCostume.APPLE,
+					gameMode.getMinionsHealth()));
+			minions_p2.add(new Minion(world,new Vector2(w/2 + (i+1)*100,h*3/4),SpriteCostume.BANANA,
+					gameMode.getMinionsHealth()));
 			
 		}
 		turnTimeLeft = gameMode.getTurnTime();
@@ -113,29 +136,13 @@ public class GameScreen implements Screen{
 	    music.play();
 	    
 	    //Background
-	    background = new Texture(Gdx.files.internal("backgrounds/forest.jpg"));
+	    background = new Texture(Gdx.files.internal("backgrounds/forest.png"));
 	    backgroundSprite = new Sprite(background);
 		
 	}
 	
 	@Override
 	public void show() {
-		
-		float w, h;
-		w = Gdx.graphics.getWidth();
-		h = Gdx.graphics.getHeight();
-
-		
-		controller = new Controller(this);
-
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 
-				Constants.TILE_SIZE*Constants.TILES_IN_ROW,
-				(h/w)*Constants.TILE_SIZE*Constants.TILES_IN_ROW);
-		camera.update();
-
-		map = new TmxMapLoader().load("maps/map.tmx");
-
 		
 		// References to the controllers
 		userInterface = new UserInterface(this);
@@ -355,11 +362,6 @@ public class GameScreen implements Screen{
 	}
 	
 	public void moveCamera(int x){
-		MapProperties prop = map.getProperties();
-		int mapWidth = prop.get("width", Integer.class);
-		int tilePixelWidth = prop.get("tilewidth", Integer.class);
-
-		int mapPixelWidth = mapWidth * tilePixelWidth;
 		
 		if(camera.position.x+camera.viewportWidth/2 >mapPixelWidth){
 			camera.position.x = mapPixelWidth - camera.viewportWidth/2;

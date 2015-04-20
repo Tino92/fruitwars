@@ -70,7 +70,7 @@ public class UserInterface{
             public void clicked(InputEvent event, float x, float y) {
             	if (!gameScreen.isPaused()){
             		System.out.println("Jump pressed!");
-            		//gameScreen.getCurrentPlayer().getActiveMinion().jump();
+            		gameScreen.getCurrentPlayer().getActiveMinion().jump();
             	}
             }
         });

@@ -43,16 +43,23 @@ public class Minion extends Token {
 
 	public void move_left() {
 		System.out.println("Moving left");
-		if (!this.body.isAwake()) {
-			this.body.setLinearVelocity(new Vector2(-100f, 50f));
-		}
+		//if (!this.body.isAwake()) {
+			this.body.setLinearVelocity(new Vector2(-100f, 1f));
+		//}
 
 	}
 
 	public void move_right() {
 		System.out.println("Moving right");
+		//if (!this.body.isAwake()) {
+			this.body.setLinearVelocity(new Vector2(100f, 1f));
+		//}
+	}
+	
+	public void jump() {
+		System.out.println("Jumping");
 		if (!this.body.isAwake()) {
-			this.body.setLinearVelocity(new Vector2(100f, 50f));
+			this.body.setLinearVelocity(new Vector2(0f, 50f));
 		}
 	}
 
