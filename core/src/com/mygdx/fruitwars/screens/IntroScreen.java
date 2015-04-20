@@ -68,15 +68,18 @@ public class IntroScreen implements Screen{
             }
         });
 
+        
+		int buttonWidth = Gdx.graphics.getWidth()/7;
+		int buttonHeight = Gdx.graphics.getHeight()/7;
 
         NinePatch bg = new NinePatch(new Texture(Gdx.files.internal("backgrounds/background-main.png")), 1, 1, 1, 12);
 		//The elements are displayed in the order you add them.
 	    //The first appear on top, the last at the bottom.
         table.setBackground(new NinePatchDrawable(bg));
 	    table.add(title).padBottom(80).row();
-	    table.add(buttonPlay).size(150,60).padBottom(20).row();
-	    table.add(buttonSettings).size(150,60).padBottom(20).row();
-	    table.add(buttonExit).size(150,60).padBottom(20).row();
+	    table.add(buttonPlay).size(buttonWidth,buttonHeight).padBottom(20).row();
+	    table.add(buttonSettings).size(buttonWidth,buttonHeight).padBottom(20).row();
+	    table.add(buttonExit).size(buttonWidth,buttonHeight).padBottom(20).row();
 
 	    table.setFillParent(true);
 	    stage.addActor(table);

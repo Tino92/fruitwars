@@ -2,7 +2,6 @@ package com.mygdx.fruitwars.screens;
 
 import net.dermetfan.gdx.graphics.g2d.Box2DSprite;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
@@ -68,9 +67,6 @@ public class GameScreen implements Screen{
 	private OrthogonalTiledMapRenderer mapRenderer;
 	private Box2DDebugRenderer box2DRenderer;
 	private World world;
-	private Minion activeMinion;
-	private Body activeBody;
-	private Stage stage;
 	
 
 	
@@ -83,12 +79,7 @@ public class GameScreen implements Screen{
 		players = new Array<Player>();
 		Array<Minion> minions_p1 = new Array<Minion>();
 		Array<Minion> minions_p2 = new Array<Minion>();
-		for (int i=0; i< Constants.NUM_MINIONS; i++){
-			minions_p1.add(new Minion(world,new Vector2(400+i*10,400),SpriteCostume.APPLE));
-			minions_p2.add(new Minion(world,new Vector2(400+i*10,400),SpriteCostume.BANANA));
-			
-		}
-		
+
 		players.add(new Player(Constants.PLAYER1,minions_p1));
 		players.add(new Player(Constants.PLAYER2,minions_p2));
 		
@@ -106,6 +97,11 @@ public class GameScreen implements Screen{
 				gameMode = new Default(this);
 		}
 		
+		for (int i=0; i< Constants.NUM_MINIONS; i++){
+			minions_p1.add(new Minion(world,new Vector2(400+i*10,400),SpriteCostume.APPLE, gameMode.getMinionsHealth()));
+			minions_p2.add(new Minion(world,new Vector2(400+i*10,400),SpriteCostume.BANANA, gameMode.getMinionsHealth()));
+			
+		}
 		turnTimeLeft = gameMode.getTurnTime();
 		bullets = new Array<Bullet>();
 		
@@ -118,8 +114,13 @@ public class GameScreen implements Screen{
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
 
+		
+		controller = new Controller(this);
+
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, w, h);
+		camera.setToOrtho(false, 
+				Constants.TILE_SIZE*Constants.TILES_IN_ROW,
+				(h/w)*Constants.TILE_SIZE*Constants.TILES_IN_ROW);
 		camera.update();
 
 		map = new TmxMapLoader().load("maps/map.tmx");
@@ -141,8 +142,8 @@ public class GameScreen implements Screen{
 		spriteBatch = new SpriteBatch();
 		bodies = new Array<Body>();
 		
-		activeMinion = new Minion(world, new Vector2(400, 200), SpriteCostume.APPLE);
-		activeBody = activeMinion.getBody();
+		//activeMinion = new Minion(world, new Vector2(400, 200), SpriteCostume.APPLE, gameMode.getMinionsHealth());
+		//activeBody = activeMinion.getBody();
 		
 //		Body bulletBody = Bullet.createBullet(world, new Vector2(600,200), new Vector2(22,12));
 		
@@ -184,10 +185,10 @@ public class GameScreen implements Screen{
 		dt = Math.max(dt, 0.25f);
 		clearScreen();
 		
+		clearScreen();
+		
 		if (!paused){
 			//collision.collisionCheck();
-		
-			
 			mapRender(dt);
 			spriteRender(dt);
 			//box2DRender(dt);
