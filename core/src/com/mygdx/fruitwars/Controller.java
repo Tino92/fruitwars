@@ -15,7 +15,6 @@ import com.mygdx.fruitwars.tokens.Projectile;
 import com.mygdx.fruitwars.tokens.ProjectileCostume;
 import com.mygdx.fruitwars.tokens.SpriteCostume;
 import com.mygdx.fruitwars.tokens.WeaponCostume;
-import com.mygdx.fruitwars.tokens.WeaponSprite;
 import com.mygdx.fruitwars.utils.Constants;
 
 public class Controller implements InputProcessor{

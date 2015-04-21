@@ -3,7 +3,6 @@ package com.mygdx.fruitwars;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.fruitwars.tokens.Minion;
 import com.mygdx.fruitwars.tokens.Weapon;
-import com.mygdx.fruitwars.tokens.WeaponSprite;
 
 public class Player {
 	
