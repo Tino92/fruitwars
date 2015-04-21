@@ -11,7 +11,7 @@ public class Constants {
 	public static final int ONESHOT = 3;
 	
 	
-	public static final int NUM_MINIONS = 1;
+	public static final int NUM_MINIONS = 2;
 	
 	public static final int NUM_PLAYERS = 2;
 	public static final int PLAYER1 = 0;

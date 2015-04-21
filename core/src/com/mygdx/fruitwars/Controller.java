@@ -39,7 +39,6 @@ public class Controller implements InputProcessor{
 	
 
 	private void aim(int x, int y) {
-		System.out.println("aim function");
 		Body activeMinion = gameScreen.getCurrentPlayer().getActiveMinion().getBody();
 		Vector3 touchPosYDown = new Vector3(x, y, 0);
 		Vector3 unprojected = gameScreen.camera.unproject(touchPosYDown);
@@ -87,6 +86,8 @@ public class Controller implements InputProcessor{
 		bulletVector.add(activeBody.getPosition());
 		
 		Projectile projectile = new Projectile(world, bulletVector, bulletVelocity, ProjectileCostume.UZI,Constants.UZI_DAMAGE);
+		
+		//Reset firing and set timeleft
 	}
 
 	@Override
