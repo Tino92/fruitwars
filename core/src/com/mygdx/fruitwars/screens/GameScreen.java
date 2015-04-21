@@ -55,9 +55,7 @@ public class GameScreen implements Screen{
 	public OrthographicCamera camera;
 	public InputMultiplexer inputMultiplexer;
 	public boolean paused = false;
-	
 	private Music music;
-	
 	private Array<Player> players;
 	private int currentPlayer = Constants.PLAYER1;
 	private Collision collision;
@@ -65,7 +63,6 @@ public class GameScreen implements Screen{
 	private int turnTimeLeft;
 	private UserInterface userInterface;
 	private GameMode gameMode;
-	
 	private Array<Body> bodies;
 	private static float ppt = 0;
 	private TiledMap map;
@@ -75,8 +72,7 @@ public class GameScreen implements Screen{
 	private World world;
 	private Texture background;
 	private Sprite backgroundSprite;
-	
-	//
+	private Minion activeMinion;
 	MapProperties prop;
 	int mapWidth,tilePixelWidth,mapPixelWidth;
 
@@ -96,7 +92,8 @@ public class GameScreen implements Screen{
 
 		
 		world = new World(new Vector2(0.0f, -0.5f), true);
-		world.setContactListener(collision = new Collision(this));
+		collision = new Collision(this);
+		world.setContactListener(collision);
 		
 		players = new Array<Player>();
 		Array<Minion> minions_p1 = new Array<Minion>();
@@ -151,7 +148,7 @@ public class GameScreen implements Screen{
 	public void show() {
 		
 		// References to the controllers
-		userInterface = new UserInterface(this);
+		userInterface = new UserInterface(this, collision);
 		controller = new Controller(this);
 		inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(0, userInterface.getStage());
@@ -166,6 +163,8 @@ public class GameScreen implements Screen{
 		spriteBatch = new SpriteBatch();
 		bodies = new Array<Body>();
 		
+		activeMinion = players.get(currentPlayer).getActiveMinion();
+		activeMinion.getBody().getFixtureList().get(0).setUserData("activeFoot");
 	}
 	
 	private void drawBackground(){
@@ -185,6 +184,13 @@ public class GameScreen implements Screen{
 	}
 	
 	private void spriteRender(float dt) {
+		Minion currentlyActiveMinion = players.get(currentPlayer).getActiveMinion();
+		if (activeMinion == null || activeMinion != currentlyActiveMinion) {
+			activeMinion.getBody().getFixtureList().get(0).setUserData("foot");
+			activeMinion = currentlyActiveMinion;
+			activeMinion.getBody().getFixtureList().get(0).setUserData("activeFoot");
+		}
+		
 		spriteBatch.setProjectionMatrix(camera.combined);
 		spriteBatch.begin();
 		world.getBodies(bodies);
