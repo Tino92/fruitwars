@@ -11,7 +11,7 @@ public class Constants {
 	public static final int ONESHOT = 3;
 	
 	
-	public static final int NUM_MINIONS = 1;
+	public static final int NUM_MINIONS = 5;
 	
 	public static final int NUM_PLAYERS = 2;
 	public static final int PLAYER1 = 0;
@@ -23,7 +23,7 @@ public class Constants {
 	public static final int JUGGERNAUT_HEALTH = 1000;
 	public static final int ONE_SHOT_MINION_HEALTH = 1;
 	
-	public static final int UZI_DAMAGE = 100;
+	public static final int UZI_DAMAGE = 25;
 	public static final int BAZOOKA_DAMAGE = 50;
 
 }

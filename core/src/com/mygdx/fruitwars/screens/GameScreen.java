@@ -97,7 +97,7 @@ public class GameScreen implements Screen{
 
 		
 		world = new World(new Vector2(0.0f, -0.5f), true);
-		world.setContactListener(collision = new Collision());
+		world.setContactListener(collision = new Collision(this));
 		
 		players = new Array<Player>();
 		Array<Minion> minions_p1 = new Array<Minion>();
@@ -396,6 +396,10 @@ public class GameScreen implements Screen{
 	
 	public UserInterface getUserInterface(){
 		return userInterface;
+	}
+	
+	public void setTurnTimeLeft(int timeleft){
+		turnTimeLeft = timeleft;
 	}
 
 }

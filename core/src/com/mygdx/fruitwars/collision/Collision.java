@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.mygdx.fruitwars.screens.GameScreen;
 import com.mygdx.fruitwars.tokens.Crosshairs;
 import com.mygdx.fruitwars.tokens.Minion;
 import com.mygdx.fruitwars.tokens.Projectile;
@@ -12,7 +13,12 @@ public class Collision implements ContactListener {
 	
 	private int damage;
 	private int health;
-
+	
+	private GameScreen gameScreen;
+	
+	public Collision(GameScreen gameScreen){
+		this.gameScreen = gameScreen;
+	}
 
 	@Override
 	public void beginContact(Contact contact) {
@@ -58,7 +64,9 @@ public class Collision implements ContactListener {
 		health = current_minion.getHealth();
 		int new_health = health - damage;
 		
-		current_minion.setHealth(new_health);	
+		//Checking code to avoid suicide
+		if (current_minion != gameScreen.getCurrentPlayer().getActiveMinion())
+			current_minion.setHealth(new_health);	
 		current_projectile.setDestroy(true);
 
 	}
