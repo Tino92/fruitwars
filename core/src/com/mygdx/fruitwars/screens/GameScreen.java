@@ -127,9 +127,12 @@ public class GameScreen implements Screen {
 		lastX = Constants.TILE_SIZE * xrange.getValue();
 		xdiff = lastX - firstX;
 
+		System.out.println("FirstX:\t" + firstX);
+		System.out.println("LastX:\t" + lastX);
+
 		for (int i = 0; i < Constants.NUM_MINIONS * 2; i += 2) {
 			minions_p1.add(new Minion(world, new Vector2((float) (firstX + Math
-					.random() * xdiff), h * 3 / 4f), MinionCostume.APPLE,
+					.random() * xdiff), h * 3 / 4), MinionCostume.APPLE,
 					gameMode.getMinionsHealth()));
 			minions_p2.add(new Minion(world, new Vector2((float) (firstX + Math
 					.random() * xdiff), h * 3 / 4f), MinionCostume.BANANA,
