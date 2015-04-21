@@ -64,7 +64,7 @@ public class Collision implements ContactListener {
 		health = current_minion.getHealth();
 		int new_health = health - damage;
 		
-		//Checking for suicide
+		//Checking code to avoid suicide
 		if (current_minion != gameScreen.getCurrentPlayer().getActiveMinion())
 			current_minion.setHealth(new_health);	
 		current_projectile.setDestroy(true);
