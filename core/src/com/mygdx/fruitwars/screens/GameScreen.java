@@ -52,7 +52,6 @@ public class GameScreen implements Screen {
 	public OrthographicCamera camera;
 	public InputMultiplexer inputMultiplexer;
 	public boolean paused = false;
-
 	private Music music;
 
 	private Array<Player> players;
@@ -73,7 +72,6 @@ public class GameScreen implements Screen {
 	private Texture background;
 	private Sprite backgroundSprite;
 
-	//
 	MapProperties prop;
 	int mapWidth, tilePixelWidth, mapPixelWidth;
 
@@ -91,7 +89,6 @@ public class GameScreen implements Screen {
 
 		world = new World(new Vector2(0.0f, -0.5f), true);
 		world.setContactListener(collision = new Collision(this));
-
 		players = new Array<Player>();
 		Array<Minion> minions_p1 = new Array<Minion>();
 		Array<Minion> minions_p2 = new Array<Minion>();
@@ -150,7 +147,9 @@ public class GameScreen implements Screen {
 		// Background
 		background = new Texture(Gdx.files.internal("backgrounds/forest.png"));
 		backgroundSprite = new Sprite(background);
-
+		Vector2 activePos = getCurrentPlayer().getMinions()
+				.get(getCurrentPlayer().activeMinion).getBody().getPosition();
+		camera.position.set(activePos.x, camera.viewportHeight / 2, 0.0f);
 	}
 
 	@Override
@@ -170,7 +169,6 @@ public class GameScreen implements Screen {
 
 		spriteBatch = new SpriteBatch();
 		bodies = new Array<Body>();
-
 	}
 
 	private void drawBackground() {

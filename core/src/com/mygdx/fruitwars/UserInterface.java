@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.mygdx.fruitwars.collision.Collision;
 import com.mygdx.fruitwars.screens.GameScreen;
 
 public class UserInterface{
@@ -36,13 +35,12 @@ public class UserInterface{
 	private Label player = new Label("Player",skin);
 	private Label score = new Label("Score",skin);
 	private Label pause = new Label("Paused! Touch the screen to continue",skin);
-	private Collision collision;
+	
 	public boolean aiming = false;
 	
 	
-	public UserInterface(final GameScreen gameScreen, final Collision collision){
+	public UserInterface(final GameScreen gameScreen){
 		this.gameScreen = gameScreen;
-		this.collision = collision;
 		
 		//table.setDebug(true);
 		table.add(score).expand().left().top().padLeft(20);
@@ -65,6 +63,7 @@ public class UserInterface{
 		buttonTable.add(buttonPause).size(buttonWidth, buttonHeight).pad(10);
 		buttonTable.add(buttonBack).size(buttonWidth, buttonHeight).pad(10);
 		
+		
 		table.setFillParent(true);
 		buttonTable.setFillParent(true);
 		stage.addActor(table);
@@ -73,70 +72,29 @@ public class UserInterface{
 		buttonJump.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	System.out.println("Jump pressed, playerOnGround=" + collision.isPlayerOnGround());
-            	if (!gameScreen.isPaused() && collision.isPlayerOnGround()){
+            	if (!gameScreen.isPaused()){
+            		System.out.println("Jump pressed!");
             		gameScreen.getCurrentPlayer().getActiveMinion().jump();
             	}
             }
         });
 		
 		buttonLeft.addListener(new ClickListener(){
-			
-//			@Override
-//			public void clicked(InputEvent event, float x, float y) {
-//				System.out.println("left btn clicked, playerOnGround=" + collision.isPlayerOnGround());
-//				if (!gameScreen.isPaused()){
-//					gameScreen.getCurrentPlayer().getActiveMinion().move_left();
-//				}
-//			}
-			
-			@Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
             	if (!gameScreen.isPaused()){
             		System.out.println("Left pressed!");
-            		if (collision.isPlayerOnGround()) {
-            			gameScreen.getCurrentPlayer().getActiveMinion().moveLeft();            			
-            		} else {
-            			gameScreen.getCurrentPlayer().getActiveMinion().moveLeftInAir();
-            		}
-            	}
-            	return true;
-            }
-            
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-            	if (!gameScreen.isPaused() && !collision.isPlayerOnGround()){
-            		gameScreen.getCurrentPlayer().getActiveMinion().stopHorizontalMovement();
+            		gameScreen.getCurrentPlayer().getActiveMinion().move_left();
             	}
             }
         });
 		
 		buttonRight.addListener(new ClickListener(){
-//			@Override
-//			public void clicked(InputEvent event, float x, float y) {
-//				System.out.println("right btn clicked, playerOnGround=" + collision.isPlayerOnGround());
-//				if (!gameScreen.isPaused()){
-//					gameScreen.getCurrentPlayer().getActiveMinion().move_right();
-//				}
-//			}
-			
-			@Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            	if (!gameScreen.isPaused()){
-            		if (collision.isPlayerOnGround()) {
-            			gameScreen.getCurrentPlayer().getActiveMinion().moveRight();            			
-            		} else {
-            			gameScreen.getCurrentPlayer().getActiveMinion().moveRightInAir();
-            		}
-            		
-            	}
-            	return true;
-            }
-            
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-            	if (!gameScreen.isPaused() && collision.isPlayerOnGround()){
-            		gameScreen.getCurrentPlayer().getActiveMinion().stopHorizontalMovement();
+            public void clicked(InputEvent event, float x, float y) {
+            	if (!gameScreen.isPaused()){
+            		System.out.println("Right pressed!");
+            		gameScreen.getCurrentPlayer().getActiveMinion().move_right();
             	}
             }
         });
