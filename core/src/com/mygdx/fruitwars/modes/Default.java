@@ -5,12 +5,23 @@ import com.mygdx.fruitwars.utils.Constants;
 
 public class Default implements GameMode{
 	
-	private GameScreen gameScreen;
+	private static GameScreen gameScreen;
 	
-	public Default(GameScreen gameScreen){
-		this.gameScreen = gameScreen;
-	}
-
+	private static Default instance = null;
+	
+	private Default() { }
+	 
+    public static synchronized Default getInstance(GameScreen screen) {
+    	
+    	gameScreen = screen;
+    	
+        if (instance == null) {
+            instance = new Default();
+        }
+ 
+        return instance;
+    }
+    
 	@Override
 	public boolean gameFinished() {
 		// (If all the minions are killed from any of the players finish the game.

@@ -102,16 +102,16 @@ public class GameScreen implements Screen{
 		
 		switch(game.gameMode){
 			case Constants.HIGH_PACE:
-				gameMode = new HighPace(this);
+				gameMode = HighPace.getInstance(this);
 				break;
 			case Constants.JUGGERNAUT:
-				gameMode = new Juggernaut(this);
+				gameMode = Juggernaut.getInstance(this);
 				break;
 			case Constants.ONESHOT:
-				gameMode = new OneShot(this);
+				gameMode = OneShot.getInstance(this);
 				break;
 			default:
-				gameMode = new Default(this);
+				gameMode = Default.getInstance(this);
 		}
 		
 		map = new TmxMapLoader().load("maps/map.tmx");
@@ -236,6 +236,7 @@ public class GameScreen implements Screen{
 				// Pause the game to give the other player time
 				userInterface.showPauseTitle("Player " + players.get(currentPlayer).getPlayerNumber() + " is next!");
 				paused = true;
+				
 			}
 		}
 		userInterface.draw();
