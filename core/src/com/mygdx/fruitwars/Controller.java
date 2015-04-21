@@ -22,7 +22,6 @@ public class Controller implements InputProcessor{
 	private GameScreen gameScreen;
 
 	private long lastFire = System.currentTimeMillis();
-	private boolean aiming;
 	private final float MAX_FIRE_VELOCITY = 100;
 	private Vector2 bulletVelocity = new Vector2(50, 50);
 	private Crosshairs crosshairs;
@@ -30,10 +29,11 @@ public class Controller implements InputProcessor{
 	
 	private Vector2 lastTouch = new Vector2();
 	
-	boolean bulletFired = false;
 	
 	public Controller(GameScreen gameScreen) {
 		this.gameScreen = gameScreen;
+		
+		world = gameScreen.getWorld();
 	}
 	
 
@@ -124,29 +124,26 @@ public class Controller implements InputProcessor{
 		
 		lastTouch.set(screenX, screenY);
 		
-		if (aiming && System.currentTimeMillis() - lastFire >= 50) {
-			if (Gdx.input.isTouched()) { // Still aiming		
-				aim();
-				System.out.println("input is touched");
+		if (gameScreen.getUserInterface().aiming && System.currentTimeMillis() - lastFire >= 50) {	
+			System.out.println("Touchdown!");
+			aim();
+			return true;
 			} 
-			else {
-			// Release bullet
-				fireBullet();
-				
-			}
-		}
-			
 			
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		
-		if (!aiming && crosshairs != null) {
+		if (gameScreen.getUserInterface().aiming){
+			fireBullet();
+			// Remove crosshair from screen
 			crosshairs.setSetToRemove(true);
 			crosshairs = null;
 		}
+		// Reset aiming attribute
+		gameScreen.getUserInterface().resetAimingButton();
+
 		
 		return false;
 	}
@@ -155,11 +152,12 @@ public class Controller implements InputProcessor{
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
 		Vector2 newTouch = new Vector2(screenX, screenY);
 	    Vector2 delta = newTouch.cpy().sub(lastTouch);
-	    
-	    if (delta.x>0)
-	    	gameScreen.moveCamera(-5);
-	    else
-	    	gameScreen.moveCamera(5);
+	    if (!gameScreen.getUserInterface().aiming){
+		    if (delta.x>0)
+		    	gameScreen.moveCamera(-5);
+		    else
+		    	gameScreen.moveCamera(5);
+	    }
 	    
 	    lastTouch = newTouch;
 		return false;

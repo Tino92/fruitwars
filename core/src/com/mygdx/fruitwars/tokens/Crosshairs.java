@@ -29,6 +29,7 @@ public class Crosshairs extends Token {
 		body = world.createBody(bd);
 		body.createFixture(fd);
 		body.setUserData(this);
+		body.setActive(false);
 		fd.shape.dispose();
 		this.setBody(body);
 	}

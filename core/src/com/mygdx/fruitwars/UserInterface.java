@@ -35,6 +35,8 @@ public class UserInterface{
 	private Label score = new Label("Score",skin);
 	private Label pause = new Label("Paused! Touch the screen to continue",skin);
 	
+	public boolean aiming = false;
+	
 	
 	public UserInterface(final GameScreen gameScreen){
 		this.gameScreen = gameScreen;
@@ -100,7 +102,9 @@ public class UserInterface{
             public void clicked(InputEvent event, float x, float y) {
             	if (!gameScreen.isPaused()){
             		System.out.println("Aim pressed!");
-            		//gameScreen.getCurrentPlayer().getActiveMinion().aiming = true;
+            		aiming = !aiming;
+            		if (aiming)
+            			buttonAim.setText("Attacking!");
             	}
             }
         });
@@ -138,6 +142,10 @@ public class UserInterface{
 		pauseContainer.remove();
 	}
 
+	public void resetAimingButton(){
+			buttonAim.setText("Aim!");
+			aiming = false;
+	}
 	
 
 }

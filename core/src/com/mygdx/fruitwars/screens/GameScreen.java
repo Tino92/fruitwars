@@ -391,5 +391,9 @@ public class GameScreen implements Screen{
 	public GameMode getGameMode(){
 		return gameMode;
 	}
+	
+	public UserInterface getUserInterface(){
+		return userInterface;
+	}
 
 }
