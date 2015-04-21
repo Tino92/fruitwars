@@ -1,7 +1,7 @@
 package com.mygdx.fruitwars.screens;
 
-import javafx.util.Pair;
 import net.dermetfan.gdx.graphics.g2d.Box2DSprite;
+import net.dermetfan.utils.Pair;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
