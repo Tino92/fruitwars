@@ -13,7 +13,7 @@ public class Minion extends Token {
 	public static final Vector2 dimension = new Vector2(32, 32);
 	public static final float density = 10f;
 	public static final float restitution = 0.1f;
-	public static final float friction = 10.0f;
+	public static final float friction = 100.0f;
 
 
 	public Minion(World world, Vector2 position, MinionCostume costume, int health) {
@@ -44,7 +44,9 @@ public class Minion extends Token {
 	public void move_left() {
 		System.out.println("Moving left");
 		//if (!this.body.isAwake()) {
-			this.body.setLinearVelocity(new Vector2(-100f, 1f));
+			//this.body.setLinearVelocity(new Vector2(-100f, 5f));
+			Vector2 pos = body.getPosition();
+			this.body.applyLinearImpulse(new Vector2(-5*body.getMass(),body.getMass()), pos, true);
 		//}
 
 	}
@@ -52,7 +54,9 @@ public class Minion extends Token {
 	public void move_right() {
 		System.out.println("Moving right");
 		//if (!this.body.isAwake()) {
-			this.body.setLinearVelocity(new Vector2(100f, 1f));
+			//this.body.setLinearVelocity(new Vector2(100f, 5f));
+			Vector2 pos = body.getPosition();
+			this.body.applyLinearImpulse(new Vector2(5*body.getMass(),body.getMass()), pos, true);
 		//}
 	}
 	
