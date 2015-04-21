@@ -86,7 +86,7 @@ public class Controller implements InputProcessor{
 		
 		bulletVector.add(activeBody.getPosition());
 		
-		Projectile projectile = new Projectile(world, bulletVector, bulletVelocity, ProjectileCostume.UZI);
+		Projectile projectile = new Projectile(world, bulletVector, bulletVelocity, ProjectileCostume.UZI,Constants.UZI_DAMAGE);
 	}
 
 	@Override

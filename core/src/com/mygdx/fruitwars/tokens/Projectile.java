@@ -16,7 +16,7 @@ public class Projectile extends Weapon {
 	public static final Vector2 dimension = new Vector2(16, 8);
 
 	public Projectile(World world,
-			Vector2 position, Vector2 bulletVelocity, ProjectileCostume costume) {
+			Vector2 position, Vector2 bulletVelocity, ProjectileCostume costume, int damage) {
 		super(new Texture(costume.toString()));
 		Body body;
 		PolygonShape polygon = new PolygonShape();
@@ -38,6 +38,8 @@ public class Projectile extends Weapon {
 		body.setLinearVelocity(bulletVelocity);
 		this.setBody(body);
 		fd.shape.dispose();
+		
+		this.damage = damage;
 	}
 	
 	
