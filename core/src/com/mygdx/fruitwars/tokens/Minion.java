@@ -16,7 +16,6 @@ public class Minion extends Token {
 	public static final float density = 10f;
 	public static final float restitution = 0.1f;
 	public static final float friction = 100.0f;
-	private Body sensorBody;
 
 	private boolean active = false;
 	private ActiveArrow activeArrow = new ActiveArrow(this);
@@ -45,60 +44,36 @@ public class Minion extends Token {
 		fd.shape.dispose();
 		this.setBody(body);
 		this.health = health;
-		
-		createSensorBody(world);
 	}
 
-	public void moveLeft() {
-		this.body.applyForceToCenter(new Vector2(-100000f, 100000f), true);
+	public void move_left() {
+		System.out.println("Moving left");
+		active = false;
+		Vector2 pos = body.getPosition();
+		this.body.applyLinearImpulse(
+				new Vector2(-5 * body.getMass(), body.getMass()), pos, true);
+		// }
+
 	}
 
-	public void moveRight() {
-		this.body.applyForceToCenter(new Vector2(100000f, 100000f), true);
-	}
-	
-	public void moveLeftInAir() {
-		this.body.applyForceToCenter(new Vector2(-100000f, 0), true);
-	}
-	
-	public void moveRightInAir() {
-		this.body.applyForceToCenter(new Vector2(100000f, 0), true);
+	public void move_right() {
+		System.out.println("Moving right");
+		active = false;
+		Vector2 pos = body.getPosition();
+		this.body.applyLinearImpulse(
+				new Vector2(5 * body.getMass(), body.getMass()), pos, true);
 	}
 
 	public void jump() {
-		this.body.setLinearVelocity(new Vector2(0, 50f));
-	}
-	
-	public void stopHorizontalMovement() {
-		body.setLinearVelocity(0, body.getLinearVelocity().y);
-	}
-	
-	private void createSensorBody(World world) {
-		BodyDef bd = new BodyDef();
-		bd.type = BodyType.DynamicBody;
-		bd.position.set(body.getPosition());
-		sensorBody = world.createBody(bd);
-		
-		
-		// create box shape for player foot
-		PolygonShape polygon = new PolygonShape();
-		polygon.setAsBox(5, 3);
-		
-		// create fixturedef for player foot
-		FixtureDef fd = new FixtureDef();
-		fd.shape = polygon;
-		fd.isSensor = true;
-		
-		// create player foot fixture
-		sensorBody.createFixture(fd).setUserData("foot");
-		polygon.dispose();
+		System.out.println("Jumping");
+		active = false;
+		if (!this.body.isAwake()) {
+			this.body.setLinearVelocity(new Vector2(0f, 50f));
+		}
 	}
 
 	public void draw(Batch batch, Body body) {
 		super.draw(batch, body);
-		Vector2 bodyPos = body.getPosition();
-		bodyPos.x += (dimension.x / 2);
-		sensorBody.setTransform(bodyPos, 0);
 		if (this.active) {
 			activeArrow.draw(batch);
 		}
