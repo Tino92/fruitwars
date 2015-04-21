@@ -41,7 +41,6 @@ public class IntroScreen implements Screen{
 
 	public IntroScreen() {
 		this.game = ((FruitWarsMain)Gdx.app.getApplicationListener());
-
 	}
 
 	@Override

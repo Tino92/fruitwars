@@ -8,6 +8,7 @@ import com.mygdx.fruitwars.screens.GameScreen;
 import com.mygdx.fruitwars.tokens.Crosshairs;
 import com.mygdx.fruitwars.tokens.Minion;
 import com.mygdx.fruitwars.tokens.Projectile;
+import com.mygdx.fruitwars.utils.Constants;
 
 public class Collision implements ContactListener {
 	
@@ -31,10 +32,14 @@ public class Collision implements ContactListener {
 	
 		if (collisionObjectA instanceof Minion  && collisionObjectB instanceof Projectile) {
 			updateHealth(collisionObjectA, collisionObjectB);
+			//End the turn after projectile hits some target
+			gameScreen.setTurnTimeLeft(Constants.COLLISION_TIMER);
 		}
 		
 		else if (collisionObjectB instanceof Minion && collisionObjectA instanceof Projectile) {
 			updateHealth(collisionObjectB, collisionObjectA);
+			//End the turn after projectile hits some target
+			gameScreen.setTurnTimeLeft(Constants.COLLISION_TIMER);
 		}
 
 		/*
@@ -49,10 +54,14 @@ public class Collision implements ContactListener {
 		else if (collisionObjectA instanceof Projectile) {
 			Projectile current_projectile = (Projectile) collisionObjectA;
 			current_projectile.setDestroy(true);
+			//End the turn after projectile hits some target
+			gameScreen.setTurnTimeLeft(Constants.COLLISION_TIMER);
 		}
 		else if (collisionObjectB instanceof Projectile) {
 			Projectile current_projectile = (Projectile) collisionObjectB;
 			current_projectile.setDestroy(true);
+			//End the turn after projectile hits some target
+			gameScreen.setTurnTimeLeft(Constants.COLLISION_TIMER);
 		}
 		
 	}

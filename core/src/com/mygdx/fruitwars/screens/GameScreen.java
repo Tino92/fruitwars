@@ -134,6 +134,7 @@ public class GameScreen implements Screen{
 					gameMode.getMinionsHealth()));
 			
 		}
+		minions_p1.get(0).setActive(true);
 		turnTimeLeft = gameMode.getTurnTime();
 		
 	    //Setting up music of the main menu
@@ -233,8 +234,9 @@ public class GameScreen implements Screen{
 				currentPlayer=(currentPlayer+1) % (Constants.NUM_PLAYERS);
 				//Select next minion
 				players.get(currentPlayer).nextMinion();
+				players.get(currentPlayer).getActiveMinion().setActive(true);
 				Vector2 activePos = getCurrentPlayer().getMinions().get(getCurrentPlayer().activeMinion).getBody().getPosition(); 
-				camera.position.set(activePos.x, activePos.y, 0.0f);
+				camera.position.set(activePos.x, camera.viewportHeight/2, 0.0f);
 				//Gdx.app.debug(TAG, "Turn is over currentPlayer is: " + currentPlayer);
 				System.out.println("Turn is over nextPlayer is: " + players.get(currentPlayer).getPlayerNumber() + 
 						" current minion is: " + players.get(currentPlayer).activeMinion);

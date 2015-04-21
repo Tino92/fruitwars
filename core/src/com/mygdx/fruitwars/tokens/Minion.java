@@ -48,6 +48,7 @@ public class Minion extends Token {
 
 	public void move_left() {
 		System.out.println("Moving left");
+		active = false;
 		Vector2 pos = body.getPosition();
 		this.body.applyLinearImpulse(
 				new Vector2(-5 * body.getMass(), body.getMass()), pos, true);
@@ -57,6 +58,7 @@ public class Minion extends Token {
 
 	public void move_right() {
 		System.out.println("Moving right");
+		active = false;
 		Vector2 pos = body.getPosition();
 		this.body.applyLinearImpulse(
 				new Vector2(5 * body.getMass(), body.getMass()), pos, true);
@@ -64,6 +66,7 @@ public class Minion extends Token {
 
 	public void jump() {
 		System.out.println("Jumping");
+		active = false;
 		if (!this.body.isAwake()) {
 			this.body.setLinearVelocity(new Vector2(0f, 50f));
 		}

@@ -25,5 +25,7 @@ public class Constants {
 	
 	public static final int UZI_DAMAGE = 25;
 	public static final int BAZOOKA_DAMAGE = 50;
+	
+	public static final int COLLISION_TIMER = 60;
 
 }

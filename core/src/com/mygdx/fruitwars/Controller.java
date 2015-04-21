@@ -52,21 +52,20 @@ public class Controller implements InputProcessor{
 			Vector2 angleCalculationVector = new Vector2(touchPosition.x - playerPosition.x, touchPosition.y - playerPosition.y);
 			float angle = angleCalculationVector.angleRad();
 			
-			bulletVelocity.x = (float) -(Math.cos(angle)*MAX_FIRE_VELOCITY) * 6;
-			bulletVelocity.y = (float) -(Math.sin(angle)*MAX_FIRE_VELOCITY) * 6;
+			bulletVelocity.x = (float) -(Math.cos(angle)*MAX_FIRE_VELOCITY) * 30;
+			bulletVelocity.y = (float) -(Math.sin(angle)*MAX_FIRE_VELOCITY) *30;
 		} else {
-			bulletVelocity.x = -(touchPosition.x - playerPosition.x)*6;
-			bulletVelocity.y = -(touchPosition.y - playerPosition.y)*6;
+			bulletVelocity.x = -(touchPosition.x - playerPosition.x)*30;
+			bulletVelocity.y = -(touchPosition.y - playerPosition.y)*30;
 		}
 		
 		
-		crosshairsPos.x += bulletVelocity.x / 3;
-		crosshairsPos.y += bulletVelocity.y / 3;
+		crosshairsPos.x += bulletVelocity.x / 15;
+		crosshairsPos.y += bulletVelocity.y / 15;
 		
 		if (crosshairs == null) {
 			crosshairs = new Crosshairs(world, crosshairsPos, SpriteCostume.CROSSHAIR);
 			crosshairs.setOriginCenter();
-			System.out.println("crosshair");
 		} else {
 			crosshairs.getBody().setTransform(crosshairsPos.x, crosshairsPos.y, 0);
 			
@@ -87,7 +86,9 @@ public class Controller implements InputProcessor{
 		
 		Projectile projectile = new Projectile(world, bulletVector, bulletVelocity, ProjectileCostume.UZI,Constants.UZI_DAMAGE);
 		
-		//Reset firing and set timeleft
+		// Deactivate indicator for current minion
+		gameScreen.getCurrentPlayer().getActiveMinion().setActive(false);
+		
 	}
 
 	@Override
@@ -132,10 +133,10 @@ public class Controller implements InputProcessor{
 			// Remove crosshair from screen
 			crosshairs.setSetToRemove(true);
 			crosshairs = null;
+			// Reset aiming attribute
+			gameScreen.getUserInterface().resetAimingButton();
 		}
-		// Reset aiming attribute
-		gameScreen.getUserInterface().resetAimingButton();
-		gameScreen.setTurnTimeLeft(60);
+
 
 		
 		return false;

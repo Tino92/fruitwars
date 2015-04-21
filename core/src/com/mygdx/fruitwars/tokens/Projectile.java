@@ -35,7 +35,7 @@ public class Projectile extends Weapon {
 		body = world.createBody(bd);
 		body.createFixture(fd);
 		body.setUserData(this);
-		body.setLinearVelocity(bulletVelocity);
+		body.applyLinearImpulse(bulletVelocity, body.getWorldCenter(), true);
 		this.setBody(body);
 		fd.shape.dispose();
 		
