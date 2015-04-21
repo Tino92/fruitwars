@@ -8,8 +8,6 @@ import com.mygdx.fruitwars.tokens.WeaponSprite;
 public class Player {
 	
 	private Array<Minion> minions = new Array<Minion>();
-	private WeaponSprite weapon;
-	private double weaponAngle;
 	private int playerNumber;
 	public int activeMinion = 0;
 	public boolean weaponFired = false;

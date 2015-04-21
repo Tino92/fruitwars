@@ -395,5 +395,9 @@ public class GameScreen implements Screen{
 	public UserInterface getUserInterface(){
 		return userInterface;
 	}
+	
+	public void setTurnTimeLeft(int timeleft){
+		turnTimeLeft = timeleft;
+	}
 
 }

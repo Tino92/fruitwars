@@ -118,7 +118,6 @@ public class Controller implements InputProcessor{
 		lastTouch.set(screenX, screenY);
 		
 		if (gameScreen.getUserInterface().aiming && System.currentTimeMillis() - lastFire >= 50) {	
-			System.out.println("Touchdown!");
 			aim(screenX,screenY);
 			return true;
 			} 
@@ -136,6 +135,7 @@ public class Controller implements InputProcessor{
 		}
 		// Reset aiming attribute
 		gameScreen.getUserInterface().resetAimingButton();
+		gameScreen.setTurnTimeLeft(60);
 
 		
 		return false;
