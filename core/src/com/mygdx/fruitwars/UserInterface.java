@@ -29,7 +29,8 @@ public class UserInterface{
 			buttonLeft = new TextButton("<", skin),
 			buttonRight = new TextButton(">", skin),
 			buttonAim = new TextButton("Aim!",skin),
-			buttonPause = new TextButton("||",skin);
+			buttonPause = new TextButton("||",skin),
+			buttonBack = new TextButton("Back",skin);
 
 	private Label player = new Label("Player",skin);
 	private Label score = new Label("Score",skin);

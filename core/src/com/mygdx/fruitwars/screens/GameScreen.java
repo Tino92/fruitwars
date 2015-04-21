@@ -228,6 +228,7 @@ public class GameScreen implements Screen{
 			//Decrease turn time
 			turnTimeLeft-=1;
 			if (turnTimeLeft==0 || players.get(currentPlayer).weaponFired){
+				players.get(currentPlayer).getActiveMinion().setActive(false);
 				turnTimeLeft = gameMode.getTurnTime();
 				//Next player
 				currentPlayer=(currentPlayer+1) % (Constants.NUM_PLAYERS);
