@@ -233,6 +233,8 @@ public class GameScreen implements Screen{
 				currentPlayer=(currentPlayer+1) % (Constants.NUM_PLAYERS);
 				//Select next minion
 				players.get(currentPlayer).nextMinion();
+				Vector2 activePos = getCurrentPlayer().getMinions().get(getCurrentPlayer().activeMinion).getBody().getPosition(); 
+				camera.position.set(activePos.x, activePos.y, 0.0f);
 				//Gdx.app.debug(TAG, "Turn is over currentPlayer is: " + currentPlayer);
 				System.out.println("Turn is over nextPlayer is: " + players.get(currentPlayer).getPlayerNumber() + 
 						" current minion is: " + players.get(currentPlayer).activeMinion);
