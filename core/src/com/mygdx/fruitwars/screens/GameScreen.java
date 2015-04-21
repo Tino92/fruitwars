@@ -38,10 +38,15 @@ import com.mygdx.fruitwars.modes.GameMode;
 import com.mygdx.fruitwars.modes.HighPace;
 import com.mygdx.fruitwars.modes.Juggernaut;
 import com.mygdx.fruitwars.modes.OneShot;
+import com.mygdx.fruitwars.tokens.Crosshairs;
+import com.mygdx.fruitwars.tokens.ProjectileCostume;
+import com.mygdx.fruitwars.tokens.SpriteCostume;
 import com.mygdx.fruitwars.tokens.Minion;
 import com.mygdx.fruitwars.tokens.Projectile;
 import com.mygdx.fruitwars.tokens.MinionCostume;
 import com.mygdx.fruitwars.utils.Constants;
+import com.mygdx.fruitwars.tokens.WeaponCostume;
+import com.mygdx.fruitwars.tokens.WeaponSprite;
 
 public class GameScreen implements Screen{
 	
@@ -265,6 +270,12 @@ public class GameScreen implements Screen{
 					world.destroyBody(b);
 				}
 			}
+			if (b.getUserData() instanceof Crosshairs) {
+				Crosshairs data = (Crosshairs) b.getUserData();
+				if (data.isSetToRemove()) {
+					world.destroyBody(b);
+				}
+			}
 		}
 	}
 		   
@@ -313,6 +324,10 @@ public class GameScreen implements Screen{
 		Vector3 vec = new Vector3(screenX, camera.viewportHeight-screenY, 0.f);
 		vec = camera.unproject(vec);
 		return new Vector2(vec.x, vec.y);
+	}
+	
+	public World getWorld() {
+		return world;
 	}
 
 	@Override

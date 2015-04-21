@@ -14,6 +14,16 @@ public class Minion extends Token {
 	public static final float density = 10f;
 	public static final float restitution = 0.1f;
 	public static final float friction = 100.0f;
+	
+	private boolean recently_fired;
+
+	public boolean isRecently_fired() {
+		return recently_fired;
+	}
+
+	public void setRecently_fired(boolean recently_fired) {
+		this.recently_fired = recently_fired;
+	}
 
 
 	public Minion(World world, Vector2 position, MinionCostume costume, int health) {
@@ -50,6 +60,7 @@ public class Minion extends Token {
 		//}
 
 	}
+	
 
 	public void move_right() {
 		System.out.println("Moving right");

@@ -3,11 +3,13 @@ package com.mygdx.fruitwars;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.fruitwars.tokens.Minion;
 import com.mygdx.fruitwars.tokens.Weapon;
+import com.mygdx.fruitwars.tokens.WeaponSprite;
 
 public class Player {
 	
 	private Array<Minion> minions = new Array<Minion>();
-	private Weapon weapon;
+	private WeaponSprite weapon;
+	private double weaponAngle;
 	private int playerNumber;
 	public int activeMinion = 0;
 	public boolean weaponFired = false;
