@@ -16,6 +16,7 @@ import com.mygdx.fruitwars.tokens.ProjectileCostume;
 import com.mygdx.fruitwars.tokens.SpriteCostume;
 import com.mygdx.fruitwars.tokens.WeaponCostume;
 import com.mygdx.fruitwars.tokens.WeaponSprite;
+import com.mygdx.fruitwars.utils.Constants;
 
 public class Controller implements InputProcessor{
 	private World world;
@@ -23,7 +24,7 @@ public class Controller implements InputProcessor{
 
 	private long lastFire = System.currentTimeMillis();
 	private final float MAX_FIRE_VELOCITY = 100;
-	private Vector2 bulletVelocity = new Vector2(50, 50);
+	private Vector2 bulletVelocity = new Vector2(0, 0);
 	private Crosshairs crosshairs;
 	
 	
@@ -37,10 +38,10 @@ public class Controller implements InputProcessor{
 	}
 	
 
-	private void aim() {
+	private void aim(int x, int y) {
 		System.out.println("aim function");
 		Body activeMinion = gameScreen.getCurrentPlayer().getActiveMinion().getBody();
-		Vector3 touchPosYDown = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+		Vector3 touchPosYDown = new Vector3(x, y, 0);
 		Vector3 unprojected = gameScreen.camera.unproject(touchPosYDown);
 		Vector2 touchPosition = new Vector2(unprojected.x, unprojected.y);
 		Vector2 playerPosition = new Vector2(activeMinion.getPosition().x, activeMinion.getPosition().y);
@@ -76,25 +77,16 @@ public class Controller implements InputProcessor{
 	}
 	
 	private void fireBullet() {
-		System.out.println("last fire" + lastFire + "----current_time" + System.currentTimeMillis());
-		Minion minion = gameScreen.getCurrentPlayer().getActiveMinion();
-		Body activeMinion = minion.getBody();
-		if (System.currentTimeMillis() - lastFire >= 350) {
-			System.out.println("Fire bullet");
-			float velocityX = 200;
-			Vector2 bulletPosition = new Vector2(0, 0);
-
-			
-			bulletPosition.x = activeMinion.getPosition().x + 32;
-			bulletPosition.y = activeMinion.getPosition().y + 32;
+		Body activeBody = gameScreen.getCurrentPlayer().getActiveMinion().getBody();
+		Vector2 bulletVector = new Vector2(crosshairs.getBody().getPosition().sub(activeBody.getPosition()));
 		
-
-			minion.setRecently_fired(true);
-			Projectile projectile = new Projectile(world, bulletPosition, bulletVelocity, ProjectileCostume.UZI);
-			System.out.println("new projectile created");
-			//addEntity(bullet);
-			lastFire = System.currentTimeMillis();
-		}
+		float vectorLength = Constants.TILE_SIZE * 1.5f;
+		
+		bulletVector.scl(1/bulletVector.len()).scl(vectorLength);
+		
+		bulletVector.add(activeBody.getPosition());
+		
+		Projectile projectile = new Projectile(world, bulletVector, bulletVelocity, ProjectileCostume.UZI);
 	}
 
 	@Override
@@ -126,7 +118,7 @@ public class Controller implements InputProcessor{
 		
 		if (gameScreen.getUserInterface().aiming && System.currentTimeMillis() - lastFire >= 50) {	
 			System.out.println("Touchdown!");
-			aim();
+			aim(screenX,screenY);
 			return true;
 			} 
 			
@@ -158,6 +150,11 @@ public class Controller implements InputProcessor{
 		    else
 		    	gameScreen.moveCamera(5);
 	    }
+	    
+		if (gameScreen.getUserInterface().aiming) {	
+			aim(screenX,screenY);
+			return true;
+			} 
 	    
 	    lastTouch = newTouch;
 		return false;
