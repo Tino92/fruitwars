@@ -1,5 +1,6 @@
 package com.mygdx.fruitwars.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -38,8 +39,8 @@ public class IntroScreen implements Screen{
 	private Label title = new Label("Fruit Wars",skin);
 
 
-	public IntroScreen(final FruitWarsMain game) {
-		this.game = game;
+	public IntroScreen() {
+		this.game = ((FruitWarsMain)Gdx.app.getApplicationListener());
 
 	}
 
@@ -50,7 +51,7 @@ public class IntroScreen implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //game.setScreen(new GameOverScreen(game));
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new GameScreen());
             }
         });
 		
@@ -64,7 +65,7 @@ public class IntroScreen implements Screen{
         buttonSettings.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	game.setScreen(new SettingsScreen(game));
+            	game.setScreen(new SettingsScreen());
             }
         });
 

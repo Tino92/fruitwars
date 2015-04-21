@@ -23,7 +23,7 @@ public class FruitWarsMain extends Game{
 		prefs.putInteger("gameMode",Constants.DEFAULT_GAME_MODE);
 		
 		batch = new SpriteBatch();
-		this.setScreen(new IntroScreen(this));
+		this.setScreen(new IntroScreen());
 	}
 
 	@Override

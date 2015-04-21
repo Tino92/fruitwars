@@ -2,6 +2,7 @@ package com.mygdx.fruitwars.screens;
 
 import net.dermetfan.gdx.graphics.g2d.Box2DSprite;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
@@ -76,8 +77,8 @@ public class GameScreen implements Screen{
 	int mapWidth,tilePixelWidth,mapPixelWidth;
 
 	
-	public GameScreen(FruitWarsMain game) {
-		this.game = game;
+	public GameScreen() {
+		this.game = ((FruitWarsMain)Gdx.app.getApplicationListener());
 
 		float w, h;
 		w = Gdx.graphics.getWidth();
@@ -217,7 +218,7 @@ public class GameScreen implements Screen{
 			removeDeadBodies();
 			//Check if game is finished
 			if (gameMode.gameFinished())
-				game.setScreen(new GameOverScreen(game,players.get(Constants.PLAYER1).getScore(),players.get(Constants.PLAYER2).getScore()));
+				game.setScreen(new GameOverScreen(players.get(Constants.PLAYER1).getScore(),players.get(Constants.PLAYER2).getScore()));
 			
 			//Decrease turn time
 			turnTimeLeft-=1;

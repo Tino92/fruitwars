@@ -37,9 +37,8 @@ public class SettingsScreen implements Screen{
 	private Label title = new Label("Settings",skin);
 
 	
-	public SettingsScreen(final FruitWarsMain game) {
-		this.game = game;
-
+	public SettingsScreen() {
+		this.game = ((FruitWarsMain)Gdx.app.getApplicationListener());
 	}
 
 	@Override
@@ -112,7 +111,7 @@ public class SettingsScreen implements Screen{
         buttonExit.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	game.setScreen(new IntroScreen(game));
+            	game.setScreen(new IntroScreen());
             }
         });
         

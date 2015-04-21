@@ -1,5 +1,6 @@
 package com.mygdx.fruitwars.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -17,7 +18,7 @@ import com.mygdx.fruitwars.FruitWarsMain;
 
 public class GameOverScreen implements Screen{
 
-	final FruitWarsMain game;
+	final Game game;
 
 	private Music music;
 	
@@ -34,8 +35,8 @@ public class GameOverScreen implements Screen{
 	private Label title = new Label("Game Over",skin);
 
 
-	public GameOverScreen(final FruitWarsMain game, int score1,int score2) {
-		this.game = game;
+	public GameOverScreen(int score1,int score2) {
+		this.game = ((Game)Gdx.app.getApplicationListener());
 		if (score1 > score2)
 			title.setText("Player 1 Wins!");
 		else
@@ -49,7 +50,7 @@ public class GameOverScreen implements Screen{
 		buttonRestart.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new IntroScreen(game));
+                game.setScreen(new IntroScreen());
             }
         });
 		
