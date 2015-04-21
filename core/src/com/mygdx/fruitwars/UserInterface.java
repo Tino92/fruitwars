@@ -61,6 +61,7 @@ public class UserInterface{
 		buttonTable.add(buttonJump).size(buttonWidth, buttonHeight).pad(10);
 		buttonTable.add(buttonAim).size(buttonWidth, buttonHeight).pad(10);
 		buttonTable.add(buttonPause).size(buttonWidth, buttonHeight).pad(10);
+		buttonTable.add(buttonBack).size(buttonWidth, buttonHeight).pad(10);
 		
 		
 		table.setFillParent(true);
