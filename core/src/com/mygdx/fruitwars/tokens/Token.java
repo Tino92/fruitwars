@@ -3,6 +3,7 @@ package com.mygdx.fruitwars.tokens;
 import net.dermetfan.gdx.graphics.g2d.Box2DSprite;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.physics.box2d.Body;
 
 public class Token extends Box2DSprite {
@@ -32,5 +33,12 @@ public class Token extends Box2DSprite {
 	
 	public void setBody(Body body) {
 		this.body = body;
+	}
+	
+	public void draw(Batch batch, Body body) {
+		if(body.getPosition().y<0) {
+			this.health=0;
+		}
+		super.draw(batch, body);
 	}
 }
