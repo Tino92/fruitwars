@@ -40,7 +40,7 @@ import com.mygdx.fruitwars.modes.Juggernaut;
 import com.mygdx.fruitwars.modes.OneShot;
 import com.mygdx.fruitwars.tokens.Minion;
 import com.mygdx.fruitwars.tokens.Projectile;
-import com.mygdx.fruitwars.tokens.SpriteCostume;
+import com.mygdx.fruitwars.tokens.MinionCostume;
 import com.mygdx.fruitwars.utils.Constants;
 
 public class GameScreen implements Screen{
@@ -123,9 +123,9 @@ public class GameScreen implements Screen{
 		mapPixelWidth = mapWidth * tilePixelWidth;
 		
 		for (int i=0; i< Constants.NUM_MINIONS*2; i+=2){
-			minions_p1.add(new Minion(world,new Vector2(w/2 + i*100,h*3/4),SpriteCostume.APPLE,
+			minions_p1.add(new Minion(world,new Vector2(w/2 + i*100,h*3/4),MinionCostume.APPLE,
 					gameMode.getMinionsHealth()));
-			minions_p2.add(new Minion(world,new Vector2(w/2 + (i+1)*100,h*3/4),SpriteCostume.BANANA,
+			minions_p2.add(new Minion(world,new Vector2(w/2 + (i+1)*100,h*3/4),MinionCostume.BANANA,
 					gameMode.getMinionsHealth()));
 			
 		}

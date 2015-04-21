@@ -16,7 +16,7 @@ public class Minion extends Token {
 	public static final float friction = 10.0f;
 
 
-	public Minion(World world, Vector2 position, SpriteCostume costume, int health) {
+	public Minion(World world, Vector2 position, MinionCostume costume, int health) {
 		super(new Texture(costume.toString()));
 		Body body;
 		PolygonShape polygon = new PolygonShape();
