@@ -10,7 +10,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class Projectile extends Weapon {
-	public static final float density = 1;
+	public static final float density = 0.1f;
 	public static final float restitution = 1.0f;
 	public static final float friction = 0.3f;
 	public static final Vector2 dimension = new Vector2(16, 8);

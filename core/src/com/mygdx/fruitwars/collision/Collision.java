@@ -23,32 +23,13 @@ public class Collision implements ContactListener {
 		 * Collision between minion and projectile: Update health
 		*/
 		
-		//testing
-		/*
-		if (collisionObjectA instanceof Projectile || collisionObjectB instanceof Projectile) {
-			return;
-		}	
-		
-		if (collisionObjectA instanceof Crosshairs || collisionObjectB instanceof Crosshairs) {
-			return;
-		}	
-		*/
-		
-		
 		if (collisionObjectA instanceof Minion  && collisionObjectB instanceof Projectile) {
 			Minion minion = (Minion) collisionObjectA;
-			
-			if (minion.isRecently_fired()) {
-				return;
-			}
 			updateHealth(collisionObjectA, collisionObjectB);
 		}
 		
 		else if (collisionObjectB instanceof Minion && collisionObjectA instanceof Projectile) {
 			Minion minion = (Minion) collisionObjectB;
-			if (minion.isRecently_fired()) {
-				return;
-			}
 			updateHealth(collisionObjectB, collisionObjectA);
 		}
 
@@ -86,18 +67,6 @@ public class Collision implements ContactListener {
 
 	@Override
 	public void endContact(Contact contact) {
-		Object collisionObjectA = contact.getFixtureA().getBody().getUserData();
-		Object collisionObjectB = contact.getFixtureB().getBody().getUserData();
-		
-		if (collisionObjectA instanceof Minion  && collisionObjectB instanceof Projectile) {
-			Minion minion = (Minion) collisionObjectA;
-			minion.setRecently_fired(false);
-		}
-		
-		else if (collisionObjectB instanceof Minion && collisionObjectA instanceof Projectile) {
-			Minion minion = (Minion) collisionObjectB;
-			minion.setRecently_fired(false);
-		}
 		
 	}
 
