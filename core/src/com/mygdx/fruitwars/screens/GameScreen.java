@@ -46,7 +46,6 @@ import com.mygdx.fruitwars.tokens.Projectile;
 import com.mygdx.fruitwars.tokens.MinionCostume;
 import com.mygdx.fruitwars.utils.Constants;
 import com.mygdx.fruitwars.tokens.WeaponCostume;
-import com.mygdx.fruitwars.tokens.WeaponSprite;
 
 public class GameScreen implements Screen{
 	
